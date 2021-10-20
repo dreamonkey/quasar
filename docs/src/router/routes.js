@@ -88,6 +88,17 @@ const routes = [
     children: docsPages
   },
 
+  {
+    path: '/home',
+    component: () => import('layouts/MainLayout'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/landing-page/Index')
+      }
+    ]
+  },
+
   // externals
   {
     path: '/layout-builder',
