@@ -1,4 +1,4 @@
-export default [
+const homepageFooterItems = [
   {
     label: 'Style & identity',
     items: [
@@ -300,3 +300,13 @@ export default [
     ]
   }
 ]
+
+const footerToolbar = [
+  { label: 'Why quasar?', to: '#' },
+  { label: 'Team', to: '#' },
+  { label: 'Video tutorials', to: '#' },
+  { label: 'Quasar brand resources', to: '#' },
+  { label: 'Privacy policy', to: '#' }
+]
+
+export { homepageFooterItems, footerToolbar }
