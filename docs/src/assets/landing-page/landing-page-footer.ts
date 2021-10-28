@@ -1,6 +1,6 @@
 const homepageFooterItems = [
   {
-    label: 'Style & identity',
+    label: 'Getting Started',
     items: [
       {
         label: 'Typography',
@@ -25,7 +25,7 @@ const homepageFooterItems = [
     ]
   },
   {
-    label: 'Layout & Grid',
+    label: 'Contribution guide',
     items: [
       {
         label: 'Introduction to flexbox',
@@ -50,7 +50,7 @@ const homepageFooterItems = [
     ]
   },
   {
-    label: 'Vue directives',
+    label: 'Quasar options and helpers',
     items: [
       {
         label: 'Close popup',
@@ -75,7 +75,132 @@ const homepageFooterItems = [
     ]
   },
   {
-    label: 'Quasar plugins',
+    label: 'Security',
+    items: [
+      {
+        label: 'Address color',
+        to: '#'
+      },
+      {
+        label: 'App fullscreen',
+        to: '#'
+      },
+      {
+        label: 'Theme Brunhilde',
+        to: '#'
+      },
+      {
+        label: 'Dark mode',
+        to: '#'
+      },
+      {
+        label: 'Spacing',
+        to: '#'
+      }
+    ]
+  },
+  {
+    label: 'Quasar CLI',
+    items: [
+      {
+        label: 'Address color',
+        to: '#'
+      },
+      {
+        label: 'App fullscreen',
+        to: '#'
+      },
+      {
+        label: 'Theme Brunhilde',
+        to: '#'
+      },
+      {
+        label: 'Dark mode',
+        to: '#'
+      },
+      {
+        label: 'Spacing',
+        to: '#'
+      }
+    ]
+  },
+  {
+    label: 'Icon Genie CLI',
+    items: [
+      {
+        label: 'Introduction',
+        to: '#'
+      },
+      {
+        label: 'Installation/Upgrade notes',
+        to: '#'
+      },
+      {
+        label: 'Theme Brunhilde',
+        to: '#'
+      },
+      {
+        label: 'Dark mode',
+        to: '#'
+      },
+      {
+        label: 'Spacing',
+        to: '#'
+      }
+    ]
+  },
+  {
+    label: 'Style & identity',
+    items: [
+      {
+        label: 'Address color',
+        to: '#'
+      },
+      {
+        label: 'App fullscreen',
+        to: '#'
+      },
+      {
+        label: 'Theme Brunhilde',
+        to: '#'
+      },
+      {
+        label: 'Dark mode',
+        to: '#'
+      },
+      {
+        label: 'Spacing',
+        to: '#'
+      }
+    ]
+  },
+  {
+    label: 'Layouts & grid',
+    items: [
+      {
+        label: 'Address color',
+        to: '#'
+      },
+      {
+        label: 'App fullscreen',
+        to: '#'
+      },
+      {
+        label: 'Theme Brunhilde',
+        to: '#'
+      },
+      {
+        label: 'Dark mode',
+        to: '#'
+      },
+      {
+        label: 'Spacing',
+        to: '#'
+      }
+    ]
+  },
+  {
+    label: 'Vue directives',
     items: [
       {
         label: 'Address color',
@@ -125,7 +250,7 @@ const homepageFooterItems = [
     ]
   },
   {
-    label: 'Quasar plugins',
+    label: 'App extensions',
     items: [
       {
         label: 'Address color',
@@ -150,132 +275,7 @@ const homepageFooterItems = [
     ]
   },
   {
-    label: 'Quasar plugins',
-    items: [
-      {
-        label: 'Address color',
-        to: '#'
-      },
-      {
-        label: 'App fullscreen',
-        to: '#'
-      },
-      {
-        label: 'Theme Brunhilde',
-        to: '#'
-      },
-      {
-        label: 'Dark mode',
-        to: '#'
-      },
-      {
-        label: 'Spacing',
-        to: '#'
-      }
-    ]
-  },
-  {
-    label: 'Quasar plugins',
-    items: [
-      {
-        label: 'Address color',
-        to: '#'
-      },
-      {
-        label: 'App fullscreen',
-        to: '#'
-      },
-      {
-        label: 'Theme Brunhilde',
-        to: '#'
-      },
-      {
-        label: 'Dark mode',
-        to: '#'
-      },
-      {
-        label: 'Spacing',
-        to: '#'
-      }
-    ]
-  },
-  {
-    label: 'Quasar plugins',
-    items: [
-      {
-        label: 'Address color',
-        to: '#'
-      },
-      {
-        label: 'App fullscreen',
-        to: '#'
-      },
-      {
-        label: 'Theme Brunhilde',
-        to: '#'
-      },
-      {
-        label: 'Dark mode',
-        to: '#'
-      },
-      {
-        label: 'Spacing',
-        to: '#'
-      }
-    ]
-  },
-  {
-    label: 'Quasar plugins',
-    items: [
-      {
-        label: 'Address color',
-        to: '#'
-      },
-      {
-        label: 'App fullscreen',
-        to: '#'
-      },
-      {
-        label: 'Theme Brunhilde',
-        to: '#'
-      },
-      {
-        label: 'Dark mode',
-        to: '#'
-      },
-      {
-        label: 'Spacing',
-        to: '#'
-      }
-    ]
-  },
-  {
-    label: 'Quasar plugins',
-    items: [
-      {
-        label: 'Address color',
-        to: '#'
-      },
-      {
-        label: 'App fullscreen',
-        to: '#'
-      },
-      {
-        label: 'Theme Brunhilde',
-        to: '#'
-      },
-      {
-        label: 'Dark mode',
-        to: '#'
-      },
-      {
-        label: 'Spacing',
-        to: '#'
-      }
-    ]
-  },
-  {
-    label: 'Quasar plugins',
+    label: 'Quasar Utils',
     items: [
       {
         label: 'Address color',
