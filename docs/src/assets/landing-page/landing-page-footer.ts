@@ -1,4 +1,4 @@
-const homepageFooterItems = [
+export const homepageFooterItems = [
   {
     label: 'Getting Started',
     items: [
@@ -301,12 +301,10 @@ const homepageFooterItems = [
   }
 ]
 
-const footerToolbar = [
+export const footerToolbar = [
   { label: 'Why quasar?', to: '#' },
   { label: 'Team', to: '#' },
   { label: 'Video tutorials', to: '#' },
   { label: 'Quasar brand resources', to: '#' },
   { label: 'Privacy policy', to: '#' }
 ]
-
-export { homepageFooterItems, footerToolbar }
