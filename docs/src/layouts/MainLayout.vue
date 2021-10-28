@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark">
 
-    <q-header class="bg-lp-dark q-px-md">
+    <q-header class="bg-lp-dark">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -55,10 +55,10 @@
         </div>
 
       </q-toolbar>
-      <q-separator color="lp-primary" />
+      <q-separator color="lp-primary"/>
       <div class="row justify-end q-mr-md">
         <template v-for="(socialLink, i) in socialLinks" :key="i">
-          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="md" />
+          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="sm" />
         </template>
       </div>
     </q-header>
@@ -98,6 +98,14 @@
       </div>
     </q-footer>
 
+    <q-btn
+      round
+      icon="arrow_upward"
+      color="lp-accent"
+      class="fixed-bottom-right q-ma-md shadow-bottom-small z-max"
+      size="sm"
+      @click="scrollToTop"
+    />
   </q-layout>
 </template>
 
@@ -121,13 +129,18 @@ export default defineComponent({
       { icon: fabFacebookSquare, link: '#' }
     ]
 
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
     return {
       footerItems: homepageFooterItems,
       fabGithub,
       fabTwitter,
       fabFacebookSquare,
       socialLinks,
-      footerToolbar
+      footerToolbar,
+      scrollToTop
     }
   }
 })
