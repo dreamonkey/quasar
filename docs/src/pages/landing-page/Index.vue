@@ -3,7 +3,7 @@
 
     <div class="row flex-center q-my-xl">
       <div class="col-6 column items-center text-center about">
-        <q-img src="~assets/landing-page/quasar-logo/logo_with_payoff.svg" width="250px" />
+        <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
         <div class="q-py-lg text-lp-light text-size-20">
           The open source multi-platform development framework based on Vue.js
@@ -98,7 +98,7 @@
 
     <div class="window-height row justify-center items-end">
       <div class="col-9 relative-position">
-        <q-img src="~assets\landing-page\homepage-background-images\astronaut_on_moon.jpg" />
+        <q-img src="~assets\landing-page\homepage-background-images\astronaut-on-moon.jpg" />
         <div class="column items-end absolute-bottom-right">
           <div class="lp-heading lp-heading-large text-right">
             Advanced scaffolding
@@ -165,8 +165,8 @@
         />
       </div>
 
-      <q-img class="absolute-bottom" width="50%" src="~assets/landing-page/homepage-background-images/astronaut_left_hand.png" />
-      <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut_right_hand.png" />
+      <q-img class="absolute-bottom" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
+      <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
     </div>
   </q-page>
 </template>
