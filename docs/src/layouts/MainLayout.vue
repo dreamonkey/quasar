@@ -98,14 +98,7 @@
       </div>
     </q-footer>
 
-    <q-btn
-      round
-      icon="arrow_upward"
-      color="lp-accent"
-      class="fixed-bottom-right q-ma-md shadow-bottom-small z-max"
-      size="sm"
-      @click="scrollToTop"
-    />
+    <scrollToTop :scroll-to-top="scrollToTop"/>
   </q-layout>
 </template>
 
@@ -117,9 +110,11 @@ import {
   fabTwitter,
   fabFacebookSquare
 } from '@quasar/extras/fontawesome-v5'
+import ScrollToTop from 'src/components/landing-page/ScrollToTop.vue'
 
 export default defineComponent({
   name: 'MainLayout',
+  components: { ScrollToTop },
   setup () {
     const socialLinks = [
       { icon: fabGithub, link: '#' },
@@ -129,18 +124,13 @@ export default defineComponent({
       { icon: fabFacebookSquare, link: '#' }
     ]
 
-    const scrollToTop = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-
     return {
       footerItems: homepageFooterItems,
       fabGithub,
       fabTwitter,
       fabFacebookSquare,
       socialLinks,
-      footerToolbar,
-      scrollToTop
+      footerToolbar
     }
   }
 })
