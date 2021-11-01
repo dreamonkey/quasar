@@ -210,6 +210,38 @@
       <q-img class="absolute-bottom" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
       <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
     </div>
+
+    <div class="text-center lg-mb-large">
+      <q-icon size="xl" name="img:homepage-icons/medal.svg" />
+      <div class="lp-heading lp-heading-large">Our Sponsors</div>
+      <div class="lp-heading lp-heading-small">Every space odyssey has its patrons</div>
+      <div class="row justify-center">
+        <div class="col-8">
+          <div class="q-my-md">Platinum Sponsors</div>
+          <q-img :src="src" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
+          <div class="q-my-md">Gold Sponsors</div>
+          <q-img :src="src" width="200px" v-for="(src, i) in sponsorLogos.gold" :key="i" />
+          <div class="q-my-md">Silver Sponsors</div>
+          <q-img :src="src" width="200px" v-for="(src, i) in sponsorLogos.silver" :key="i" />
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center final-words-section">
+      <q-img src="~assets\landing-page\homepage-background-images\planet.png">
+        <div class="absolute-bottom bg-transparent">
+          <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
+          <div class="lp-heading lp-heading-large">Don't miss the news </div>
+          <div class="lp-heading lp-heading-small">Follow our social pages to stay up to date</div>
+          <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md">
+            <q-btn label="Facebook" color="lp-accent" outline/>
+            <q-btn label="Twitter" color="lp-accent" outline/>
+            <q-btn label="Forum" color="lp-accent" outline/>
+            <q-btn label="Discord" color="lp-accent" outline/>
+          </div>
+        </div>
+      </q-img>
+    </div>
   </q-page>
 </template>
 
@@ -224,7 +256,6 @@ export default defineComponent({
   components: { TwitterCard, WhyQuasarCard },
   setup () {
     return {
-      card: '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
       showcaseContents: [
         [
           '<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We use <a href="https://twitter.com/quasarframework?ref_src=twsrc%5Etfw">@quasarframework</a> in some of our projects and we see that UI development using it is quite faster. </p>&mdash; MarsDevs (@marsdevs) <a href="https://twitter.com/marsdevs/status/1453670879825629189?ref_src=twsrc%5Etfw">October 28, 2021</a></blockquote>',
@@ -274,4 +305,21 @@ export default defineComponent({
   height: 100vh;
 }
 
+.my-grid {
+  font-size: .5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 1rem;
+  grid-row-gap: 2rem;
+  align-content: center;
+}
+
+.final-words-section {
+  // TODO: reduce image height (from top), and remove this negative margin
+  margin-top: -30%;
+}
+
+.showcase-cards {
+  overflow: hidden;
+}
 </style>
