@@ -1,7 +1,7 @@
 const sponsorLogos = {
-  platinum: [ 'sponsor-logos/dreamonkey.png', 'sponsor-logos/comcomservices.png', 'sponsor-logos/project-finance.png' ],
-  gold: [ 'sponsor-logos/digitalocean.png', 'sponsor-logos/jugglest.png', 'sponsor-logos/ibl.png', 'sponsor-logos/truelogic.png' ],
-  silver: [ 'sponsor-logos/letsbutterfly.png', 'sponsor-logos/kalisio.png', 'sponsor-logos/campus-cloud.png', 'sponsor-logos/platformpurple.png', 'sponsor-logos/bga-soft.png' ]
+  platinum: [ 'dreamonkey.png', 'comcomservices.png', 'project-finance.png' ],
+  gold: [ 'digitalocean.png', 'jugglest.png', 'ibl.png', 'truelogic.png' ],
+  silver: [ 'letsbutterfly.png', 'kalisio.png', 'campus-cloud.png', 'platformpurple.png', 'bga-soft.png' ]
 }
 
 const whyQuasar = [

@@ -35,7 +35,7 @@
         Our platform sponsors
       </div>
       <div class="sponsors__logos row col-6 col-sm-4 justify-center">
-        <template v-for="(src, i) in sponsorLogos.platinum" :key="i">
+        <template v-for="(src, index) in sponsorLogos.platinum" :key="index">
           <q-img :src="src" width="200px"/>
         </template>
       </div>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="q-my-xl">
-      <div class="lp-heading lp-heading-large q-mb-xl">
+      <div class="lp-heading lp-heading--large q-mb-xl">
         Why should your team choose quasar?
       </div>
 
@@ -78,11 +78,11 @@
 
       <div class="q-mt-xl column items-center">
         <div
-          class="lp-heading lp-heading-medium">
+          class="lp-heading lp-heading--medium">
           Still Doubtful?
         </div>
 
-        <div class="lp-heading lp-heading-small">
+        <div class="lp-heading lp-heading--small">
           "This framework's got a few surprises left in it, sweetheart!"
         </div>
 
@@ -100,22 +100,22 @@
       <div class="col-9 relative-position">
         <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg" />
         <div class="column items-end absolute-bottom-right">
-          <div class="lp-heading lp-heading-large text-right">
+          <div class="lp-heading lp-heading--large text-right">
             Advanced scaffolding
           </div>
 
-          <div class="text-right lp-heading-small q-mb-md">
+          <div class="text-right lp-heading--small q-mb-md">
             Get all you need to setup your project basic
             <span class="block">features and save time</span>
           </div>
 
-          <div class="lp-heading-quote">
+          <div class="lp-heading--quote">
             <q>He who controls Scaffolding, controls the universe</q>
           </div>
 
           <div>
             <q-btn
-              class="shadow-bottom-small lg-mb-large q-mt-md"
+              class="shadow-bottom-small lp-mb--large q-mt-md"
               color="lp-accent"
               label="Consult pricing"
             />
@@ -131,10 +131,10 @@
             size="xl"
             name="img:homepage-icons/astronaut.svg"
           />
-          <div class="lp-heading lp-heading-large">
+          <div class="lp-heading lp-heading--large">
             What our community thinks of quasar
           </div>
-          <div class="lp-heading lp-heading-small">
+          <div class="lp-heading lp-heading--small">
             "You've never heard of Quasar? It's the framework that made a mobile
             app, desktop app and browser extension altogether in less than 12 minutes."
           </div>
@@ -147,7 +147,7 @@
         swipeable
         animated
         navigation
-        :autoplay="true"
+        autoplay
         padding
         arrows
         height="400px"
@@ -166,7 +166,7 @@
           />
           <q-btn
             v-else
-            size="6px"
+            size="xs"
             :icon="btnProps.icon"
             color="grey-8"
             flat
@@ -175,9 +175,9 @@
             @click="onClick"
           />
         </template>
-        <q-carousel-slide :name="i" class="showcase-cards" v-for="(showcaseContent, i) in showcaseContents" :key="i">
-          <div class="my-grid">
-            <div style="width: 90%" v-for="(showcases, i) in showcaseContent" :key="i">
+        <q-carousel-slide :name="slideIndex" class="showcase-cards" v-for="(showcaseContent, slideIndex) in showcaseContents" :key="`slide-${slideIndex}`">
+          <div class="carousel-grid">
+            <div v-for="(showcases, cardIndex) in showcaseContent" :key="`twitter-card-${cardIndex}`">
               <twitter-card :card-content="showcases"/>
             </div>
           </div>
@@ -187,15 +187,15 @@
 
     <div class="support row justify-center relative-position" >
       <div class="col-8">
-        <div class="lp-heading-large">
+        <div class="lp-heading--large">
           Support quasar: Become sponsor!
         </div>
 
-        <div class="lp-heading-small text-left">
+        <div class="lp-heading--small text-left">
           Working for a company or freelancer? You can contribute, ever a bit and getting something back.
         </div>
 
-        <div class="q-my-md lp-heading-quote">
+        <div class="q-my-md lp-heading--quote">
           <q>So, um, we think we should discuss the bonus situation</q>
         </div>
 
@@ -211,28 +211,28 @@
       <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
     </div>
 
-    <div class="text-center lg-mb-large">
+    <div class="text-center lp-mb--large">
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
-      <div class="lp-heading lp-heading-large">Our Sponsors</div>
-      <div class="lp-heading lp-heading-small">Every space odyssey has its patrons</div>
+      <div class="lp-heading lp-heading--large">Our Sponsors</div>
+      <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
       <div class="row justify-center">
         <div class="col-8">
           <div class="q-my-md">Platinum Sponsors</div>
-          <q-img :src="src" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
           <div class="q-my-md">Gold Sponsors</div>
-          <q-img :src="src" width="200px" v-for="(src, i) in sponsorLogos.gold" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.gold" :key="i" />
           <div class="q-my-md">Silver Sponsors</div>
-          <q-img :src="src" width="200px" v-for="(src, i) in sponsorLogos.silver" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.silver" :key="i" />
         </div>
       </div>
     </div>
 
-    <div class="text-center final-words-section">
+    <div class="text-center social-channels-call-to-action">
       <q-img src="~assets\landing-page\homepage-background-images\planet.png">
         <div class="absolute-bottom bg-transparent">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
-          <div class="lp-heading lp-heading-large">Don't miss the news </div>
-          <div class="lp-heading lp-heading-small">Follow our social pages to stay up to date</div>
+          <div class="lp-heading lp-heading--large">Don't miss the news </div>
+          <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
           <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md">
             <q-btn label="Facebook" color="lp-accent" outline/>
             <q-btn label="Twitter" color="lp-accent" outline/>
@@ -255,6 +255,8 @@ export default defineComponent({
   name: 'Index',
   components: { TwitterCard, WhyQuasarCard },
   setup () {
+    const slide = ref(0)
+
     return {
       showcaseContents: [
         [
@@ -290,7 +292,7 @@ export default defineComponent({
       ],
       whyQuasar,
       sponsorLogos,
-      slide: ref(0)
+      slide
     }
   }
 })
@@ -305,7 +307,7 @@ export default defineComponent({
   height: 100vh;
 }
 
-.my-grid {
+.carousel-grid {
   font-size: .5rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -314,7 +316,7 @@ export default defineComponent({
   align-content: center;
 }
 
-.final-words-section {
+.social-channels-call-to-action {
   // TODO: reduce image height (from top), and remove this negative margin
   margin-top: -30%;
 }
