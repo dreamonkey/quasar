@@ -265,23 +265,9 @@ export default defineComponent({
   height: 100vh;
 }
 
-.carousel-grid {
-  font-size: .5rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 1rem;
-  grid-row-gap: 2rem;
-  align-content: center;
-}
-
 .social-channels-call-to-action {
   // TODO: reduce image height (from top), and remove this negative margin
   margin-top: -30%;
 }
 
-.showcase-cards {
-  // prevent tweets with content larger the tweet height from overflowing. 
-  // Necessary for responsiveness
-  overflow: hidden;
-}
 </style>

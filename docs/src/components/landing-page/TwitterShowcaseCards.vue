@@ -34,7 +34,7 @@
         @click="onClick"
       />
     </template>
-    <q-carousel-slide :name="slideIndex" class="showcase-cards" v-for="(tweetGroup, slideIndex) in tweetGroups" :key="`slide-${slideIndex}`">
+    <q-carousel-slide :name="slideIndex" class="showcase-cards text-size-10" v-for="(tweetGroup, slideIndex) in tweetGroups" :key="`slide-${slideIndex}`">
       <div class="carousel-grid">
         <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`">
           <twitter-card :tweetId="tweetId"/>
@@ -102,14 +102,14 @@ export default defineComponent({
 
 <style lang="scss">
 .carousel-grid {
-  font-size: .5rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 1rem;
-  grid-row-gap: 2rem;
+  grid-column-gap: 16px;
   align-content: center;
 }
 .showcase-cards {
+  // prevent tweets with content larger than tweet height from overflowing.
+  // Necessary for responsiveness
   overflow: hidden;
 }
 </style>
