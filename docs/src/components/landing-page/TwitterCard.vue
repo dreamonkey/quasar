@@ -1,28 +1,29 @@
+/* eslint-disable quotes */
 <template>
-  <div v-html="cardContent">
-  </div>
+<blockquote class="twitter-tweet">
+  <a :href="`https://twitter.com/marsdevs/status/${tweetId}`"></a>
+</blockquote>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { fabTwitter } from '@quasar/extras/fontawesome-v5'
 
 export default defineComponent({
-  name: 'ShowCaseCard',
+  name: 'TwitterCard',
   props: {
-    cardContent: {
+    tweetId: {
       required: true,
       type: String
     }
   },
   setup () {
-    const scriptElement = document.createElement('script')
-    scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
-    scriptElement.setAttribute('charset', 'utf-8')
-    document.head.appendChild(scriptElement)
+    // FIX: If this is uncommented then the rest of the cards load normally, else only the first loads
+    // const scriptElement = document.createElement('script')
+    // scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
+    // scriptElement.setAttribute('charset', 'utf-8')
+    // document.head.appendChild(scriptElement)
 
     return {
-      fabTwitter
     }
   }
 })

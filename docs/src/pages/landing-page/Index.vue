@@ -140,49 +140,7 @@
           </div>
         </div>
       </div>
-      <q-carousel
-        v-model="slide"
-        transition-prev="scale"
-        transition-next="scale"
-        swipeable
-        animated
-        navigation
-        autoplay
-        padding
-        arrows
-        height="400px"
-        class="bg-transparent rounded-borders"
-      >
-        <template v-slot:navigation-icon="{ active, btnProps, onClick }">
-          <q-btn
-            v-if="active"
-            size="xs"
-            :icon="btnProps.icon"
-            color="lp-primary"
-            flat
-            round
-            dense
-            @click="onClick"
-          />
-          <q-btn
-            v-else
-            size="xs"
-            :icon="btnProps.icon"
-            color="grey-8"
-            flat
-            round
-            dense
-            @click="onClick"
-          />
-        </template>
-        <q-carousel-slide :name="slideIndex" class="showcase-cards" v-for="(showcaseContent, slideIndex) in showcaseContents" :key="`slide-${slideIndex}`">
-          <div class="carousel-grid">
-            <div v-for="(showcases, cardIndex) in showcaseContent" :key="`twitter-card-${cardIndex}`">
-              <twitter-card :card-content="showcases"/>
-            </div>
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
+      <twitter-showcase-cards />
     </div>
 
     <div class="support row justify-center relative-position" >
@@ -228,7 +186,7 @@
     </div>
 
     <div class="text-center social-channels-call-to-action">
-      <q-img src="~assets\landing-page\homepage-background-images\planet.png">
+      <q-img src="~assets/landing-page/homepage-background-images/planet.png">
         <div class="absolute-bottom bg-transparent">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news </div>
@@ -249,11 +207,11 @@
 import { defineComponent, ref } from 'vue'
 import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard'
 import { sponsorLogos, whyQuasar } from '../../assets/landing-page/image-links.ts'
-import TwitterCard from 'src/components/landing-page/TwitterCard'
+import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards'
 
 export default defineComponent({
   name: 'Index',
-  components: { TwitterCard, WhyQuasarCard },
+  components: { TwitterShowcaseCards, WhyQuasarCard },
   setup () {
     const slide = ref(0)
 
@@ -322,6 +280,8 @@ export default defineComponent({
 }
 
 .showcase-cards {
+  // prevent tweets with content larger the tweet height from overflowing. 
+  // Necessary for responsiveness
   overflow: hidden;
 }
 </style>
