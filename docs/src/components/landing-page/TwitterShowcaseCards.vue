@@ -11,7 +11,8 @@
     height="400px"
     class="bg-transparent rounded-borders"
     keep-alive
-    >
+    @transition="loadTweets"
+  >
     <template v-slot:navigation-icon="{ active, btnProps, onClick }">
       <q-btn
         v-if="active"
@@ -36,65 +37,82 @@
     </template>
     <q-carousel-slide :name="slideIndex" class="showcase-cards text-size-10" v-for="(tweetGroup, slideIndex) in tweetGroups" :key="`slide-${slideIndex}`">
       <div class="carousel-grid">
-        <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`">
-          <twitter-card :tweetId="tweetId"/>
+        <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" class="tweeter-tweet">
+          <div :id="`tweet-container-${tweetId}`"></div>
         </div>
       </div>
     </q-carousel-slide>
   </q-carousel>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
-import TwitterCard from 'src/components/landing-page/TwitterCard'
+<script lang="ts">
+import { defineComponent, onMounted, ref } from 'vue'
 
-// TODO: fix the issue causing ONLY the first tweet group (slide 1) display
 const scriptElement = document.createElement('script')
 scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
 scriptElement.setAttribute('charset', 'utf-8')
 document.head.appendChild(scriptElement)
 
+const addTwttr = async () => {
+  return new Promise(resolve => {
+    scriptElement.onload = () => {
+      resolve(window.twttr)
+    }
+  })
+}
+
 export default defineComponent({
   name: 'TwitterShowcaseCards',
-  components: { TwitterCard },
   setup () {
     const slide = ref(0)
+    let twttr = null
+    const groupIsDisplayed = []
+
     const tweetGroups = [
       [
         '1453670879825629189',
-        '1453670879825629189',
-        '1453670879825629189'
+        '1429853761422364681'
       ],
       [
-        '1453670879825629189',
-        '1453670879825629189',
-        '1453670879825629189'
-      ],
-      [
-        '1453670879825629189',
-        '1453670879825629189',
-        '1453670879825629189'
-      ],
-      [
-        '1453670879825629189',
-        '1453670879825629189',
-        '1453670879825629189'
-      ],
-      [
-        '1453670879825629189',
-        '1453670879825629189',
-        '1453670879825629189'
-      ],
-      [
-        '1453670879825629189',
-        '1453670879825629189',
-        '1453670879825629189'
+        '1419939610067623937'
       ]
     ]
 
+    const createTweetCard = (twttr, tweetId, tweetContainerId) => {
+      twttr.widgets.createTweet(
+        tweetId,
+        document.getElementById(tweetContainerId),
+        {
+          theme: 'light',
+          conversation: 'none',
+          cards: 'hidden'
+        }
+      )
+    }
+
+    onMounted(async () => {
+      twttr = await addTwttr()
+      // display first tweet group
+      tweetGroups[ 0 ].forEach(tweetId => {
+        createTweetCard(twttr, tweetId, `tweet-container-${tweetId}`)
+      })
+      groupIsDisplayed.push(0)
+    })
+
+    const loadTweets = () => {
+      // do not create card if it has already been rendered
+      if (!groupIsDisplayed.includes(slide.value)) {
+        tweetGroups[ slide.value ].forEach(tweetId => {
+          createTweetCard(twttr, tweetId, `tweet-container-${tweetId}`)
+        })
+        groupIsDisplayed.push(slide.value)
+      }
+    }
+
     return {
       slide,
-      tweetGroups
+      tweetGroups,
+      loadTweets
     }
   }
 })
@@ -111,5 +129,12 @@ export default defineComponent({
   // prevent tweets with content larger than tweet height from overflowing.
   // Necessary for responsiveness
   overflow: hidden;
+}
+.twitter-tweet {
+  box-shadow: 0 8px 12px 0 rgba($lp-primary, 0.4);
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: $white;
+  max-width: 100%;
 }
 </style>
