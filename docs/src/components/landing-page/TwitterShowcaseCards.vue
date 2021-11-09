@@ -45,7 +45,7 @@
   </q-carousel>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent, onMounted, ref } from 'vue'
 
 const scriptElement = document.createElement('script')
@@ -53,7 +53,9 @@ scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
 scriptElement.setAttribute('charset', 'utf-8')
 document.head.appendChild(scriptElement)
 
-const addTwttr = async () => {
+const INITIAL_TWEET_GROUP_INDEX = 0
+
+async function getTwitterInstance () {
   return new Promise(resolve => {
     scriptElement.onload = () => {
       resolve(window.twttr)
@@ -65,8 +67,8 @@ export default defineComponent({
   name: 'TwitterShowcaseCards',
   setup () {
     const slide = ref(0)
-    let twttr = null
-    const groupIsDisplayed = []
+    let twitterInstance = null
+    const alreadyDisplayedTweetGroupsIndexes = []
 
     const tweetGroups = [
       [
@@ -78,8 +80,8 @@ export default defineComponent({
       ]
     ]
 
-    const createTweetCard = (twttr, tweetId, tweetContainerId) => {
-      twttr.widgets.createTweet(
+    function createTweetCard (twitterInstance, tweetId, tweetContainerId) {
+      twitterInstance.widgets.createTweet(
         tweetId,
         document.getElementById(tweetContainerId),
         {
@@ -91,21 +93,21 @@ export default defineComponent({
     }
 
     onMounted(async () => {
-      twttr = await addTwttr()
+      twitterInstance = await getTwitterInstance()
       // display first tweet group
-      tweetGroups[ 0 ].forEach(tweetId => {
-        createTweetCard(twttr, tweetId, `tweet-container-${tweetId}`)
+      tweetGroups[ INITIAL_TWEET_GROUP_INDEX ].forEach(tweetId => {
+        createTweetCard(twitterInstance, tweetId, `tweet-container-${tweetId}`)
       })
-      groupIsDisplayed.push(0)
+      alreadyDisplayedTweetGroupsIndexes.push(INITIAL_TWEET_GROUP_INDEX)
     })
 
-    const loadTweets = () => {
+    function loadTweets () {
       // do not create card if it has already been rendered
-      if (!groupIsDisplayed.includes(slide.value)) {
+      if (!alreadyDisplayedTweetGroupsIndexes.includes(slide.value)) {
         tweetGroups[ slide.value ].forEach(tweetId => {
-          createTweetCard(twttr, tweetId, `tweet-container-${tweetId}`)
+          createTweetCard(twitterInstance, tweetId, `tweet-container-${tweetId}`)
         })
-        groupIsDisplayed.push(slide.value)
+        alreadyDisplayedTweetGroupsIndexes.push(slide.value)
       }
     }
 
