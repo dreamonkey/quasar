@@ -65,8 +65,8 @@ export default defineComponent({
     const filterCategory = ref('')
 
     function filterByCategory (categories, filterCategory) {
-      // If a category was not explicitly set, then we consider it to be of category 'Others'
-      return typeof categories === 'undefined' ? filterCategory === OTHER_CATEGORY : categories?.includes(filterCategory)
+      // If a category was not explicitly set, then we consider it to be of category $OTHER_CATEGORY
+      return typeof categories === 'undefined' ? filterCategory === OTHER_CATEGORY : categories.includes(filterCategory)
     }
 
     const filteredComponents = computed(() => {
@@ -78,7 +78,8 @@ export default defineComponent({
     })
 
     function setFilterCategory (filterChipValue) {
-      filterCategory.value = filterChipValue
+      // if the filter category is the same as the one we are trying to set, then we reset the filter
+      filterCategory.value = filterCategory.value === filterChipValue ? '' : filterChipValue
     }
 
     return {
