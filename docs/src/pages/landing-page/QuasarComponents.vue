@@ -17,15 +17,15 @@
       <q-chip
         v-for="({label, value}, chipIndex) in filterChips"
         :key="chipIndex"
-        :selected="value === filterCategory"
+        :selected="value === filterTag"
         color="lp-primary"
         clickable text-color="white"
         :label="label"
-        @click="setFilterCategory(value)"
+        @click="setFilterTag(value)"
       />
     </div>
     <div class="components">
-      <q-card v-for="({name, description}, i) in components" :key="name + i" class="raise-on-hover text-size-16 shadow-bottom-small">
+      <q-card v-for="({name, description}, i) in filteredComponents" :key="name + i" class="raise-on-hover text-size-16 shadow-bottom-small">
         <img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
         <q-card-section class="text-lp-primary text-weight-medium">
           {{ name }}
@@ -42,18 +42,16 @@
 import { defineComponent, ref, computed } from 'vue'
 import { components } from 'src/assets/landing-page/image-links.js'
 
-const OTHER_CATEGORY = 'other'
-
 const FILTER_CHIPS = [
   { label: 'Buttons', value: 'button' },
   { label: 'Inputs', value: 'input' },
   { label: 'Loading', value: 'loading' },
   { label: 'Media', value: 'media' },
   { label: 'Navigation', value: 'navigation' },
-  { label: 'Panels & Popups', value: 'panelAndPopup' },
+  { label: 'Panels & Popups', value: 'panel' },
   { label: 'Scroll', value: 'scroll' },
   { label: 'Tables', value: 'table' },
-  { label: 'Others', value: OTHER_CATEGORY }
+  { label: 'Others', value: 'other' }
 ]
 
 const componentNameToKebabCase = (componentName) => componentName.replaceAll(' ', '-').toLowerCase()
@@ -62,33 +60,28 @@ export default defineComponent({
   name: 'Components',
   setup () {
     const search = ref('')
-    const filterCategory = ref('')
-
-    function filterByCategory (categories, filterCategory) {
-      // If a category was not explicitly set, then we consider it to be of category $OTHER_CATEGORY
-      return typeof categories === 'undefined' ? filterCategory === OTHER_CATEGORY : categories.includes(filterCategory)
-    }
+    const filterTag = ref(undefined)
 
     const filteredComponents = computed(() => {
-      const searchValue = search.value.toLowerCase()
-      return components.filter(({ name, description, categories }) =>
-        (name.toLowerCase().includes(searchValue) || description.toLowerCase().includes(searchValue)) &&
-        (filterCategory.value === '' || filterByCategory(categories, filterCategory.value))
+      const needle = search.value.toLowerCase()
+      return components.filter(({ name, description, tag }) =>
+        (name.toLowerCase().includes(needle) || description.toLowerCase().includes(needle)) &&
+        (filterTag.value === undefined || tag === filterTag.value)
       )
     })
 
-    function setFilterCategory (filterChipValue) {
-      // if the filter category is the same as the one we are trying to set, then we reset the filter
-      filterCategory.value = filterCategory.value === filterChipValue ? '' : filterChipValue
+    function setFilterTag (filterChipValue) {
+      // if the filter tag is the same as the one we are trying to set, then we reset the filter tag
+      filterTag.value = filterTag.value === filterChipValue ? undefined : filterChipValue
     }
 
     return {
       search,
       filterChips: FILTER_CHIPS,
-      filterCategory,
-      components: filteredComponents,
+      filterTag,
+      filteredComponents,
       componentNameToKebabCase,
-      setFilterCategory
+      setFilterTag
     }
   }
 })
