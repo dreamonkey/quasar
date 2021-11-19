@@ -1,8 +1,9 @@
 <template>
   <q-page class="text-white">
 
-    <div class="row flex-center q-my-xl">
-      <div class="col-6 column items-center text-center about">
+    <div class="row justify-center q-my-xl">
+
+      <div class="col-md-6 col-xs-12 column items-center text-center">
         <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
         <div class="q-py-lg text-lp-light text-size-20">
@@ -36,7 +37,7 @@
       </div>
       <div class="sponsors__logos row col-6 col-sm-4 justify-center">
         <template v-for="(src, index) in sponsorLogos.platinum" :key="index">
-          <q-img :src="src" width="200px"/>
+          <q-img :src="`sponsor-logos/${src}`" width="200px"/>
         </template>
       </div>
       <div class="row justify-center text-size-16">
@@ -56,24 +57,16 @@
         Why should your team choose quasar?
       </div>
 
-      <div class="row justify-center">
-        <div class="col-8 row">
-          <div class="col">
-            <div class="row q-col-gutter-md">
-              <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
-                <div class="col-4" >
-                  <why-quasar-card
-                    :icon="icon"
-                    :title="title"
-                    :body="body"
-                    :btn-label="btnLabel"
-                    :btn-link="btnLink"
-                  />
-                </div>
-              </template>
-            </div>
-          </div>
-        </div>
+      <div class="why-quasar">
+        <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
+          <why-quasar-card
+            :icon="icon"
+            :title="title"
+            :body="body"
+            :btn-label="btnLabel"
+            :btn-link="btnLink"
+          />
+        </template>
       </div>
 
       <div class="q-mt-xl column items-center">
@@ -99,7 +92,7 @@
     <div class="window-height row justify-center items-end">
       <div class="col-9 relative-position">
         <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg" />
-        <div class="column items-end absolute-bottom-right">
+        <div class="column items-end absolute-bottom-right lp-mb--large">
           <div class="lp-heading lp-heading--large text-right">
             Advanced scaffolding
           </div>
@@ -109,17 +102,13 @@
             <span class="block">features and save time</span>
           </div>
 
-          <div class="lp-heading--quote">
-            <q>He who controls Scaffolding, controls the universe</q>
-          </div>
+          <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
 
-          <div>
-            <q-btn
-              class="shadow-bottom-small lp-mb--large q-mt-md"
-              color="lp-accent"
-              label="Consult pricing"
-            />
-          </div>
+          <q-btn
+            class="shadow-bottom-small q-mt-md"
+            color="lp-accent"
+            label="Consult pricing"
+          />
         </div>
       </div>
     </div>
@@ -191,7 +180,7 @@
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news </div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md">
+          <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md q-gutter-y-md">
             <q-btn label="Facebook" color="lp-accent" outline/>
             <q-btn label="Twitter" color="lp-accent" outline/>
             <q-btn label="Forum" color="lp-accent" outline/>
@@ -235,4 +224,11 @@ export default defineComponent({
   margin-top: -30%;
 }
 
+.why-quasar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin: 0 auto;
+  width: 80%;
+}
 </style>
