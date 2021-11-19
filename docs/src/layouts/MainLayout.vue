@@ -12,47 +12,49 @@
         <q-space />
 
         <div class="row items-center">
-          <q-btn
-            label="Home"
-            color="white"
-            flat
-            :to="{ name: 'lpHome' }"
-          />
-          <q-btn
-            label="Features"
-            color="lp-light"
-            flat
-            class="q-py-sm q-px-md"
-          />
-          <q-btn
-            color="lp-light"
-            flat
-            label="Services"
-          />
-          <q-btn
-            color="lp-light"
-            flat
-            label="Components"
-            class="q-py-sm q-px-md"
-            :to="{ name: 'lpComponents' }"
-          />
-          <q-btn
-            color="lp-light"
-            flat
-            label="Become sponsor"
-            class="q-py-sm q-px-md"
-          />
-          <q-btn
-            color="lp-light"
-            flat
-            label="About"
-            class="q-py-sm q-px-md"
-          />
-          <q-btn
-            color="lp-light"
-            flat
-            label="Blog"
-          />
+          <template v-if="$q.screen.gt.xs">
+            <q-btn
+              label="Home"
+              color="white"
+              flat
+              :to="{ name: 'lpHome' }"
+            />
+            <q-btn
+              label="Features"
+              color="lp-light"
+              flat
+              class="q-py-sm q-px-md"
+            />
+            <q-btn
+              color="lp-light"
+              flat
+              label="Services"
+            />
+            <q-btn
+              color="lp-light"
+              flat
+              label="Components"
+              class="q-py-sm q-px-md"
+              :to="{ name: 'lpComponents' }"
+            />
+            <q-btn
+              color="lp-light"
+              flat
+              label="Become sponsor"
+              class="q-py-sm q-px-md"
+            />
+            <q-btn
+              color="lp-light"
+              flat
+              label="About"
+              class="q-py-sm q-px-md"
+            />
+            <q-btn
+              color="lp-light"
+              flat
+              label="Blog"
+            />
+          </template>
           <q-btn flat round color="lp-primary" icon="search"/>
         </div>
 
@@ -73,6 +75,7 @@
       <q-toolbar class="row justify-center bg-white">
         <template v-for="({label, to}, i) in footerToolbar" :key="i">
           <q-btn
+            v-if="$q.screen.gt.xs? true:[0, 2, 3].includes(i)"
             :label="label"
             :to="to"
             color="lp-light"
@@ -139,9 +142,18 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+$footer-columns-md: 6;
+$footer-columns-sm: 4;
+$footer-columns-xs: 2;
 .lp-footer {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  @media (max-width: $breakpoint-sm-max) {
+    grid-template-columns: repeat($footer-columns-sm, 1fr);
+  }
+  @media (max-width: $breakpoint-xs-max) {
+    grid-template-columns: repeat($footer-columns-xs, 1fr);
+  }
   grid-column-gap: 1.5rem;
   grid-row-gap: 3rem;
 }
