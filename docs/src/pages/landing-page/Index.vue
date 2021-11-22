@@ -1,7 +1,7 @@
 <template>
   <q-page class="text-white">
 
-    <div class="row justify-center q-my-xl">
+    <div class="row flex-center q-my-xl">
 
       <div class="col-md-6 col-xs-12 column items-center text-center">
         <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
@@ -57,7 +57,7 @@
         Why should your team choose quasar?
       </div>
 
-      <div class="why-quasar">
+      <div class="why-quasar-grid">
         <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
           <why-quasar-card
             :icon="icon"
@@ -101,9 +101,7 @@
             Get all you need to setup your project basic
             <span class="block">features and save time</span>
           </div>
-
           <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
-
           <q-btn
             class="shadow-bottom-small q-mt-md"
             color="lp-accent"
@@ -132,8 +130,8 @@
       <twitter-showcase-cards />
     </div>
 
-    <div class="support row justify-center relative-position" >
-      <div class="col-8">
+    <div class="window-height row justify-center relative-position" >
+      <div class="col-8 support-quasar">
         <div class="lp-heading--large">
           Support quasar: Become sponsor!
         </div>
@@ -154,8 +152,8 @@
         />
       </div>
 
-      <q-img class="absolute-bottom" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
-      <q-img width="50%" class="absolute-top-right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
+      <q-img class="astronaut-hand astronaut-hand--left" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
+      <q-img class="astronaut-hand astronaut-hand--right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
     </div>
 
     <div class="text-center lp-mb--large">
@@ -163,7 +161,7 @@
       <div class="lp-heading lp-heading--large">Our Sponsors</div>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
       <div class="row justify-center">
-        <div class="col-8">
+        <div class="col-8 text-size-12">
           <div class="q-my-md">Platinum Sponsors</div>
           <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
           <div class="q-my-md">Gold Sponsors</div>
@@ -215,20 +213,45 @@ export default defineComponent({
   border-bottom: 1px solid $lp-light;
 }
 
-.support {
-  height: 100vh;
-}
-
 .social-channels-call-to-action {
   // TODO: reduce image height (from top), and remove this negative margin
   margin-top: -30%;
 }
 
-.why-quasar {
+.why-quasar-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 16px;
   margin: 0 auto;
   width: 80%;
+}
+
+.astronaut-hand {
+  z-index: 0; // ensure image is always displayed behind text
+  width: 53%;
+  position: absolute;
+
+  &--left {
+    left: 0;
+    bottom: 0;
+
+    @media screen and (max-width: $breakpoint-sm-max) {
+      top: 60%;
+      bottom: inherit;
+    }
+  }
+
+  &--right {
+    top: 0;
+    right: 0;
+
+    @media screen and (max-width: $breakpoint-sm-max) {
+      top: 47%;
+    }
+  }
+}
+
+.support-quasar {
+  z-index: 1;
 }
 </style>
