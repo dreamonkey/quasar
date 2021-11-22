@@ -3,13 +3,14 @@
 
     <q-header class="bg-lp-dark">
       <q-toolbar>
-        <q-toolbar-title>
+        <q-btn flat @click="drawer = !drawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
+        <q-toolbar-title :class="$q.screen.xs? 'row justify-center items-center':''">
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           QUASAR
         </q-toolbar-title>
-        <q-space />
+        <q-space v-if="$q.screen.gt.xs"/>
 
         <div class="row items-center">
           <template v-if="$q.screen.gt.xs">
@@ -67,6 +68,33 @@
       </div>
     </q-header>
 
+    <q-drawer
+      v-model="drawer"
+      :width="200"
+      :breakpoint="500"
+      overlay
+      bordered
+      class="bg-lp-dark"
+    >
+      <q-scroll-area class="fit">
+        <q-list class="text-white">
+
+          <template v-for="(menuItem, index) in menuList" :key="index">
+            <q-item clickable :active="menuItem.label === 'Home'" v-ripple>
+              <q-item-section avatar>
+                <q-icon :name="menuItem.icon" />
+              </q-item-section>
+              <q-item-section>
+                {{ menuItem.label }}
+              </q-item-section>
+            </q-item>
+            <q-separator :key="'sep' + index" v-if="menuItem.separator" />
+          </template>
+
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -107,8 +135,8 @@
   </q-layout>
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue'
+<script>
+import { defineComponent, ref } from 'vue'
 import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.ts'
 import {
   fabGithub,
@@ -121,6 +149,47 @@ export default defineComponent({
   name: 'MainLayout',
   components: { ScrollToTop },
   setup () {
+    const drawer = ref(false)
+
+    const menuList = [
+      {
+        icon: 'home',
+        label: 'Home',
+        separator: true
+      },
+      {
+        icon: 'send',
+        label: 'Features',
+        separator: false
+      },
+      {
+        icon: 'delete',
+        label: 'Services',
+        separator: false
+      },
+      {
+        icon: 'error',
+        label: 'Components',
+        separator: true
+      },
+      {
+        icon: 'settings',
+        label: 'Become sponsor',
+        separator: false
+      },
+      {
+        icon: 'feedback',
+        label: 'About',
+        separator: false
+      },
+      {
+        icon: 'help',
+        iconColor: 'primary',
+        label: 'Blog',
+        separator: false
+      }
+    ]
+
     const socialLinks = [
       { icon: fabGithub, link: '#' },
       { icon: 'message', link: '#' },
@@ -135,26 +204,29 @@ export default defineComponent({
       fabTwitter,
       fabFacebookSquare,
       socialLinks,
-      footerToolbar
+      footerToolbar,
+      drawer,
+      menuList
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-$footer-columns-md: 6;
-$footer-columns-sm: 4;
-$footer-columns-xs: 2;
+$footer-columns-md-max: 6;
+$footer-columns-sm-max: 4;
+$footer-columns-xs-max: 1;
+
 .lp-footer {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  @media (max-width: $breakpoint-sm-max) {
-    grid-template-columns: repeat($footer-columns-sm, 1fr);
+  grid-template-columns: repeat($footer-columns-md-max, 1fr);
+  @media screen and (max-width: $breakpoint-sm-max) {
+    grid-template-columns: repeat($footer-columns-sm-max, 1fr);
   }
-  @media (max-width: $breakpoint-xs-max) {
-    grid-template-columns: repeat($footer-columns-xs, 1fr);
+  @media screen and (max-width: $breakpoint-xs-max) {
+    grid-template-columns: repeat($footer-columns-xs-max, 1fr);
   }
-  grid-column-gap: 1.5rem;
-  grid-row-gap: 3rem;
+  grid-column-gap: 24px;
+  grid-row-gap: 48px;
 }
 </style>
