@@ -4,7 +4,7 @@
     <q-header class="bg-lp-dark">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
-        <q-toolbar-title :class="$q.screen.xs? 'row justify-center items-center':''">
+        <q-toolbar-title :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative">
           <q-avatar>
             <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
@@ -216,6 +216,23 @@ export default defineComponent({
 $footer-columns-md-max: 6;
 $footer-columns-sm-max: 4;
 $footer-columns-xs-max: 1;
+
+.add-vertical-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 160px;
+  display: block;
+  border-right: 1px solid $lp-primary;
+  height: 100%;
+
+  @media screen and (max-width: $breakpoint-sm-max) {
+    left: 80px;
+  }
+  @media screen and (max-width: $breakpoint-xs-max) {
+    display: none;
+  }
+}
 
 .lp-footer {
   display: grid;
