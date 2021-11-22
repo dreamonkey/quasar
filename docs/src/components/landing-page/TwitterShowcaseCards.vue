@@ -46,7 +46,8 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, computed } from 'vue'
+import { useQuasar } from 'quasar'
 
 const scriptElement = document.createElement('script')
 scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
@@ -54,6 +55,16 @@ scriptElement.setAttribute('charset', 'utf-8')
 document.head.appendChild(scriptElement)
 
 const INITIAL_TWEET_GROUP_INDEX = 0
+
+const SHOW_CASE_TWEETS = [
+  [
+    '1453670879825629189',
+    '1429853761422364681'
+  ],
+  [
+    '1419939610067623937'
+  ]
+]
 
 async function getTwitterInstance () {
   return new Promise(resolve => {
@@ -66,19 +77,25 @@ async function getTwitterInstance () {
 export default defineComponent({
   name: 'TwitterShowcaseCards',
   setup () {
+    const quasar = useQuasar()
+    const tweetGroups = computed(() => {
+      // create tweet group with one tweet per array instead of three tweets per group
+      if (quasar.screen.xs) {
+        const oneDTweets = []
+        SHOW_CASE_TWEETS.forEach(tweetGroup => {
+          tweetGroup.forEach(tweetId => {
+            oneDTweets.push([tweetId])
+          })
+        })
+        return oneDTweets
+      }
+
+      return SHOW_CASE_TWEETS
+    })
+
     const slide = ref(INITIAL_TWEET_GROUP_INDEX)
     let twitterInstance = null
     const alreadyDisplayedTweetGroupsIndexes = []
-
-    const tweetGroups = [
-      [
-        '1453670879825629189',
-        '1429853761422364681'
-      ],
-      [
-        '1419939610067623937'
-      ]
-    ]
 
     function createTweetCard (twitterInstance, tweetId, tweetContainerId) {
       twitterInstance.widgets.createTweet(
@@ -94,8 +111,9 @@ export default defineComponent({
 
     onMounted(async () => {
       twitterInstance = await getTwitterInstance()
+
       // display first tweet group
-      tweetGroups[ INITIAL_TWEET_GROUP_INDEX ].forEach(tweetId => {
+      tweetGroups.value[ INITIAL_TWEET_GROUP_INDEX ].forEach(tweetId => {
         createTweetCard(twitterInstance, tweetId, `tweet-container-${tweetId}`)
       })
       alreadyDisplayedTweetGroupsIndexes.push(INITIAL_TWEET_GROUP_INDEX)
@@ -104,7 +122,7 @@ export default defineComponent({
     function loadTweets () {
       // do not create card if it has already been rendered
       if (!alreadyDisplayedTweetGroupsIndexes.includes(slide.value)) {
-        tweetGroups[ slide.value ].forEach(tweetId => {
+        tweetGroups.value[ slide.value ].forEach(tweetId => {
           createTweetCard(twitterInstance, tweetId, `tweet-container-${tweetId}`)
         })
         alreadyDisplayedTweetGroupsIndexes.push(slide.value)
@@ -124,6 +142,9 @@ export default defineComponent({
 .carousel-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  @media (max-width: $breakpoint-xs-max) {
+    grid-template-columns: repeat(1, 1fr);
+  }
   grid-column-gap: 16px;
   align-content: center;
 }
