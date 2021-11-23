@@ -192,9 +192,9 @@
 
 <script>
 import { defineComponent } from 'vue'
-import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard'
-import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links'
-import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards'
+import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
+import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links.js'
+import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
 
 export default defineComponent({
   name: 'Index',

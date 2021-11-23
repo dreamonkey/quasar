@@ -137,7 +137,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.ts'
+import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.js'
 import {
   fabGithub,
   fabTwitter,
