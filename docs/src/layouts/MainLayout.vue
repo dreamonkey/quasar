@@ -6,7 +6,7 @@
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
         <q-toolbar-title :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative">
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+            <q-icon name="img:homepage-icons/quasar-logo-blue.svg" size="lg"/>
           </q-avatar>
           QUASAR
         </q-toolbar-title>
@@ -78,14 +78,14 @@
     >
       <q-scroll-area class="fit">
         <q-list class="text-white">
-
+          <div class="q-ml-md text-size-24 text-lp-primary">Quasar</div>
           <template v-for="(menuItem, index) in menuList" :key="index">
-            <q-item clickable :active="menuItem.label === 'Home'" v-ripple>
+            <q-item clickable v-ripple :active="menuItem.name === 'Home'" active-class="text-white bg-grey-8">
               <q-item-section avatar>
-                <q-icon :name="menuItem.icon" />
+                <q-icon :name="menuItem.icon" color="lp-primary"/>
               </q-item-section>
               <q-item-section>
-                {{ menuItem.label }}
+                {{ menuItem.name }}
               </q-item-section>
             </q-item>
             <q-separator :key="'sep' + index" v-if="menuItem.separator" />
@@ -138,6 +138,8 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.js'
+import Menu from 'assets/menu.js'
+
 import {
   fabGithub,
   fabTwitter,
@@ -154,40 +156,21 @@ export default defineComponent({
     const menuList = [
       {
         icon: 'home',
-        label: 'Home',
+        name: 'Home',
         separator: true
       },
       {
-        icon: 'send',
-        label: 'Features',
+        icon: 'img:homepage-icons/quasar-logo-blue.svg',
+        name: 'About',
         separator: false
       },
       {
-        icon: 'delete',
-        label: 'Services',
-        separator: false
-      },
-      {
-        icon: 'error',
-        label: 'Components',
-        separator: true
-      },
-      {
-        icon: 'settings',
-        label: 'Become sponsor',
-        separator: false
-      },
-      {
-        icon: 'feedback',
-        label: 'About',
-        separator: false
-      },
-      {
-        icon: 'help',
+        icon: 'forum',
         iconColor: 'primary',
-        label: 'Blog',
+        name: 'Blog',
         separator: false
-      }
+      },
+      ...Menu
     ]
 
     const socialLinks = [
