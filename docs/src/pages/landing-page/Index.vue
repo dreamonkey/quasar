@@ -235,7 +235,7 @@ export default defineComponent({
     bottom: 0;
     margin-left: -24px;
 
-    @media screen and (max-width: $) {
+    @media screen and (max-width: $breakpoint-sm-max) {
       top: 60%;
       bottom: auto;
     }

@@ -7,9 +7,9 @@
     animated
     navigation
     padding
-    arrows
-    height="400px"
-    class="bg-transparent rounded-borders"
+    :arrows="$q.screen.gt.xs"
+    :height="$q.screen.gt.xs? '450px' : '410px'"
+    class="bg-transparent"
     keep-alive
     @transition="loadTweets"
   >
@@ -47,7 +47,7 @@
 
 <script>
 import { defineComponent, onMounted, ref, computed } from 'vue'
-import { useQuasar } from 'quasar'
+import { Screen } from 'quasar'
 
 const scriptElement = document.createElement('script')
 scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
@@ -57,14 +57,35 @@ document.head.appendChild(scriptElement)
 const INITIAL_TWEET_GROUP_INDEX = 0
 
 const SHOW_CASE_TWEETS = [
-  [
-    '1453670879825629189',
-    '1429853761422364681'
-  ],
-  [
-    '1419939610067623937'
-  ]
+  '1138034912232185856',
+  '971542817834074113',
+  '1317128110509379585',
+  '1215238079868538880',
+  '1260959783496101894',
+  '1044280073690517504',
+  '1217321922402250752',
+  '1453670879825629189',
+  '1209117858904629248',
+  '1185955239343476737',
+  '1398305954882543616',
+  '1377514650212970497',
+  '1315274816354750465',
+  '1301171191269462017',
+  '1301043009987866624',
+  '1250060119402065923',
+  '1221914932402442240',
+  '1258436297087086594'
 ]
+
+function splitArrayIntoChunks (arrayToChunk, chunkLength) {
+  const chunkedArray = []
+  let indexOfArray = 0
+
+  while (indexOfArray < arrayToChunk.length) {
+    chunkedArray.push(arrayToChunk.slice(indexOfArray, indexOfArray += chunkLength))
+  }
+  return chunkedArray
+}
 
 async function getTwitterInstance () {
   return new Promise(resolve => {
@@ -77,20 +98,16 @@ async function getTwitterInstance () {
 export default defineComponent({
   name: 'TwitterShowcaseCards',
   setup () {
-    const quasar = useQuasar()
     const tweetGroups = computed(() => {
-      // create tweet group with one tweet per array instead of three tweets per group
-      if (quasar.screen.xs) {
-        const oneDTweets = []
-        SHOW_CASE_TWEETS.forEach(tweetGroup => {
-          tweetGroup.forEach(tweetId => {
-            oneDTweets.push([tweetId])
-          })
-        })
-        return oneDTweets
+      // create tweet groups depending on the size of the screen
+      if (Screen.xs) {
+        return splitArrayIntoChunks(SHOW_CASE_TWEETS, 1)
+      }
+      if (Screen.sm) {
+        return splitArrayIntoChunks(SHOW_CASE_TWEETS, 2)
       }
 
-      return SHOW_CASE_TWEETS
+      return splitArrayIntoChunks(SHOW_CASE_TWEETS, 3)
     })
 
     const slide = ref(INITIAL_TWEET_GROUP_INDEX)
@@ -104,7 +121,9 @@ export default defineComponent({
         {
           theme: 'light',
           conversation: 'none',
-          cards: 'hidden'
+          cards: 'hidden',
+          hide_thread: true,
+          align: 'center'
         }
       )
     }
@@ -142,16 +161,23 @@ export default defineComponent({
 .carousel-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  @media (max-width: $breakpoint-xs-max) {
-    grid-template-columns: repeat(1, 1fr);
+
+  @media screen and (max-width: $breakpoint-sm-max) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: $breakpoint-xs-max) {
+    grid-template-columns: 1fr
   }
   grid-column-gap: 16px;
   align-content: center;
+  flex: 1;
 }
 .showcase-cards {
   // prevent tweets with content larger than tweet height from overflowing.
   // Necessary for responsiveness
   overflow: hidden;
+  display: flex;
+  justify-content: center
 }
 .twitter-tweet {
   box-shadow: 0 8px 12px 0 rgba($lp-primary, 0.4);
