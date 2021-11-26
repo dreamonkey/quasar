@@ -1,5 +1,5 @@
 <template>
-  <q-page class="text-white">
+  <q-page class="text-white q-mx-lg">
 
     <div class="row flex-center q-my-xl">
 
@@ -57,16 +57,24 @@
         Why should your team choose quasar?
       </div>
 
-      <div class="why-quasar-grid">
-        <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
-          <why-quasar-card
-            :icon="icon"
-            :title="title"
-            :body="body"
-            :btn-label="btnLabel"
-            :btn-link="btnLink"
-          />
-        </template>
+      <div class="row justify-center">
+        <div class="col-10 col row">
+          <div class="col">
+            <div class="row q-col-gutter-md justify-center">
+              <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
+                <div class="col-4 col-xs-12 col-md-4 col-sm-6" >
+                  <why-quasar-card
+                    :icon="icon"
+                    :title="title"
+                    :body="body"
+                    :btn-label="btnLabel"
+                    :btn-link="btnLink"
+                  />
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="q-mt-xl column items-center">
@@ -89,9 +97,9 @@
       </div>
     </div>
 
-    <div class="window-height row justify-center items-end">
+    <div class="window-height row justify-center items-end lp-mb--large">
+      <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg"/>
       <div class="col-9 relative-position">
-        <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg" />
         <div class="column items-end absolute-bottom-right lp-mb--large">
           <div class="lp-heading lp-heading--large text-right">
             Advanced scaffolding
@@ -101,7 +109,7 @@
             Get all you need to setup your project basic
             <span class="block">features and save time</span>
           </div>
-          <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
+          <p class="lp-heading--quote">He who controls Scaffolding, controls the universe</p>
           <q-btn
             class="shadow-bottom-small q-mt-md"
             color="lp-accent"
@@ -111,9 +119,9 @@
       </div>
     </div>
 
-    <div class="community window-height">
+    <div class="window-height lp-mb--large">
       <div class="row justify-center">
-        <div class="col-8 text-center">
+        <div class="col-8 text-center col-xs-10">
           <q-icon
             size="xl"
             name="img:homepage-icons/astronaut.svg"
@@ -131,7 +139,7 @@
     </div>
 
     <div class="window-height row justify-center relative-position" >
-      <div class="col-8 support-quasar">
+      <div class="col-8 support-quasar col-xs-10">
         <div class="lp-heading--large">
           Support quasar: Become sponsor!
         </div>
@@ -163,22 +171,22 @@
       <div class="row justify-center">
         <div class="col-8 text-size-12">
           <div class="q-my-md">Platinum Sponsors</div>
-          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.platinum" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.platinum" :key="index"/>
           <div class="q-my-md">Gold Sponsors</div>
-          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.gold" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.gold" :key="index" />
           <div class="q-my-md">Silver Sponsors</div>
-          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, i) in sponsorLogos.silver" :key="i" />
+          <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.silver" :key="index" />
         </div>
       </div>
     </div>
 
-    <div class="text-center social-channels-call-to-action">
-      <q-img src="~assets/landing-page/homepage-background-images/planet.png">
-        <div class="absolute-bottom bg-transparent">
+    <div class="text-center social-channels-call-to-action lp-mb--large">
+      <q-img src="~assets/landing-page/homepage-background-images/planet.png" :height="$q.screen.gt.xs? 'auto':'500px'">
+        <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news </div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row justify-center q-mb-xl q-mt-md q-gutter-x-md q-gutter-y-md">
+          <div class="row justify-center q-mb-xl q-mt-md q-gutter-md">
             <q-btn label="Facebook" color="lp-accent" outline/>
             <q-btn label="Twitter" color="lp-accent" outline/>
             <q-btn label="Forum" color="lp-accent" outline/>
@@ -214,16 +222,7 @@ export default defineComponent({
 }
 
 .social-channels-call-to-action {
-  // TODO: reduce image height (from top), and remove this negative margin
-  margin-top: -30%;
-}
-
-.why-quasar-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
-  margin: 0 auto;
-  width: 80%;
+  margin: 0 -24px 0 -24px; // undo margin x added by q-page
 }
 
 .astronaut-hand {
@@ -234,16 +233,18 @@ export default defineComponent({
   &--left {
     left: 0;
     bottom: 0;
+    margin-left: -24px;
 
-    @media screen and (max-width: $breakpoint-sm-max) {
+    @media screen and (max-width: $) {
       top: 60%;
-      bottom: inherit;
+      bottom: auto;
     }
   }
 
   &--right {
     top: 0;
     right: 0;
+    margin-right: -24px;
 
     @media screen and (max-width: $breakpoint-sm-max) {
       top: 47%;
