@@ -3,7 +3,7 @@
 
     <q-header class="bg-lp-dark">
       <q-toolbar>
-        <q-btn flat @click="drawer = !drawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
+        <q-btn flat @click="showDrawer = !showDrawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
         <q-toolbar-title :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative">
           <q-avatar>
             <q-icon name="img:homepage-icons/quasar-logo-blue.svg" size="lg"/>
@@ -13,12 +13,12 @@
         <q-space v-if="$q.screen.gt.xs"/>
 
         <div class="row items-center">
-          <template v-if="$q.screen.gt.xs">
+          <div v-if="$q.screen.gt.xs" class="toolbar-menu-items">
             <q-btn
-              label="Home"
+              label="Docs"
               color="white"
               flat
-              :to="{ name: 'lpHome' }"
+              :to="{ name: 'lpDocs' }"
             />
             <q-btn
               label="Features"
@@ -55,21 +55,26 @@
               flat
               label="Blog"
             />
-          </template>
+          </div>
           <q-btn flat round color="lp-primary" icon="search"/>
         </div>
 
       </q-toolbar>
       <q-separator color="lp-primary"/>
-      <div class="row justify-end q-mr-md">
-        <template v-for="(socialLink, i) in socialLinks" :key="i">
-          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="sm" />
+      <div class="row justify-end shadow-bottom-small q-py-xs q-pr-md social-links">
+        <q-btn label="Why Quasar?" flat color="lp-light" no-caps size="sm"/>
+        <q-btn label="Getting Started" flat no-caps color="lp-light" size="sm"/>
+        <q-btn label="Roadmap" flat no-caps color="lp-light" size="sm"/>
+        <q-btn label="Video Tutorials" flat no-caps color="lp-light" size="sm"/>
+        <q-btn label="Quasar Brand resources" flat no-caps color="lp-light" size="sm"/>
+        <template v-for="(socialLink, linkIndex) in socialLinks" :key="linkIndex">
+          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="sm" type="a" :href="socialLink.href" target="__blank"/>
         </template>
       </div>
     </q-header>
 
     <q-drawer
-      v-model="drawer"
+      v-model="showDrawer"
       :width="200"
       :breakpoint="500"
       overlay
@@ -101,9 +106,9 @@
 
     <q-footer class="bg-lp-grey text-size-12 text-capitalize">
       <q-toolbar class="row justify-center bg-white">
-        <template v-for="({label, to}, i) in footerToolbar" :key="i">
+        <template v-for="({label, to}, footerIndex) in footerToolbar" :key="footerIndex">
           <q-btn
-            v-if="$q.screen.gt.xs? true:[0, 2, 3].includes(i)"
+            v-if="showFooterToolbar(footerIndex)"
             :label="label"
             :to="to"
             color="lp-light"
@@ -116,7 +121,7 @@
         <q-list v-for="footerItem in footerItems" :key="footerItem.label">
           <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.label }}</q-item-label>
           <q-separator spaced color="lp-primary" />
-          <template v-for="(item, i) in footerItem.items" :key="i">
+          <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
             <q-item dense class="q-pa-none" clickable :to="item.to">
               <q-item-section class="text-lp-dark">
                 {{ item.label }}
@@ -127,7 +132,7 @@
       </div>
       <q-separator class="full-width" />
       <div class="row text-lp-dark justify-center q-my-md">
-        Copyright © 2015 - 2021 PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with Dreamonkey Srl
+        Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with Dreamonkey Srl
       </div>
     </q-footer>
 
@@ -140,18 +145,23 @@ import { defineComponent, ref } from 'vue'
 import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.js'
 import Menu from 'assets/menu.js'
 
+const year = (new Date()).getFullYear()
+
 import {
   fabGithub,
   fabTwitter,
   fabFacebookSquare
 } from '@quasar/extras/fontawesome-v5'
 import ScrollToTop from 'src/components/landing-page/ScrollToTop.vue'
+import { Screen } from 'quasar'
+
+const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
 
 export default defineComponent({
   name: 'MainLayout',
   components: { ScrollToTop },
   setup () {
-    const drawer = ref(false)
+    const showDrawer = ref(false)
 
     const menuList = [
       {
@@ -174,12 +184,14 @@ export default defineComponent({
     ]
 
     const socialLinks = [
-      { icon: fabGithub, link: '#' },
-      { icon: 'message', link: '#' },
-      { icon: 'forum', link: '#' },
-      { icon: fabTwitter, link: '#' },
-      { icon: fabFacebookSquare, link: '#' }
+      { icon: fabGithub, link: '#', href: 'https://github.com/quasarframework' },
+      { icon: 'message', link: '#', href: 'https://discord.com/invite/5TDhbDg' },
+      { icon: 'forum', link: '#', href: 'https://github.com/quasarframework/quasar/discussions/' },
+      { icon: fabTwitter, link: '#', href: 'https://twitter.com/quasarframework' },
+      { icon: fabFacebookSquare, link: '#', href: 'https://www.facebook.com/QuasarFramework' }
     ]
+
+    const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
     return {
       footerItems: homepageFooterItems,
@@ -188,8 +200,10 @@ export default defineComponent({
       fabFacebookSquare,
       socialLinks,
       footerToolbar,
-      drawer,
-      menuList
+      showDrawer,
+      menuList,
+      showFooterToolbar,
+      year
     }
   }
 })
@@ -199,6 +213,8 @@ export default defineComponent({
 $footer-columns-md-max: 6;
 $footer-columns-sm-max: 4;
 $footer-columns-xs-max: 1;
+$adjust-header-viewport: 860px;
+$viewport-hide-social-links: 687px;
 
 .add-vertical-bar::after {
   content: '';
@@ -210,9 +226,6 @@ $footer-columns-xs-max: 1;
   height: 100%;
 
   @media screen and (max-width: $breakpoint-sm-max) {
-    left: 80px;
-  }
-  @media screen and (max-width: $breakpoint-xs-max) {
     display: none;
   }
 }
@@ -229,4 +242,20 @@ $footer-columns-xs-max: 1;
   grid-column-gap: 24px;
   grid-row-gap: 48px;
 }
+
+// remove some children just before xs
+.toolbar-menu-items {
+  .q-btn:nth-last-child(-n+3) {
+    @media screen and (max-width: $adjust-header-viewport) {
+      display: none;
+    }
+  }
+}
+
+.social-links {
+  @media screen and (max-width: $viewport-hide-social-links) {
+    display: none;
+  }
+}
+
 </style>
