@@ -97,8 +97,8 @@
       </div>
     </div>
 
-    <div class="window-height row justify-center items-end lp-mb--large">
-      <q-img src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg"/>
+    <div class="advance-scaffolding row justify-center items-end lp-mb--large">
+      <q-img height="100vh" src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg"/>
       <div class="col-9 relative-position">
         <div class="column items-end absolute-bottom-right lp-mb--large">
           <div class="lp-heading lp-heading--large text-right">
@@ -109,7 +109,7 @@
             Get all you need to setup your project basic
             <span class="block">features and save time</span>
           </div>
-          <p class="lp-heading--quote">He who controls Scaffolding, controls the universe</p>
+          <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
           <q-btn
             class="shadow-bottom-small q-mt-md"
             color="lp-accent"
@@ -138,30 +138,34 @@
       <twitter-showcase-cards />
     </div>
 
-    <div class="window-height row justify-center relative-position" >
-      <div class="col-8 support-quasar col-xs-10">
-        <div class="lp-heading--large">
-          Support quasar: Become sponsor!
-        </div>
+    <div class="window-height">
+      <div class="row justify-center">
+        <div class="col-6 col-xs-10">
+          <div class="lp-heading--large">
+            Support quasar: Become sponsor!
+          </div>
 
-        <div class="lp-heading--small text-left">
-          Working for a company or freelancer? You can contribute, ever a bit and getting something back.
-        </div>
+          <div class="lp-heading--small text-left support-quasar-caption-text">
+            Working for a company or freelancer? You can contribute, ever a bit and getting something back.
+          </div>
 
-        <div class="q-my-md lp-heading--quote">
-          <q>So, um, we think we should discuss the bonus situation</q>
-        </div>
+          <div class="q-my-md lp-heading--quote">
+            <q>So, um, we think we should discuss the bonus situation</q>
+          </div>
 
-        <q-btn
-          color="lp-accent"
-          label="Consult tiers"
-          padding="sm"
-          class="text-size-14 text-bold shadow-bottom-small"
-        />
+          <q-btn
+            color="lp-accent"
+            label="Consult tiers"
+            padding="sm"
+            class="text-size-14 text-bold shadow-bottom-small"
+          />
+        </div>
       </div>
 
-      <q-img class="astronaut-hand astronaut-hand--left" src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
-      <q-img class="astronaut-hand astronaut-hand--right" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
+      <div class="astronaut-hand">
+        <q-img class="astronaut-hand--left" width="50%"  src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png" />
+        <q-img class="astronaut-hand--right" width="50%" src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png" />
+      </div>
     </div>
 
     <div class="text-center lp-mb--large">
@@ -217,42 +221,33 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+$undo-margin-from-qpage: 0 -24px 0 -24px;
+
 .lp-btn-underline {
   border-bottom: 1px solid $lp-light;
 }
 
 .social-channels-call-to-action {
-  margin: 0 -24px 0 -24px; // undo margin x added by q-page
+  margin: $undo-margin-from-qpage;
 }
 
 .astronaut-hand {
-  z-index: 0; // ensure image is always displayed behind text
-  width: 53%;
-  position: absolute;
-
-  &--left {
-    left: 0;
-    bottom: 0;
-    margin-left: -24px;
-
-    @media screen and (max-width: $breakpoint-sm-max) {
-      top: 60%;
-      bottom: auto;
-    }
-  }
+  margin: 0 -24px 0 -24px;
 
   &--right {
-    top: 0;
-    right: 0;
-    margin-right: -24px;
+    margin-top: -100px;
 
-    @media screen and (max-width: $breakpoint-sm-max) {
-      top: 47%;
+    @media screen and (min-width: $breakpoint-md-min) {
+      margin-top: -600px
     }
   }
 }
 
-.support-quasar {
-  z-index: 1;
+.support-quasar-caption-text {
+  width: 65%;
+}
+
+.advance-scaffolding {
+  height: 100vh;
 }
 </style>

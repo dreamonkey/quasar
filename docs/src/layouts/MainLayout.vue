@@ -184,11 +184,11 @@ export default defineComponent({
     ]
 
     const socialLinks = [
-      { icon: fabGithub, link: '#', href: 'https://github.com/quasarframework' },
-      { icon: 'message', link: '#', href: 'https://discord.com/invite/5TDhbDg' },
-      { icon: 'forum', link: '#', href: 'https://github.com/quasarframework/quasar/discussions/' },
-      { icon: fabTwitter, link: '#', href: 'https://twitter.com/quasarframework' },
-      { icon: fabFacebookSquare, link: '#', href: 'https://www.facebook.com/QuasarFramework' }
+      { icon: fabGithub, href: 'https://github.com/quasarframework' },
+      { icon: 'message', href: 'https://discord.com/invite/5TDhbDg' },
+      { icon: 'forum', href: 'https://github.com/quasarframework/quasar/discussions/' },
+      { icon: fabTwitter, href: 'https://twitter.com/quasarframework' },
+      { icon: fabFacebookSquare, href: 'https://www.facebook.com/QuasarFramework' }
     ]
 
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
@@ -209,38 +209,38 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scoped>
-$footer-columns-md-max: 6;
-$footer-columns-sm-max: 4;
-$footer-columns-xs-max: 1;
+<style lang="scss">
+$footer-columns-md-min: 6;
+$footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
-$viewport-hide-social-links: 687px;
+$hide-social-links-viewport: 687px;
 
 .add-vertical-bar::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 160px;
-  display: block;
-  border-right: 1px solid $lp-primary;
-  height: 100%;
+  display: none;
 
-  @media screen and (max-width: $breakpoint-sm-max) {
-    display: none;
+  @media screen and (min-width: $breakpoint-md-min) {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 160px;
+    display: block;
+    border-right: 1px solid $lp-primary;
+    height: 100%;
   }
 }
 
 .lp-footer {
   display: grid;
-  grid-template-columns: repeat($footer-columns-md-max, 1fr);
-  @media screen and (max-width: $breakpoint-sm-max) {
-    grid-template-columns: repeat($footer-columns-sm-max, 1fr);
-  }
-  @media screen and (max-width: $breakpoint-xs-max) {
-    grid-template-columns: repeat($footer-columns-xs-max, 1fr);
-  }
+  grid-template-columns: 1fr;
   grid-column-gap: 24px;
   grid-row-gap: 48px;
+
+  @media screen and (min-width: $breakpoint-sm-min) {
+    grid-template-columns: repeat($footer-columns-sm-min, 1fr);
+  }
+  @media screen and (min-width: $breakpoint-md-min) {
+    grid-template-columns: repeat($footer-columns-md-min, 1fr);
+  }
 }
 
 // remove some children just before xs
@@ -253,9 +253,13 @@ $viewport-hide-social-links: 687px;
 }
 
 .social-links {
-  @media screen and (max-width: $viewport-hide-social-links) {
+  @media screen and (max-width: $hide-social-links-viewport) {
     display: none;
   }
+}
+
+body {
+  font-family: $lp-font-family;
 }
 
 </style>

@@ -36,7 +36,7 @@
       />
     </template>
     <q-carousel-slide :name="slideIndex" class="showcase-cards text-size-10" v-for="(tweetGroup, slideIndex) in tweetGroups" :key="`slide-${slideIndex}`">
-      <div class="carousel-grid">
+      <div class="carousel-grid" :style="carouselGridTemplateColumns">
         <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" class="tweeter-tweet">
           <div :id="`tweet-container-${tweetId}`"></div>
         </div>
@@ -55,6 +55,14 @@ scriptElement.setAttribute('charset', 'utf-8')
 document.head.appendChild(scriptElement)
 
 const INITIAL_TWEET_GROUP_INDEX = 0
+
+const NUMBER_OF_TWEETS_PER_CAROUSEL = {
+  xs: 1,
+  sm: 2,
+  md: 3,
+  lg: 3,
+  xl: 3
+}
 
 const SHOW_CASE_TWEETS = [
   '1138034912232185856',
@@ -101,13 +109,13 @@ export default defineComponent({
     const tweetGroups = computed(() => {
       // create tweet groups depending on the size of the screen
       if (Screen.xs) {
-        return splitArrayIntoChunks(SHOW_CASE_TWEETS, 1)
+        return splitArrayIntoChunks(SHOW_CASE_TWEETS, NUMBER_OF_TWEETS_PER_CAROUSEL.xs)
       }
       if (Screen.sm) {
-        return splitArrayIntoChunks(SHOW_CASE_TWEETS, 2)
+        return splitArrayIntoChunks(SHOW_CASE_TWEETS, NUMBER_OF_TWEETS_PER_CAROUSEL.sm)
       }
 
-      return splitArrayIntoChunks(SHOW_CASE_TWEETS, 3)
+      return splitArrayIntoChunks(SHOW_CASE_TWEETS, NUMBER_OF_TWEETS_PER_CAROUSEL.md)
     })
 
     const slide = ref(INITIAL_TWEET_GROUP_INDEX)
@@ -148,10 +156,15 @@ export default defineComponent({
       }
     }
 
+    // calculate how many tweets to show per carousel depending on the screen size
+    // e.g. if screen size is sm, show 2 tweets per carousel. Hence, grid template-columns: repeat(2, 1fr);
+    const carouselGridTemplateColumns = computed(() => ({ gridTemplateColumns: `repeat(${NUMBER_OF_TWEETS_PER_CAROUSEL[ Screen.name ]}, 1fr)` }))
+
     return {
       slide,
       tweetGroups,
-      loadTweets
+      loadTweets,
+      carouselGridTemplateColumns
     }
   }
 })
@@ -160,14 +173,6 @@ export default defineComponent({
 <style lang="scss">
 .carousel-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  @media screen and (max-width: $breakpoint-sm-max) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media screen and (max-width: $breakpoint-xs-max) {
-    grid-template-columns: 1fr
-  }
   grid-column-gap: 16px;
   align-content: center;
   flex: 1;
