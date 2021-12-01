@@ -93,7 +93,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'lpHome',
+        name: 'lpDocs',
         component: () => import('pages/landing-page/Index')
       },
       {
