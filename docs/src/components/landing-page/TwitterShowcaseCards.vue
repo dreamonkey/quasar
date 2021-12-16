@@ -185,7 +185,7 @@ export default defineComponent({
   justify-content: center
 }
 .twitter-tweet {
-  box-shadow: 0 8px 12px 0 rgba($lp-primary, 0.4);
+  box-shadow: $lp-box-shadow--large;
   border-radius: 20px;
   overflow: hidden;
   background-color: $white;
