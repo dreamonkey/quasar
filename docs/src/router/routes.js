@@ -6,6 +6,7 @@ import layoutGallery from 'assets/layout-gallery.js'
 const docsPages = [
   {
     path: '',
+    name: 'docPages',
     component: () => import('pages/Landing.vue')
   }
 ]
@@ -82,18 +83,18 @@ const routes = [
     redirect: '/start/pick-quasar-flavour'
   },
   {
-    path: '/',
+    path: '/docs',
     component: DocLayout,
     children: docsPages
   },
 
   {
-    path: '/home',
+    path: '/',
     component: () => import('layouts/MainLayout'),
     children: [
       {
         path: '',
-        name: 'lpDocs',
+        name: 'home',
         component: () => import('pages/landing-page/Index')
       },
       {
