@@ -174,7 +174,7 @@ $number-of-card-columns-xs-max: 1;
 }
 
 .chips-container {
-  padding-top: 200px;
+  padding-top: 135px;
   position: fixed;
   top: 80px;
   z-index: 2;

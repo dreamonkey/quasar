@@ -19,7 +19,7 @@
               flat
               size="16px"
             >
-              <q-menu v-if="navItem.subMenu">
+              <q-menu v-if="navItem.subMenu" class="shadow-bottom-small">
                 <q-list class="menu-item">
                   <q-item v-for="(menu, menuIndex) in navItem.subMenu" clickable v-close-popup :key="`menu-${menuIndex}`" :to="menu.path">
                     <q-item-section>{{ menu.label }}</q-item-section>
