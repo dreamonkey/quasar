@@ -1,26 +1,27 @@
 <template>
   <q-page class="column items-center q-mt-xl lp-mb--large text-white q-mx-xl" :class="{'large-screen-margin': $q.screen.gt.md}">
-    <q-input
-      v-model="search"
-      label-color="grey-6"
-      borderless
-      label="Search component"
-      dense
-      dark
-      class="relative-position search-field text-size-16"
-    >
-      <template #append>
-        <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
-        <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
-      </template>
-    </q-input>
-    <div class="q-my-xl q-py-md chips-container bg-lp-dark">
-      <div class="row justify-center">
+    <div class="chips-container bg-lp-dark column items-center">
+      <q-input
+        v-model="search"
+        label-color="grey-6"
+        borderless
+        label="Search component"
+        dense
+        dark
+        size="16px"
+        class="relative-position search-field"
+      >
+        <template #append>
+          <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
+          <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
+        </template>
+      </q-input>
+      <div class="row q-my-xl justify-center">
         <q-chip
           v-for="({label, value}, chipIndex) in filterChips"
           :key="chipIndex"
           :label="label"
-          class="component-chip"
+          class="row component-chip"
           :color="value === filterTag ? 'lp-accent' : 'lp-primary'"
           clickable
           text-color="white"
@@ -35,10 +36,10 @@
         leave-active-class="animated fadeOut"
       >
         <q-card
-          v-for="({name, description}, i) in filteredComponents"
+          v-for="({name, description, path}, i) in filteredComponents"
           :key="name + i"
           class="raise-on-hover text-size-16 shadow-bottom-small cursor-pointer"
-          @click="$router.push(componentPath(filteredComponents[i]))"
+          @click="$router.push(componentPath({path, name}))"
         >
           <div class="thumbnail-container">
             <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
@@ -73,7 +74,7 @@ const FILTER_CHIPS = [
 
 const componentNameToKebabCase = (componentName) => componentName.replaceAll(' ', '-').toLowerCase()
 
-const componentPath = (component) => component.path ? `/vue-components/${component.path}` : `/vue-components/${componentNameToKebabCase(component.name)}`
+const componentPath = ({ path, name }) => `/vue-components/${path || componentNameToKebabCase(name)}`
 
 export default defineComponent({
   name: 'Components',
@@ -117,7 +118,7 @@ $number-of-card-columns-xs-max: 1;
   letter-spacing: 3px;
   grid-template-columns: repeat($number-of-card-columns-gt-sm, 1fr);
   gap: 24px;
-  margin: 0 64px 0 64px;
+  margin: 240px 64px 100px 64px;
 
   @media screen and (max-width: $breakpoint-sm-max) {
     margin: auto;
@@ -173,11 +174,10 @@ $number-of-card-columns-xs-max: 1;
 }
 
 .chips-container {
-  @media screen and (min-width: $breakpoint-xs-max) {
-    position: sticky;
-    top: 135px;
-    z-index: 2;
-    width: 100%;
-  }
+  padding-top: 200px;
+  position: fixed;
+  top: 80px;
+  z-index: 2;
+  width: 100%;
 }
 </style>

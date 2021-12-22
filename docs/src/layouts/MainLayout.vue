@@ -1,66 +1,32 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark">
-    <q-header class="bg-lp-dark horizontal-glow-bar">
+    <q-header class="bg-lp-dark">
       <q-toolbar class="q-pa-md row justify-between">
         <q-btn flat @click="showDrawer = !showDrawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
-        <div :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative">
-          <picture class="quasar-logo cursor-pointer" @click="$router.push({name: 'home'})">
-            <source srcset="https://github.com/quasarframework/quasar-art/blob/master/dist/svg/logo-dark.svg?raw=true" media="(min-width:810px) and (max-width:1080px)" width="48" height="48">
-            <img src="https://github.com/quasarframework/quasar-art/blob/master/dist/svg/logo-horizontal-dark.svg?raw=true" width="236" height="48" >
-          </picture>
+        <div :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative quasar-logo cursor-pointer" @click="$router.push({name: 'home'})">
+          <img v-if="$q.screen.sm" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" width="48" height="48" alt="Quasar Logo">
+          <img v-else src="https://cdn.quasar.dev/logo-v2/svg/logo-horizontal-dark.svg" width="236" height="48" alt="Quasar Logo">
         </div>
 
         <div class="row items-center text-size-16">
           <div v-if="$q.screen.gt.xs" class="toolbar-menu-items">
             <q-btn
-              label="Docs"
-              :color="$route.name === 'lpDocs'? 'white' : 'lp-light'"
+              v-for="(navItem, navItemIndex) in navItems" :key="navItemIndex"
+              :label="navItem.label"
+              :to="navItem.path"
+              :color="$route.name === navItem.path? 'white' : 'lp-light'"
+              class="text-weight-bold q-px-lg"
               flat
-              :to="{ name: 'docPages' }"
               size="16px"
-            />
-<!--            <q-btn-->
-<!--              label="Features"-->
-<!--              :color="$route.name === 'features'? 'white' : 'lp-light'"-->
-<!--              flat-->
-<!--              class="q-py-sm q-px-md"-->
-<!--              size="16px"-->
-<!--            />-->
-<!--            <q-btn-->
-<!--              :color="$route.name === 'services'? 'white' : 'lp-light'"-->
-<!--              flat-->
-<!--              label="Services"-->
-<!--              size="16px"-->
-<!--            />-->
-            <q-btn
-              :color="$route.name === 'lpComponents'? 'white' : 'lp-light'"
-              flat
-              label="Components"
-              class="q-py-sm q-px-md"
-              :to="{ name: 'lpComponents' }"
-              size="16px"
-            />
-            <q-btn
-              :color="$route.name === 'sponsors'? 'white' : 'lp-light'"
-              flat
-              label="Become sponsor"
-              class="q-py-sm q-px-md"
-              size="16px"
-              to="/sponsors-and-backers"
-            />
-            <q-btn
-              :color="$route.name === 'about'? 'white' : 'lp-light'"
-              flat
-              label="About"
-              class="q-py-sm q-px-md"
-              size="16px"
-            />
-            <q-btn
-              :color="$route.name === 'blog'? 'white' : 'lp-light'"
-              flat
-              label="Blog"
-              size="16px"
-            />
+            >
+              <q-menu v-if="navItem.subMenu">
+                <q-list class="menu-item">
+                  <q-item v-for="(menu, menuIndex) in navItem.subMenu" clickable v-close-popup :key="`menu-${menuIndex}`" :to="menu.path">
+                    <q-item-section>{{ menu.label }}</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
           </div>
           <q-btn flat round color="lp-primary" icon="search" size="16px"/>
         </div>
@@ -77,6 +43,7 @@
           <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="md" type="a" :href="socialLink.href" target="__blank"/>
         </template>
       </div>
+      <q-separator color="lp-primary"/>
     </q-header>
 
     <q-drawer
@@ -184,6 +151,40 @@ export default defineComponent({
       ...Menu
     ]
 
+    const navItems = [
+      {
+        label: 'Docs',
+        path: 'docs'
+      },
+
+      {
+        label: 'Components',
+        path: 'components'
+      },
+      {
+        label: 'Become sponsor',
+        path: 'sponsors-and-backers'
+      },
+      {
+        label: 'Team',
+        routeName: 'team',
+        subMenu: [
+          {
+            label: 'Meet the Team',
+            path: 'meet-the-team'
+          },
+          {
+            label: 'Why Quasar?',
+            path: 'introduction-to-quasar'
+          }
+        ]
+      },
+      {
+        label: 'Blog',
+        path: 'home'
+      }
+    ]
+
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
     return {
@@ -193,7 +194,8 @@ export default defineComponent({
       showDrawer,
       menuList,
       showFooterToolbar,
-      year
+      year,
+      navItems
     }
   }
 })
@@ -217,7 +219,7 @@ $hide-social-links-viewport: 862px;
     border-right: 1px solid $lp-primary;
     height: 100%;
 
-    @media screen and (min-width: 1080px) {
+    @media screen and (min-width: $breakpoint-md-min) {
       left: 300px;
     }
   }
@@ -256,12 +258,8 @@ body {
   font-family: $lp-font-family;
 }
 
-.horizontal-glow-bar::after {
-  content: "";
-  display: block;
-  width: 100vw;
-  height: 1px;
-  background-color: $lp-primary;
+.menu-item > *:hover {
+  background-color: rgba($lp-primary, 0.08);
 }
 
 </style>
