@@ -27,6 +27,16 @@
                 </q-list>
               </q-menu>
             </q-btn>
+            <q-btn
+              label="Blog"
+              type="a"
+              href="https://dev.to/quasar"
+              :color="$route.name === 'blog'? 'white' : 'lp-light'"
+              target="__blank"
+              class="text-weight-bold q-px-lg"
+              flat
+              size="16px"
+            />
           </div>
           <q-btn flat round color="lp-primary" icon="search" size="16px"/>
         </div>
@@ -178,10 +188,6 @@ export default defineComponent({
             path: 'introduction-to-quasar'
           }
         ]
-      },
-      {
-        label: 'Blog',
-        path: 'home'
       }
     ]
 
