@@ -3,7 +3,7 @@
     <q-header class="bg-lp-dark">
       <q-toolbar class="q-pa-md row justify-between">
         <q-btn flat @click="showDrawer = !showDrawer" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary" />
-        <div :class="$q.screen.xs? 'row justify-center items-center':''" class="add-vertical-bar position-relative quasar-logo cursor-pointer" @click="$router.push({name: 'home'})">
+        <div :class="$q.screen.lt.md? 'row justify-center items-center':''" class="add-vertical-bar position-relative cursor-pointer" @click="$router.push({name: 'home'})">
           <img v-if="$q.screen.sm" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" width="48" height="48" alt="Quasar Logo">
           <img v-else src="https://cdn.quasar.dev/logo-v2/svg/logo-horizontal-dark.svg" width="236" height="48" alt="Quasar Logo">
         </div>
@@ -40,7 +40,6 @@
           </div>
           <q-btn flat round color="lp-primary" icon="search" size="16px"/>
         </div>
-
       </q-toolbar>
       <q-separator color="lp-primary"/>
       <div class="row justify-end q-py-xs q-pr-md social-links shadow-bottom-small">
@@ -177,7 +176,6 @@ export default defineComponent({
       },
       {
         label: 'Team',
-        routeName: 'team',
         subMenu: [
           {
             label: 'Meet the Team',
@@ -220,7 +218,7 @@ $hide-social-links-viewport: 862px;
     content: '';
     position: absolute;
     top: 0;
-    left: 100px;
+    left: 80px;
     display: block;
     border-right: 1px solid $lp-primary;
     height: 100%;
