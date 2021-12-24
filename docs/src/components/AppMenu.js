@@ -8,12 +8,15 @@ import {
   Ripple
 } from 'quasar'
 
-import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v6'
+import { mdiMenuDown } from '@quasar/extras/mdi-v6'
 import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
 import { useRoute } from 'vue-router'
+import { Screen } from 'quasar'
 
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
+
+const sidebarMenu = () => Screen.xs ? Menu : Menu.slice(7)
 
 function getParentVm (vm) {
   if (vm.$parent !== void 0 && vm.$parent !== null) {
@@ -71,7 +74,8 @@ export default {
             label: menu.name,
             dense: true,
             icon: menu.icon,
-            expandIcon: mdiArrowDownThinCircleOutline,
+            expandIcon: mdiMenuDown,
+            headerStyle: 'font-size: 14px',
             defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
@@ -126,7 +130,7 @@ export default {
       )
     }
 
-    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => Menu.map(
+    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => sidebarMenu().map(
       item => getDrawerMenu(item, '/' + item.path, 0)
     ))
   }
