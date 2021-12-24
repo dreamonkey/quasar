@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fff" class="bg-lp-dark">
     <MainLayoutHeader :show-drawer="showDrawer" @drawer-clicked="showDrawer = $event"/>
 
-    <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" show-if-above="show-if-above" bordered="bordered">
+    <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered="bordered">
       <q-scroll-area>
         <app-menu class="q-mb-lg" />
       </q-scroll-area>
@@ -144,7 +144,6 @@ export default defineComponent({
 $footer-columns-md-min: 6;
 $footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
-$hide-social-links-viewport: 862px;
 
 .lp-footer {
   display: grid;

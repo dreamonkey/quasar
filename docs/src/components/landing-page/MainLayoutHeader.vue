@@ -20,8 +20,7 @@
           >
             <q-menu v-if="navItem.subMenu" class="shadow-bottom-small">
               <q-list>
-                <q-item v-for="(menu, menuIndex) in navItem.subMenu" clickable v-close-popup :key="`menu-${menuIndex}`"
-                        :to="menu.path">
+                <q-item v-for="(menu, menuIndex) in navItem.subMenu" clickable v-close-popup :key="`menu-${menuIndex}`" :to="menu.path">
                   <q-item-section>{{ menu.label }}</q-item-section>
                 </q-item>
               </q-list>
@@ -45,10 +44,7 @@
             </template>
           </q-input>
           <div class="search-result-field">
-            <q-scroll-area
-              dark
-              class="bg-dark text-white rounded-borders search-result-container"
-            >
+            <q-scroll-area dark class="bg-dark text-white rounded-borders search-result-container">
               <template v-if="searchResults !== null">
                 <component v-if="searchResults.masterComponent !== void 0" :is="searchResults.masterComponent"/>
                 <app-search-results v-else :results="searchResults" :search-has-focus="searchHasFocus" :search-active-id="searchActiveId"/>
@@ -69,33 +65,31 @@
             <span class="dropdown-version-label">{{ `v${$q.version}` }}</span>
           </template>
           <q-list dense>
-            <q-item-label header="header" class="text-lp-accent">Latest (v{{ $q.version }})</q-item-label>
-            <q-item clickable="clickable" to="/start/release-notes">
+            <q-item-label header class="text-lp-accent">Latest (v{{ $q.version }})</q-item-label>
+            <q-item clickable to="/start/release-notes">
               <q-item-section class="text-teal" avatar>
                 <q-icon :name="mdiClipboardText" color="lp-primary"/>
               </q-item-section>
               <q-item-section class="text-no-wrap">Release notes</q-item-section>
             </q-item>
-            <q-item clickable="clickable" tag="a" href="https://github.com/quasarframework/quasar/issues" target="_blank" rel="noopener">
-              <q-item-section class="text-purple" avatar="avatar">
+            <q-item clickable tag="a" href="https://github.com/quasarframework/quasar/issues" target="_blank" rel="noopener">
+              <q-item-section class="text-purple" avatar>
                 <q-icon :name="mdiBugCheck" color="lp-primary"/>
               </q-item-section>
               <q-item-section class="text-no-wrap">Report a bug</q-item-section>
             </q-item>
-            <q-item clickable="clickable" tag="a" href="https://github.com/quasarframework/quasar" target="_blank"
-                    rel="noopener">
-              <q-item-section avatar="avatar">
+            <q-item clickable tag="a" href="https://github.com/quasarframework/quasar" target="_blank" rel="noopener">
+              <q-item-section avatar>
                 <q-icon :name="fabGithub" color="lp-primary"/>
               </q-item-section>
               <q-item-section>Repository</q-item-section>
             </q-item>
-            <q-separator class="q-mb-sm q-mt-md"></q-separator>
-            <q-item-label header="header" class="text-lp-accent">Older Releases</q-item-label>
-            <q-item key="v1-link" clickable="clickable" tag="a" href="https://v1.quasar.dev/" target="_blank"
-                    rel="noopener">
+            <q-separator class="q-mb-sm q-mt-md"/>
+            <q-item-label header class="text-lp-accent">Older Releases</q-item-label>
+            <q-item key="v1-link" clickable tag="a" href="https://v1.quasar.dev/" target="_blank" rel="noopener">
               <q-item-section>v1 docs</q-item-section>
             </q-item>
-            <q-item v-for="version in ['17', '16', '15', '14', '13']" :key="version" clickable="clickable" tag="a"
+            <q-item v-for="version in ['17', '16', '15', '14', '13']" :key="version" clickable tag="a"
                     :href="`https://v0-${version}.quasar-framework.org/`" target="_blank" rel="noopener">
               <q-item-section>{{ `v0.${version}` }} docs</q-item-section>
             </q-item>
