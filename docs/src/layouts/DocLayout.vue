@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh lpR fff", @scroll="onScroll")
+q-layout.doc-layout(view="hHh LpR fff", @scroll="onScroll")
   main-layout-header(@drawer-clicked = "leftDrawerState = $event")
 
   q-drawer.doc-left-drawer(
@@ -9,14 +9,13 @@ q-layout.doc-layout(view="hHh lpR fff", @scroll="onScroll")
     bordered
   )
     q-scroll-area(style="height: 100%;")
-      template(v-if="searchResults === null")
-        survey-countdown.layout-countdown(
-          color="primary"
-          align-class="justify-center"
-          padding-class="q-py-md"
-        )
+      survey-countdown.layout-countdown(
+        color="primary"
+        align-class="justify-center"
+        padding-class="q-py-md"
+      )
 
-        app-menu.q-mb-lg
+      app-menu.q-mb-lg.text-size-14
 
   q-drawer(
     v-if="hasRightDrawer"
@@ -192,4 +191,8 @@ body.mobile .app-search-input kbd
 .layout-countdown
   background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
   background-size: 40px 40px
+
+.app-menu
+  font-size: 14px
+  font-family: $lp-font-family
 </style>

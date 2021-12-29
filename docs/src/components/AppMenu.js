@@ -9,14 +9,31 @@ import {
 } from 'quasar'
 
 import { mdiMenuDown } from '@quasar/extras/mdi-v6'
-import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
+import { h, ref, watch, onBeforeUpdate, withDirectives, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Screen } from 'quasar'
+import { navItems } from 'assets/landing-page/nav-items.js'
 
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
-const sidebarMenu = () => Screen.xs ? Menu : Menu.slice(7)
+const sidebarMenu = computed(() => {
+  const headerNavPaths = []
+  Object.keys(navItems).forEach(key => {
+    const headerItems = [...navItems[ key ]] // create non referenced copy
+    for (const headerItem of headerItems) {
+      if (headerItem.subMenu) {
+        headerItems.push(...headerItem.subMenu)
+      }
+      const headerPath = headerItem.path || headerItem.href
+      headerNavPaths.push(headerItem.label)
+      if (headerPath) {
+        headerNavPaths.push(headerPath)
+      }
+    }
+  })
+  return Screen.xs ? Menu : Menu.filter(menuItem => !headerNavPaths.includes(menuItem.name) && !headerNavPaths.includes(menuItem.path))
+})
 
 function getParentVm (vm) {
   if (vm.$parent !== void 0 && vm.$parent !== null) {
@@ -75,7 +92,6 @@ export default {
             dense: true,
             icon: menu.icon,
             expandIcon: mdiMenuDown,
-            headerStyle: 'font-size: 14px',
             defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
@@ -130,7 +146,7 @@ export default {
       )
     }
 
-    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => sidebarMenu().map(
+    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => sidebarMenu.value.map(
       item => getDrawerMenu(item, '/' + item.path, 0)
     ))
   }

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark">
+  <q-layout view="hHh lpR fff" class="bg-lp-dark mainlayout">
     <MainLayoutHeader :show-drawer="showDrawer" @drawer-clicked="showDrawer = $event"/>
 
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered="bordered">
@@ -140,7 +140,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $footer-columns-md-min: 6;
 $footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
@@ -159,20 +159,12 @@ $adjust-header-viewport: 860px;
   }
 }
 
-body {
-  font-family: $lp-font-family;
-}
-
-.q-menu {
-  box-shadow: $lp-box-shadow--small;
-}
-
-.q-menu > .q-list > .q-item:hover {
-  background-color: rgba($lp-primary, 0.08);
-}
-
 .doc-left-drawer {
   overflow: inherit !important;
+}
+
+.mainlayout {
+  font-family: $lp-font-family !important;
 }
 
 </style>
