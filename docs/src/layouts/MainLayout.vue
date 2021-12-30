@@ -1,9 +1,10 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark mainlayout">
-    <MainLayoutHeader :show-drawer="showDrawer" @drawer-clicked="showDrawer = $event"/>
+    <main-layout-header v-model="showDrawer"/>
 
-    <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered="bordered">
-      <q-scroll-area>
+    <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
+      <q-scroll-area class="drawer-scroll-area">
+        <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
         <app-menu class="q-mb-lg" />
       </q-scroll-area>
     </q-drawer>
@@ -40,7 +41,7 @@
       </div>
       <q-separator class="full-width" />
       <div class="row text-lp-dark justify-center q-my-md">
-        Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
+        Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
         <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
       </div>
     </q-footer>
@@ -53,73 +54,23 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.js'
-import Menu from 'assets/menu.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import { Screen } from 'quasar'
 import { mdiBugCheck, mdiClipboardText } from '@quasar/extras/mdi-v6'
 import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import AppMenu from 'components/AppMenu.js'
+import SurveyCountdown from 'components/SurveyCountdown.vue'
 
-const year = (new Date()).getFullYear()
+const currentYear = (new Date()).getFullYear()
 
 const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { MainLayoutHeader, AppMenu },
+  components: { MainLayoutHeader, AppMenu, SurveyCountdown },
   setup () {
     const showDrawer = ref(false)
-
-    const menuList = [
-      {
-        icon: 'home',
-        name: 'Home',
-        separator: true
-      },
-      {
-        icon: 'img:homepage-icons/quasar-logo-blue.svg',
-        name: 'About',
-        separator: false
-      },
-      {
-        icon: 'forum',
-        iconColor: 'primary',
-        name: 'Blog',
-        separator: false
-      },
-      ...Menu
-    ]
-
-    const navItems = [
-      {
-        label: 'Docs',
-        path: 'docs'
-      },
-
-      {
-        label: 'Components',
-        path: 'components'
-      },
-      {
-        label: 'Become sponsor',
-        path: 'sponsors-and-backers'
-      },
-      {
-        label: 'Team',
-        routeName: 'team',
-        subMenu: [
-          {
-            label: 'Meet the Team',
-            path: 'meet-the-team'
-          },
-          {
-            label: 'Why Quasar?',
-            path: 'introduction-to-quasar'
-          }
-        ]
-      }
-    ]
 
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
@@ -128,10 +79,8 @@ export default defineComponent({
       socialLinks,
       footerToolbar,
       showDrawer,
-      menuList,
       showFooterToolbar,
-      year,
-      navItems,
+      currentYear,
       mdiClipboardText,
       mdiBugCheck,
       fabGithub
@@ -164,7 +113,20 @@ $adjust-header-viewport: 860px;
 }
 
 .mainlayout {
-  font-family: $lp-font-family !important;
+  font-family: $lp-font-family;
+}
+
+.drawer-scroll-area {
+  height: 100%;
+}
+
+.layout-countdown {
+  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff);
+  background-size: 40px 40px;
+}
+
+.app-menu .q-item {
+  font-size: 14px;
 }
 
 </style>

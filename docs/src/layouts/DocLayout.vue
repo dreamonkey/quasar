@@ -1,6 +1,6 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh LpR fff", @scroll="onScroll")
-  main-layout-header(@drawer-clicked = "leftDrawerState = $event")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
+  main-layout-header(v-model="leftDrawerState")
 
   q-drawer.doc-left-drawer(
     side="left"
@@ -15,7 +15,7 @@ q-layout.doc-layout(view="hHh LpR fff", @scroll="onScroll")
         padding-class="q-py-md"
       )
 
-      app-menu.q-mb-lg.text-size-14
+      app-menu.q-mb-lg
 
   q-drawer(
     v-if="hasRightDrawer"
@@ -192,7 +192,7 @@ body.mobile .app-search-input kbd
   background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
   background-size: 40px 40px
 
-.app-menu
-  font-size: 14px
+.app-menu .q-item
   font-family: $lp-font-family
+  font-size: 14px
 </style>

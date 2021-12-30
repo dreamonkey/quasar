@@ -6,8 +6,8 @@
         <q-item
           v-if="!navItem.subMenu"
           clickable v-close-popup
-          :to="!navItem.subMenu? `/${navItem.path}`:undefined"
-          :href="navItem.href || undefined"
+          :to="computeRouteNav(navItem)"
+          :href="computeRouteNav(navItem, 'href')"
           :target="navItem.href? '_blank':'_self'"
           class="add-shadow-on-hover"
         >
@@ -28,8 +28,8 @@
               <q-item
                 v-for="(subNavItem, subNavIndex) in navItem.subMenu"
                 :key="`subNav-${subNavIndex}`"
-                :to="!subNavItem.isHeader? `/${subNavItem.path}`:undefined"
-                :href="subNavItem.href || undefined"
+                :to="computeRouteNav(subNavItem)"
+                :href="computeRouteNav(subNavItem, 'href')"
                 :target="subNavItem.href? '_blank':'_self'"
                 dense
                 clickable
@@ -50,6 +50,8 @@
 </template>
 <script>
 import { defineComponent } from 'vue'
+import { computeRouteNav } from 'assets/landing-page/nav-items.js'
+
 export default defineComponent({
   name: 'NavDropdownMenu',
   props: {
@@ -57,9 +59,15 @@ export default defineComponent({
       type: Array,
       required: true
     }
+  },
+  setup () {
+    return {
+      computeRouteNav
+    }
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .add-shadow-on-hover:hover {
   background-color: rgba($lp-primary, 0.08);

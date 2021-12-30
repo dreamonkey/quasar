@@ -1,7 +1,7 @@
 <template>
-  <q-header class="bg-lp-dark" style="font-family: Montserrat">
-    <q-toolbar class="q-pl-lg q-pr-md q-py-md row justify-between">
-      <q-btn flat @click="$emit('drawer-clicked', !showDrawer)" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary"/>
+  <q-header class="bg-lp-dark header">
+    <q-toolbar :class="$q.screen.xs? 'shadow-bottom-small':''" class="q-pl-lg q-pr-md q-py-md row justify-between" >
+      <q-btn flat @click="$emit('update:modelValue', !modelValue)" round dense icon="menu" v-if="$q.screen.xs" color="lp-primary"/>
       <div v-if="$q.screen.gt.xs || !searchField" class="row justify-center items-center add-vertical-bar position-relative quasar-logo cursor-pointer" @click="$router.push({name: 'home'})">
         <img v-if="$q.screen.sm" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" width="48" height="48" alt="Quasar Logo">
         <img v-else src="https://cdn.quasar.dev/logo-v2/svg/logo-horizontal-dark.svg" width="236" :height="$q.screen.xs? '24':'48'" alt="Quasar Logo">
@@ -12,8 +12,8 @@
           <q-btn
               v-for="(navItem, navItemIndex) in navItems.mainNavItems" :key="navItemIndex"
               :label="navItem.label"
-              :to="!navItem.subMenu? `/${navItem.path}`:undefined"
-              :href="navItem.href || undefined"
+              :to="computeRouteNav(navItem)"
+              :href="computeRouteNav(navItem, 'href')"
               :target="navItem.href? '_blank':'_self'"
               :color="$route.path === `/${navItem.path}`? 'white' : 'lp-light'"
               class="text-weight-bold q-px-lg"
@@ -45,43 +45,50 @@
 
     </q-toolbar>
     <q-separator color="lp-primary"/>
-    <div class="row justify-between q-py-xs q-pr-md social-links shadow-bottom-small">
-      <div class="row items-center q-ml-lg">
-        <q-btn flat @click="$emit('drawer-clicked', !showDrawer)" round dense icon="menu" v-if="$q.screen.sm" color="lp-primary"/>
-        <q-btn-dropdown no-caps dense auto-close class="text-bold" outline color="lp-primary">
-          <template #label>
-            <span class="dropdown-version-label">{{ `v${$q.version}` }}</span>
+    <template v-if="$q.screen.gt.xs">
+      <div class="row justify-between q-py-xs q-pr-md social-links shadow-bottom-small">
+        <div class="row items-center q-ml-lg">
+          <q-btn flat @click="$emit('update:modelValue', !modelValue)" round dense icon="menu" v-if="$q.screen.sm" color="lp-primary"/>
+          <q-btn-dropdown no-caps dense auto-close class="text-bold" outline color="lp-primary">
+            <template #label>
+              <span class="dropdown-version-label">{{ `v${$q.version}` }}</span>
+            </template>
+            <nav-dropdown-menu :nav-items="versionHistory"/>
+          </q-btn-dropdown>
+          <template v-if="$q.screen.width < showMoreNavDropdownViewPort">
+            <q-separator vertical color="lp-primary" class="q-ml-md q-mr-sm nav-dropdown-vertical-separator"/>
+            <q-btn-dropdown color="lp-primary" no-caps dense label="More" flat menu-anchor="bottom right" :menu-offset="[150, 5]">
+              <nav-dropdown-menu :nav-items="moreNavItems"/>
+            </q-btn-dropdown>
           </template>
-          <nav-dropdown-menu :nav-items="versionHistory"/>
-        </q-btn-dropdown>
-        <q-separator vertical color="lp-primary" style="height: 48px" class="q-ml-md q-mr-sm"/>
-        <q-btn-dropdown color="lp-primary" no-caps dense label="More" flat menu-anchor="bottom right" :menu-offset="[75, 5]">
-          <nav-dropdown-menu :nav-items="moreNavItems"/>
-        </q-btn-dropdown>
+        </div>
+        <div>
+          <template v-if="$q.screen.gt.sm">
+            <q-btn
+              v-for="(subNavItem, navIndex) in navItems.subNavItems"
+              :key="`nav-${navIndex}`"
+              :label="subNavItem.label"
+              :to="computeRouteNav(subNavItem)"
+              :href="computeRouteNav(subNavItem, 'href')"
+              :target="subNavItem.href? '_blank':'_self'"
+              flat
+              color="lp-light"
+              no-caps
+              size="12px"
+              class="secondary-header-links"
+            >
+              <q-menu v-if="subNavItem.subMenu" class="shadow-bottom-small">
+                <nav-dropdown-menu :nav-items="subNavItem.subMenu"/>
+              </q-menu>
+            </q-btn>
+          </template>
+          <template v-for="(socialLink, linkIndex) in socialLinks" :key="linkIndex" >
+            <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="md" type="a" :href="socialLink.href" target="__blank"/>
+          </template>
+        </div>
       </div>
-      <div v-if="$q.screen.gt.sm">
-        <q-btn
-          v-for="(subNavItem, navIndex) in navItems.subNavItems"
-          :key="`nav-${navIndex}`"
-          :label="subNavItem.label"
-          :to="!subNavItem.subMenu? `/${subNavItem.path}`:undefined"
-          :href="subNavItem.href || undefined"
-          :target="subNavItem.href? '_blank':'_self'"
-          flat
-          color="lp-light"
-          no-caps
-          size="12px"
-        >
-          <q-menu v-if="subNavItem.subMenu" class="shadow-bottom-small">
-            <nav-dropdown-menu :nav-items="subNavItem.subMenu"/>
-          </q-menu>
-        </q-btn>
-        <template v-for="(socialLink, linkIndex) in socialLinks" :key="linkIndex">
-          <q-btn :icon="socialLink.icon" flat color="lp-primary" round size="md" type="a" :href="socialLink.href" target="__blank"/>
-        </template>
-      </div>
-    </div>
-    <q-separator color="lp-primary"/>
+      <q-separator color="lp-primary"/>
+    </template>
   </q-header>
 </template>
 <script>
@@ -94,12 +101,13 @@ import { Screen, useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 import AppSearchResults from 'components/AppSearchResults.vue'
 import { navItems } from 'assets/landing-page/nav-items.js'
+import { computeRouteNav } from 'assets/landing-page/nav-items.js'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 
 export default defineComponent({
   name: 'MainLayoutHeader',
   props: {
-    showDrawer: {
+    modelValue: {
       type: Boolean,
       default: false
     }
@@ -113,6 +121,7 @@ export default defineComponent({
     const $route = useRoute()
     const searchField = ref(false)
     const showNavItems = ref(true)
+    const showMoreNavDropdownViewPort = 1272
 
     function toggleSearchInputField () {
       if (searchField.value) {
@@ -180,6 +189,7 @@ export default defineComponent({
       }
     ]
 
+    // add components nav item to the 'More' dropdown
     const moreNavItems = [
       {
         label: 'Components',
@@ -198,6 +208,8 @@ export default defineComponent({
       showNavItems,
       versionHistory,
       moreNavItems,
+      showMoreNavDropdownViewPort,
+      computeRouteNav,
       toggleSearchInputField
     }
 
@@ -212,6 +224,8 @@ $footer-columns-md-min: 6;
 $footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
 $search-form-width: 300px;
+// FIXME: this is a quick for the header misbehaving at this viewport, may have to figure a much better way to do this
+$adjust-secondary-header-viewport: 1272px;
 
 .add-vertical-bar::after {
   display: none;
@@ -231,10 +245,9 @@ $search-form-width: 300px;
   }
 }
 
-// remove some children just before xs
-// remove some children just before xs
+// remove second child, (components nav)
 .toolbar-menu-items {
-  .q-btn:nth-last-child(-n+2) {
+  .q-btn:nth-child(2) {
     @media screen and (max-width: $adjust-header-viewport) {
       display: none;
     }
@@ -242,13 +255,11 @@ $search-form-width: 300px;
 }
 
 .social-links {
-  @media screen and (max-width: $breakpoint-xs-max) {
-    display: none;
+  @media screen and (max-width: $adjust-secondary-header-viewport) {
+    .secondary-header-links {
+      display: none;
+    }
   }
-}
-
-body {
-  font-family: $lp-font-family;
 }
 
 .dropdown-version-label {
@@ -271,4 +282,11 @@ body {
   max-width: $search-form-width;
 }
 
+.nav-dropdown-vertical-separator {
+  height: 48px;
+}
+
+.header {
+  font-family: $lp-font-family;
+}
 </style>

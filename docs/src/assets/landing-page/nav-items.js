@@ -88,6 +88,10 @@ export const navItems = {
       ]
     },
     {
+      label: 'Announcements',
+      href: 'https://forum.quasar-framework.org/category/1/announcements'
+    },
+    {
       label: 'Tools',
       subMenu: [
         {
@@ -156,10 +160,6 @@ export const navItems = {
       ]
     },
     {
-      label: 'Announcements',
-      href: 'https://forum.quasar-framework.org/category/1/announcements'
-    },
-    {
       label: 'Roadmap',
       path: 'start/roadmap'
     },
@@ -172,4 +172,11 @@ export const navItems = {
       href: 'https://github.com/quasarframework/quasar-art'
     }
   ]
+}
+
+export function computeRouteNav (navItem, navType = 'to') {
+  if (navType === 'href') {
+    return navItem.href || undefined
+  }
+  return !navItem.subMenu ? `/${navItem.path}` : undefined
 }
