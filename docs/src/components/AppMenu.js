@@ -17,22 +17,33 @@ import { navItems } from 'assets/landing-page/nav-items.js'
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
-const sidebarMenu = computed(() => {
-  const headerNavPaths = []
+/**
+ * Creates an array with all paths, labels and hrefs from navItems (and immediate subMenus nav items) which can then be filtered easily
+ * @param navItems The header navigation items (both mainNavItems and subNavItems)
+ * @return headerNavPaths string[] the array with paths, labels and hrefs from navItems and subMenus of nav items
+ */
+function getHeaderPathsAndLabels (navItems) {
+  const headerPathsAndLabels = []
   Object.keys(navItems).forEach(key => {
     const headerItems = [...navItems[ key ]] // create non referenced copy
     for (const headerItem of headerItems) {
       if (headerItem.subMenu) {
-        headerItems.push(...headerItem.subMenu)
+        headerItems.push(...headerItem.subMenu) // consider path/label/href of subMenu too
       }
+      // add the path or href and label to the array
       const headerPath = headerItem.path || headerItem.href
-      headerNavPaths.push(headerItem.label)
+      headerPathsAndLabels.push(headerItem.label)
       if (headerPath) {
-        headerNavPaths.push(headerPath)
+        headerPathsAndLabels.push(headerPath)
       }
     }
   })
-  return Screen.xs ? Menu : Menu.filter(menuItem => !headerNavPaths.includes(menuItem.name) && !headerNavPaths.includes(menuItem.path))
+  return headerPathsAndLabels
+}
+
+const sidebarMenu = computed(() => {
+  const headerPathsAndLabels = getHeaderPathsAndLabels(navItems)
+  return Screen.xs ? Menu : Menu.filter(menuItem => !headerPathsAndLabels.includes(menuItem.name) && !headerPathsAndLabels.includes(menuItem.path))
 })
 
 function getParentVm (vm) {
