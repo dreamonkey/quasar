@@ -1,9 +1,9 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark mainlayout">
+  <q-layout view="hHh lpR fff" class="bg-lp-dark main-layout">
     <main-layout-header v-model="showDrawer"/>
 
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
-      <q-scroll-area class="drawer-scroll-area">
+      <q-scroll-area class="full-height">
         <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
         <app-menu class="q-mb-lg" />
       </q-scroll-area>
@@ -112,12 +112,8 @@ $adjust-header-viewport: 860px;
   overflow: inherit !important;
 }
 
-.mainlayout {
+.main-layout {
   font-family: $lp-font-family;
-}
-
-.drawer-scroll-area {
-  height: 100%;
 }
 
 .layout-countdown {
