@@ -1,10 +1,13 @@
 <template>
-  <q-list dense class="shadow-bottom-small menu-items">
+  <q-list class="shadow-bottom-small font-monserrat">
     <template v-for="(navItem, navIndex) in navItems" :key="`navMenu-${navIndex}`">
-      <q-separator class="q-mb-sm q-mt-md" v-if="navItem.isSeparator"/>
+      <q-separator v-if="navItem.isSeparator" class="q-mb-sm q-mt-md"/>
       <template v-else>
+        <q-item-label v-if="navItem.isHeader" header class="text-lp-accent text-size-12 q-pt-lg q-pb-sm">
+          {{ navItem.label }}
+        </q-item-label>
         <q-item
-          v-if="!navItem.subMenu"
+          v-else-if="!navItem.subMenu"
           clickable v-close-popup
           :to="computeRouteNav(navItem)"
           :href="computeRouteNav(navItem, 'href')"
@@ -14,8 +17,7 @@
           <q-item-section avatar v-if="navItem.icon">
             <q-icon :name="navItem.icon" color="lp-primary"/>
           </q-item-section>
-          <q-item-label v-if="navItem.isHeader" header class="text-lp-accent">{{ navItem.label }}</q-item-label>
-          <q-item-section v-else>{{ navItem.label }}</q-item-section>
+          <q-item-section>{{ navItem.label }}</q-item-section>
         </q-item>
         <q-item v-else clickable class="add-shadow-on-hover">
           <q-item-section>{{ navItem.label }}</q-item-section>
@@ -23,25 +25,8 @@
             <q-icon name="keyboard_arrow_right" color="lp-dark"/>
           </q-item-section>
 
-          <q-menu anchor="top end" self="top start" class="shadow-bottom-small">
-            <q-list class="menu-items">
-              <q-item
-                v-for="(subNavItem, subNavIndex) in navItem.subMenu"
-                :key="`subNav-${subNavIndex}`"
-                :to="computeRouteNav(subNavItem)"
-                :href="computeRouteNav(subNavItem, 'href')"
-                :target="subNavItem.href? '_blank':'_self'"
-                dense
-                clickable
-                class="add-shadow-on-hover"
-              >
-                <q-item-section avatar v-if="subNavItem.icon">
-                  <q-icon :name="subNavItem.icon" color="lp-primary"/>
-                </q-item-section>
-                <q-item-label v-if="subNavItem.isHeader" header class="text-lp-accent">{{ subNavItem.label }}</q-item-label>
-                <q-item-section v-else>{{ subNavItem.label }}</q-item-section>
-              </q-item>
-            </q-list>
+          <q-menu anchor="top end" self="top start">
+            <nav-dropdown-menu :nav-items="navItem.subMenu" />
           </q-menu>
         </q-item>
       </template>
@@ -71,8 +56,5 @@ export default defineComponent({
 <style lang="scss" scoped>
 .add-shadow-on-hover:hover {
   background-color: rgba($lp-primary, 0.08);
-}
-.menu-items {
-  font-family: $lp-font-family;
 }
 </style>

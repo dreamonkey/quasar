@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark main-layout">
+  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat">
     <main-layout-header v-model="showDrawer"/>
 
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
@@ -20,7 +20,7 @@
             v-if="showFooterToolbar(footerIndex)"
             :label="label"
             :to="to"
-            color="lp-light"
+            color="white-54"
             flat
             padding="md"
           />
@@ -54,10 +54,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { footerToolbar } from 'assets/landing-page/landing-page-footer.js'
-import { socialLinks } from 'assets/landing-page/social-links.js'
 import { Screen } from 'quasar'
-import { mdiBugCheck, mdiClipboardText } from '@quasar/extras/mdi-v6'
-import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
@@ -108,6 +105,8 @@ function extractFooterSectionsFromMenu (footerNavs, menu) {
   })
 }
 
+const footerItems = extractFooterSectionsFromMenu(footerNavs, menu)
+
 export default defineComponent({
   name: 'MainLayout',
   components: { MainLayoutHeader, AppMenu, SurveyCountdown },
@@ -117,15 +116,11 @@ export default defineComponent({
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
     return {
-      footerItems: extractFooterSectionsFromMenu(footerNavs, menu),
-      socialLinks,
+      footerItems,
       footerToolbar,
       showDrawer,
       showFooterToolbar,
-      currentYear,
-      mdiClipboardText,
-      mdiBugCheck,
-      fabGithub
+      currentYear
     }
   }
 })
@@ -148,10 +143,6 @@ $adjust-header-viewport: 860px;
   @media screen and (min-width: $breakpoint-md-min) {
     grid-template-columns: repeat($footer-columns-md-min, 1fr);
   }
-}
-
-.main-layout {
-  font-family: $lp-font-family;
 }
 
 .layout-countdown {

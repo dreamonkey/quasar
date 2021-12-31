@@ -103,6 +103,7 @@ export default {
             dense: true,
             icon: menu.icon,
             expandIcon: mdiMenuDown,
+            headerClass: 'font-size-14',
             defaultOpened: menu.opened || routePath.startsWith(path),
             expandSeparator: true,
             switchToggleSide: level > 0,
@@ -157,7 +158,7 @@ export default {
       )
     }
 
-    return () => h(QList, { ref: rootRef, class: 'app-menu', dense: true }, () => sidebarMenu.value.map(
+    return () => h(QList, { ref: rootRef, class: 'app-menu font-monserrat', dense: true }, () => sidebarMenu.value.map(
       item => getDrawerMenu(item, '/' + item.path, 0)
     ))
   }

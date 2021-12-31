@@ -136,22 +136,6 @@ export default {
 .doc-left-drawer
   overflow: inherit !important
 
-.quasar-logo
-  &__img
-    transform: rotate(0deg)
-    transition: transform .8s ease-in-out
-    width: 38px
-    height: 38px
-    margin-right: 8px
-    border-radius: 50%
-
-  &:hover &__img
-    transform: rotate(-360deg)
-
-  &__logotype
-    height: 19px
-    vertical-align: middle
-
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
 
@@ -191,8 +175,4 @@ body.mobile .app-search-input kbd
 .layout-countdown
   background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
   background-size: 40px 40px
-
-.app-menu .q-item
-  font-family: $lp-font-family
-  font-size: 14px
 </style>

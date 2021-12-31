@@ -1,12 +1,13 @@
 import {
-  mdiFilePlus,
-  mdiFlare, mdiInvertColors,
+  mdiPuzzle,
+  mdiFlare, mdiThemeLightDark,
   mdiPaletteSwatch,
   mdiShoppingMusic,
   mdiStarCircle,
-  mdiViewDashboard
+  mdiViewDashboard,
+  mdiFlask, mdiJsfiddle, mdiCodepen
 } from '@quasar/extras/mdi-v6'
-import { fabCodepen, fabJsfiddle, fasCubes, fasFlask } from '@quasar/extras/fontawesome-v5'
+import { fasCubes } from '@quasar/extras/fontawesome-v5'
 
 export const navItems = {
   mainNavItems: [
@@ -24,17 +25,8 @@ export const navItems = {
       path: 'sponsors-and-backers'
     },
     {
-      label: 'About',
-      subMenu: [
-        {
-          label: 'Meet the Team',
-          path: 'meet-the-team'
-        },
-        {
-          label: 'Why Quasar?',
-          path: 'introduction-to-quasar'
-        }
-      ]
+      label: 'Meet the Team',
+      path: 'meet-the-team'
     },
     {
       label: 'Blog',
@@ -101,7 +93,7 @@ export const navItems = {
         },
         {
           label: 'App Extensions',
-          icon: mdiFilePlus,
+          icon: mdiPuzzle,
           path: 'app-extensions/discover'
         },
         {
@@ -120,7 +112,7 @@ export const navItems = {
         },
         {
           label: 'Dark Mode',
-          icon: mdiInvertColors,
+          icon: mdiThemeLightDark,
           path: 'style/dark-mode'
         },
         {
@@ -135,7 +127,7 @@ export const navItems = {
         },
         {
           label: 'Flex Playground',
-          icon: fasFlask,
+          icon: mdiFlask,
           path: 'layout/grid/flex-playground'
         },
         {
@@ -144,12 +136,12 @@ export const navItems = {
         },
         {
           label: 'Codepen',
-          icon: fabCodepen,
+          icon: mdiCodepen,
           href: 'https://codepen.quasar.dev'
         },
         {
           label: 'jsFiddle',
-          icon: fabJsfiddle,
+          icon: mdiJsfiddle,
           href: 'https://jsfiddle.quasar.dev'
         },
         {
