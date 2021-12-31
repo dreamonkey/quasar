@@ -27,13 +27,13 @@
         </template>
       </q-toolbar>
       <div class="lp-footer q-ma-xl">
-        <q-list v-for="footerItem in footerItems" :key="footerItem.label">
-          <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.label }}</q-item-label>
+        <q-list v-for="footerItem in footerItems" :key="footerItem.name">
+          <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-            <q-item dense class="q-pa-none" clickable :to="item.to">
+            <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.path" :target="item.external? '_blank':'_self'">
               <q-item-section class="text-lp-dark text-capitalize">
-                {{ item.label }}
+                {{ item.name }}
               </q-item-section>
             </q-item>
           </template>
@@ -53,7 +53,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { footerToolbar, homepageFooterItems } from 'assets/landing-page/landing-page-footer.js'
+import { footerToolbar } from 'assets/landing-page/landing-page-footer.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import { Screen } from 'quasar'
 import { mdiBugCheck, mdiClipboardText } from '@quasar/extras/mdi-v6'
@@ -61,10 +61,52 @@ import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
+import menu from 'assets/menu.js'
+import { footerNavs } from 'assets/landing-page/landing-page-footer.js'
 
 const currentYear = (new Date()).getFullYear()
 
 const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
+
+/**
+ * Loop through the menus and extract all menu items therein, including children to a flat array of menu items
+ * @param menus menu items to extract from
+ * @param exitCondition: (menuItem) => boolean - we may want to exit the loop early without reading all the elements
+ * @return {*[]} An array of flattened menu items (no more children, they move up to the same level as others)
+ */
+function createFooterNavsFromMenuItem (menus, exitCondition = () => false) {
+  const footerItems = []
+  for (const item of menus) {
+    footerItems.push(item)
+    if (typeof exitCondition === 'function' && exitCondition(item)) {
+      return footerItems
+    }
+    if (item.children) {
+      footerItems.push(...item.children)
+    }
+  }
+  return footerItems
+}
+
+/**
+ * Loop through the footer sections and select menu items from menus[] to be considered for the footer links
+ * @param footerNavs
+ * @param menu
+ * @return {*}
+ */
+function extractFooterSectionsFromMenu (footerNavs, menu) {
+  return footerNavs.flatMap(footerNav => {
+    // select the items from menu only if they are in the footerNavs
+    const menuItem = menu.find(item => item.path === footerNav.path)
+    if (!menuItem) {
+      return []
+    }
+    return {
+      ...footerNav,
+      items: createFooterNavsFromMenuItem(menuItem.children, footerNav.menuExitCondition)
+    }
+  })
+}
 
 export default defineComponent({
   name: 'MainLayout',
@@ -75,7 +117,7 @@ export default defineComponent({
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
     return {
-      footerItems: homepageFooterItems,
+      footerItems: extractFooterSectionsFromMenu(footerNavs, menu),
       socialLinks,
       footerToolbar,
       showDrawer,
@@ -106,10 +148,6 @@ $adjust-header-viewport: 860px;
   @media screen and (min-width: $breakpoint-md-min) {
     grid-template-columns: repeat($footer-columns-md-min, 1fr);
   }
-}
-
-.doc-left-drawer {
-  overflow: inherit !important;
 }
 
 .main-layout {
