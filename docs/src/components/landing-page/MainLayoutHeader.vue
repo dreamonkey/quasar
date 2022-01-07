@@ -26,7 +26,7 @@
             </q-menu>
           </q-btn>
         </div>
-        <q-form v-if="searchField" autocapitalize="off" autocomplete="off" spellcheck="false" class="search-form position-relative">
+        <q-form v-if="isSearchFieldActive" autocapitalize="off" autocomplete="off" spellcheck="false" class="search-form position-relative">
           <q-input ref="searchInputRef" autofocus v-model="searchTerms" dark dense square debounce="300" @keydown="onSearchKeydown" @focus="onSearchFocus" @blur="onSearchBlur" placeholder="Search Quasar v2...">
             <template #append>
               <q-icon name="cancel" color="lp-primary" @click.stop="toggleSearchInputField" />
@@ -41,7 +41,7 @@
             </q-scroll-area>
           </div>
         </q-form>
-        <q-btn v-if="!isSearchFieldActive" flat round color="lp-primary" icon="search" size="12px" @click="toggleSearchInputField"/>
+        <q-btn v-else flat round color="lp-primary" icon="search" size="12px" @click="toggleSearchInputField"/>
       </div>
 
     </q-toolbar>

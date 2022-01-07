@@ -20,7 +20,7 @@
             v-if="showFooterToolbar(footerIndex)"
             :label="label"
             :to="to"
-            color="white-54"
+            color="black-54"
             flat
             padding="md"
           />
