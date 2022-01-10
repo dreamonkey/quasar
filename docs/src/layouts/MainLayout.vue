@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat">
+  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" id="container">
     <main-layout-header v-model="showDrawer"/>
 
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
@@ -9,42 +9,44 @@
       </q-scroll-area>
     </q-drawer>
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
+    <div>
+      <q-page-container>
+        <router-view />
+      </q-page-container>
 
-    <q-footer class="bg-lp-grey text-size-12 text-capitalize">
-      <q-toolbar class="row justify-center bg-white">
-        <template v-for="({label, to}, footerIndex) in footerToolbar" :key="footerIndex">
-          <q-btn
-            v-if="showFooterToolbar(footerIndex)"
-            :label="label"
-            :to="to"
-            color="black-54"
-            flat
-            padding="md"
-          />
-        </template>
-      </q-toolbar>
-      <div class="lp-footer q-ma-xl">
-        <q-list v-for="footerItem in footerItems" :key="footerItem.name">
-          <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
-          <q-separator spaced color="lp-primary" />
-          <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-            <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.path" :target="item.external? '_blank':'_self'">
-              <q-item-section class="text-lp-dark text-capitalize">
-                {{ item.name }}
-              </q-item-section>
-            </q-item>
+      <q-footer class="bg-lp-grey text-size-12 text-capitalize" v-intersection="options">
+        <q-toolbar class="row justify-center bg-white">
+          <template v-for="({label, to}, footerIndex) in footerToolbar" :key="footerIndex">
+            <q-btn
+              v-if="showFooterToolbar(footerIndex)"
+              :label="label"
+              :to="to"
+              color="black-54"
+              flat
+              padding="md"
+            />
           </template>
-        </q-list>
-      </div>
-      <q-separator class="full-width" />
-      <div class="row text-lp-dark justify-center q-my-md">
-        Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
-        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
-      </div>
-    </q-footer>
+        </q-toolbar>
+        <div class="lp-footer q-ma-xl">
+          <q-list v-for="footerItem in footerItems" :key="footerItem.name">
+            <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
+            <q-separator spaced color="lp-primary" />
+            <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
+              <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.path" :target="item.external? '_blank':'_self'">
+                <q-item-section class="text-lp-dark text-capitalize">
+                  {{ item.name }}
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-list>
+        </div>
+        <q-separator class="full-width" />
+        <div class="row text-lp-dark justify-center q-my-md">
+          Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
+          <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
+        </div>
+      </q-footer>
+    </div>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md"/>
     </q-page-scroller>
@@ -52,7 +54,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { footerToolbar } from 'assets/landing-page/landing-page-footer.js'
 import { Screen } from 'quasar'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
@@ -107,11 +109,36 @@ function extractFooterSectionsFromMenu (footerNavs, menu) {
 
 const footerItems = extractFooterSectionsFromMenu(footerNavs, menu)
 
+const thresholds = []
+
+for (let i = 0; i <= 1.0; i += 0.001) {
+  thresholds.push(i)
+}
+
 export default defineComponent({
   name: 'MainLayout',
   components: { MainLayoutHeader, AppMenu, SurveyCountdown },
   setup () {
     const showDrawer = ref(false)
+    const percent = ref(0)
+    const visibleClass = computed(
+      () => `bg-${percent.value > 0 ? 'positive' : 'negative'}`
+    )
+
+    const options = {
+      handler (entry) {
+        const val = (entry.intersectionRatio * 100).toFixed(0)
+        console.log('entry', entry)
+        if (percent.value !== val) {
+          console.log(`percent: ${val}`)
+          percent.value = val
+        }
+      },
+      cfg: {
+        root: document.getElementById('container'),
+        threshold: [0]
+      }
+    }
 
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
@@ -120,7 +147,9 @@ export default defineComponent({
       footerToolbar,
       showDrawer,
       showFooterToolbar,
-      currentYear
+      currentYear,
+      visibleClass,
+      options
     }
   }
 })
