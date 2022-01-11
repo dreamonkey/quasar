@@ -1,21 +1,21 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" id="container">
+  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat">
     <main-layout-header v-model="showDrawer"/>
 
-    <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
-      <q-scroll-area class="full-height">
-        <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
-        <app-menu class="q-mb-lg" />
-      </q-scroll-area>
-    </q-drawer>
+    <div id="container">
+      <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
+        <q-scroll-area class="full-height">
+          <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
+          <app-menu class="q-mb-lg" />
+        </q-scroll-area>
+      </q-drawer>
 
-    <div>
       <q-page-container>
         <router-view />
       </q-page-container>
 
-      <q-footer class="bg-lp-grey text-size-12 text-capitalize" v-intersection="options">
-        <q-toolbar class="row justify-center bg-white">
+      <q-footer class="bg-lp-grey text-size-12 text-capitalize">
+        <q-toolbar class="row justify-center bg-white" id="footer-toolbar" v-intersection="options">
           <template v-for="({label, to}, footerIndex) in footerToolbar" :key="footerIndex">
             <q-btn
               v-if="showFooterToolbar(footerIndex)"
@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { computed, defineComponent, ref } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { footerToolbar } from 'assets/landing-page/landing-page-footer.js'
 import { Screen } from 'quasar'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
@@ -66,6 +66,14 @@ import { footerNavs } from 'assets/landing-page/landing-page-footer.js'
 const currentYear = (new Date()).getFullYear()
 
 const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
+
+const observer = new IntersectionObserver(
+  ([e]) => {
+    console.log('hello things')
+    e.target.classList.toggle('isSticky', e.intersectionRatio < 1)
+  },
+  { root: document.getElementById('container'), threshold: [1] }
+)
 
 /**
  * Loop through the menus and extract all menu items therein, including children to a flat array of menu items
@@ -109,36 +117,16 @@ function extractFooterSectionsFromMenu (footerNavs, menu) {
 
 const footerItems = extractFooterSectionsFromMenu(footerNavs, menu)
 
-const thresholds = []
-
-for (let i = 0; i <= 1.0; i += 0.001) {
-  thresholds.push(i)
-}
-
 export default defineComponent({
   name: 'MainLayout',
   components: { MainLayoutHeader, AppMenu, SurveyCountdown },
   setup () {
     const showDrawer = ref(false)
-    const percent = ref(0)
-    const visibleClass = computed(
-      () => `bg-${percent.value > 0 ? 'positive' : 'negative'}`
-    )
 
-    const options = {
-      handler (entry) {
-        const val = (entry.intersectionRatio * 100).toFixed(0)
-        console.log('entry', entry)
-        if (percent.value !== val) {
-          console.log(`percent: ${val}`)
-          percent.value = val
-        }
-      },
-      cfg: {
-        root: document.getElementById('container'),
-        threshold: [0]
-      }
-    }
+    onMounted(() => {
+      const stickyElm = document.getElementById('footer-toolbar')
+      observer.observe(stickyElm)
+    })
 
     const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
 
@@ -148,8 +136,15 @@ export default defineComponent({
       showDrawer,
       showFooterToolbar,
       currentYear,
-      visibleClass,
-      options
+      options: {
+        handler (entry) {
+          console.log('great work')
+        },
+        cfg: {
+          root: document.getElementById('container'),
+          threshold: [1]
+        }
+      }
     }
   }
 })
@@ -181,6 +176,21 @@ $adjust-header-viewport: 860px;
 
 .app-menu .q-item {
   font-size: 14px;
+}
+
+#footer-toolbar {
+  position: sticky;
+  top: -1px;                       /* ➜ the trick */
+
+  /* ➜ compensate for the trick */
+  padding: calc(1em + 1px) 1em 1em;
+
+  background: salmon;
+  transition: .1s;
+}
+
+#footer-toolbar.isSticky{
+  font-size: .8em;
 }
 
 </style>
