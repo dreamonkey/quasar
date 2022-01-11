@@ -1,11 +1,11 @@
 <template>
-  <q-header class="bg-lp-dark font-monserrat">
-    <q-toolbar :class="$q.screen.xs? 'shadow-bottom-small':''" class="primary-toolbar q-pl-lg q-pr-md justify-between items-stretch">
+  <q-header :class="footerAtTop? 'bg-white text-black-54':'bg-lp-dark text-white-54'" class="font-monserrat lp-header">
+    <q-toolbar :class="$q.screen.xs? 'shadow-bottom-small':''" class="primary-toolbar q-pl-lg q-pr-md justify-between items-stretch" :style="{height: `${primaryHeaderHeight}px`}">
       <q-btn v-if="$q.screen.xs" flat @click="$emit('update:modelValue', !modelValue)" round dense icon="menu" color="lp-primary"/>
       <div v-if="$q.screen.gt.xs || !isSearchFieldActive" class="row justify-center items-center cursor-pointer" @click="$router.push({name: 'home'})">
-        <img v-if="$q.screen.sm" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" width="48" height="48" alt="Quasar Logo">
-        <img v-else src="https://cdn.quasar.dev/logo-v2/svg/logo-horizontal-dark.svg" width="236" :height="$q.screen.xs? '24':'48'" alt="Quasar Logo">
-        <q-separator v-if="$q.screen.gt.xs" vertical color="lp-primary" class="q-ml-lg" />
+        <img v-if="$q.screen.sm" :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!footerAtTop? '-dark':''}.svg`" width="48" height="48" alt="Quasar Logo">
+        <img v-else :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!footerAtTop? '-dark':''}.svg`" width="236" :height="$q.screen.xs? '24':'48'" alt="Quasar Logo">
+        <q-separator v-if="$q.screen.gt.xs" :color="footerAtTop? 'black-12':'lp-primary'" vertical class="q-ml-lg" />
       </div>
 
       <div class="row items-center text-size-16">
@@ -16,7 +16,7 @@
               :to="computeRouteNav(navItem)"
               :href="computeRouteNav(navItem, 'href')"
               :target="navItem.href? '_blank':'_self'"
-              :color="$route.path === `/${navItem.path}`? 'white' : 'white-54'"
+              :color="setActivePrimaryNavColor($route.path, navItem.path)"
               :padding="`xs ${$q.screen.name}`"
               class="text-weight-bold text-size-16"
               flat
@@ -45,20 +45,20 @@
       </div>
 
     </q-toolbar>
-    <q-separator color="lp-primary"/>
+    <q-separator :color="footerAtTop? 'black-12':'lp-primary'"/>
     <template v-if="$q.screen.gt.xs">
-      <q-toolbar class="q-pl-none q-pr-md secondary-toolbar shadow-bottom-small">
+      <q-toolbar :class="!footerAtTop? 'shadow-bottom-small':''" class="q-pl-none q-pr-md" :style="{height: `${secondaryHeaderHeight}px`}">
         <q-btn v-if="$q.screen.sm" class="q-pl-sm q-mx-md" flat round dense icon="menu" color="lp-primary" @click="$emit('update:modelValue', !modelValue)"/>
         <q-btn-dropdown no-caps dense auto-close align="left" class="text-weight-bold version-dropdown" :class="$q.screen.gt.sm ? 'q-ml-lg' : ''" padding="sm" outline color="lp-primary">
           <template #label>
-            <span class="text-white text-size-12">{{ `v${$q.version}` }}</span>
+            <span :class="footerAtTop? 'text-dark':'text-white'" class="text-size-12">{{ `v${$q.version}` }}</span>
             <q-space />
           </template>
           <nav-dropdown-menu :nav-items="versionHistory"/>
         </q-btn-dropdown>
         <template v-if="$q.screen.sm">
-          <q-separator vertical inset color="lp-primary" class="q-ml-md q-mr-sm"/>
-          <q-btn-dropdown color="white-54" class="font-monserrat text-weight-bold text-size-12" no-caps dense label="More" flat menu-anchor="bottom right" :menu-offset="[150, 5]">
+          <q-separator :color="footerAtTop? 'black-12':'lp-primary'" vertical inset class="q-ml-md q-mr-sm"/>
+          <q-btn-dropdown :color="footerAtTop? 'text-dark':'text-white'" class="font-monserrat text-weight-bold text-size-12" no-caps dense label="More" flat menu-anchor="bottom right" :menu-offset="[150, 5]">
             <nav-dropdown-menu :nav-items="moreNavItems"/>
           </q-btn-dropdown>
         </template>
@@ -75,7 +75,7 @@
             :href="computeRouteNav(subNavItem, 'href')"
             :target="subNavItem.href? '_blank':'_self'"
             flat
-            color="white-54"
+            :color="footerAtTop? 'black-54':'white-54'"
             no-caps
             size="12px"
             class="text-weight-bold"
@@ -90,11 +90,13 @@
           v-for="(socialLink, socialLinkIndex) in socialLinks"
           :key="`social-${socialLinkIndex}`"
           :icon="socialLink.icon"
-          flat color="lp-primary" round padding="sm" size="md"
+          :color="footerAtTop? 'black-54':'lp-primary'"
+          flat
+          round padding="sm" size="md"
           type="a" :href="socialLink.href" target="__blank"
         />
       </q-toolbar>
-      <q-separator color="lp-primary"/>
+      <q-separator :color="footerAtTop? 'black-12':'lp-primary'"/>
     </template>
   </q-header>
 </template>
@@ -116,13 +118,25 @@ export default defineComponent({
     modelValue: {
       type: Boolean,
       default: false
+    },
+    footerAtTop: {
+      type: Boolean,
+      default: false
+    },
+    primaryHeaderHeight: {
+      type: Number,
+      default: 92
+    },
+    secondaryHeaderHeight: {
+      type: Number,
+      default: 62
     }
   },
   components: {
     NavDropdownMenu,
     AppSearchResults
   },
-  setup () {
+  setup (props) {
     const $q = useQuasar()
     const $route = useRoute()
     const isSearchFieldActive = ref(false)
@@ -204,6 +218,14 @@ export default defineComponent({
       ...navItems.subNavItems
     ]
 
+    function setActivePrimaryNavColor (routePath, navItemPath) {
+      if (routePath === `/${navItemPath}`) {
+        return props.footerAtTop ? 'lp-primary' : 'white'
+      }
+
+      return '' // inherit parent's color
+    }
+
     const scope = {
       mdiGithub,
       mdiBug,
@@ -215,7 +237,8 @@ export default defineComponent({
       versionHistory,
       moreNavItems,
       computeRouteNav,
-      toggleSearchInputField
+      toggleSearchInputField,
+      setActivePrimaryNavColor
     }
 
     useSearch(scope, $q, $route)
@@ -239,14 +262,6 @@ $search-form-width: 300px;
   }
 }
 
-.primary-toolbar {
-  height: 92px;
-}
-
-.secondary-toolbar {
-  height: 62px;
-}
-
 .version-dropdown {
   width: 220px;
 }
@@ -265,5 +280,9 @@ $search-form-width: 300px;
 .search-result-container {
   height: 80vh;
   max-width: $search-form-width;
+}
+
+.lp-header {
+  transition: all .3s ease-in-out;
 }
 </style>

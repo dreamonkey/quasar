@@ -1,52 +1,45 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat">
-    <main-layout-header v-model="showDrawer"/>
+  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="onScrollMainLayout">
+    <q-scroll-observer />
+    <main-layout-header v-model="showDrawer" :footer-at-top="footerHasMetHeader" :primary-header-height="primaryHeaderHeight" :secondary-header-height="secondaryHeaderHeight"/>
 
-    <div id="container">
-      <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
-        <q-scroll-area class="full-height">
-          <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
-          <app-menu class="q-mb-lg" />
-        </q-scroll-area>
-      </q-drawer>
+    <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
+      <q-scroll-area class="full-height">
+        <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
+        <app-menu class="q-mb-lg" />
+      </q-scroll-area>
+    </q-drawer>
 
-      <q-page-container>
-        <router-view />
-      </q-page-container>
+    <q-page-container>
+      <router-view />
+    </q-page-container>
 
-      <q-footer class="bg-lp-grey text-size-12 text-capitalize">
-        <q-toolbar class="row justify-center bg-white" id="footer-toolbar" v-intersection="options">
-          <template v-for="({label, to}, footerIndex) in footerToolbar" :key="footerIndex">
-            <q-btn
-              v-if="showFooterToolbar(footerIndex)"
-              :label="label"
-              :to="to"
-              color="black-54"
-              flat
-              padding="md"
-            />
+    <q-footer class="bg-lp-grey text-size-12 text-capitalize main-layout-footer" id="footer-toolbar">
+      <div class="lp-footer lp-ma--large">
+        <q-list v-for="footerItem in footerItems" :key="footerItem.name">
+          <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
+          <q-separator spaced color="lp-primary" />
+          <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
+            <!-- setting href to undefined ensures "to" attribute works correctly when href is not set -->
+            <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.external? item.path:undefined" :target="item.external? '_blank':'_self'">
+              <q-item-section class="text-lp-dark text-capitalize">
+                {{ item.name }}
+              </q-item-section>
+            </q-item>
           </template>
-        </q-toolbar>
-        <div class="lp-footer q-ma-xl">
-          <q-list v-for="footerItem in footerItems" :key="footerItem.name">
-            <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
-            <q-separator spaced color="lp-primary" />
-            <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-              <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.path" :target="item.external? '_blank':'_self'">
-                <q-item-section class="text-lp-dark text-capitalize">
-                  {{ item.name }}
-                </q-item-section>
-              </q-item>
-            </template>
-          </q-list>
-        </div>
-        <q-separator class="full-width" />
-        <div class="row text-lp-dark justify-center q-my-md">
-          Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
-          <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
-        </div>
-      </q-footer>
-    </div>
+        </q-list>
+      </div>
+      <q-separator color="lp-primary" class="lp-mx--large"/>
+      <div class="row justify-center q-my-md">
+        <q-btn type="a" no-caps flat href="https://github.com/quasarframework/quasar/blob/dev/LICENSE" target="_blank" class="text-black-54 text-weight-bold" label="MIT License"/>
+        <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
+      </div>
+      <q-separator class="full-width" />
+      <div class="row text-lp-dark justify-center q-my-lg">
+        Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
+        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
+      </div>
+    </q-footer>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md"/>
     </q-page-scroller>
@@ -54,9 +47,7 @@
 </template>
 
 <script>
-import { defineComponent, onMounted, ref } from 'vue'
-import { footerToolbar } from 'assets/landing-page/landing-page-footer.js'
-import { Screen } from 'quasar'
+import { defineComponent, ref } from 'vue'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
@@ -64,16 +55,6 @@ import menu from 'assets/menu.js'
 import { footerNavs } from 'assets/landing-page/landing-page-footer.js'
 
 const currentYear = (new Date()).getFullYear()
-
-const HIDDEN_FOOTERTOOLBAR_INDEX_XS = [ 0, 2, 3 ]
-
-const observer = new IntersectionObserver(
-  ([e]) => {
-    console.log('hello things')
-    e.target.classList.toggle('isSticky', e.intersectionRatio < 1)
-  },
-  { root: document.getElementById('container'), threshold: [1] }
-)
 
 /**
  * Loop through the menus and extract all menu items therein, including children to a flat array of menu items
@@ -122,29 +103,24 @@ export default defineComponent({
   components: { MainLayoutHeader, AppMenu, SurveyCountdown },
   setup () {
     const showDrawer = ref(false)
+    const footerHasMetHeader = ref(false)
+    const primaryHeaderHeight = 92
+    const secondaryHeaderHeight = 62
 
-    onMounted(() => {
-      const stickyElm = document.getElementById('footer-toolbar')
-      observer.observe(stickyElm)
-    })
-
-    const showFooterToolbar = (footerIndex) => Screen.gt.xs ? true : HIDDEN_FOOTERTOOLBAR_INDEX_XS.includes(footerIndex)
+    function onScrollMainLayout () {
+      const headerSize = primaryHeaderHeight + secondaryHeaderHeight
+      const positionFromTop = document.getElementById('footer-toolbar').getBoundingClientRect().top
+      footerHasMetHeader.value = positionFromTop <= headerSize
+    }
 
     return {
       footerItems,
-      footerToolbar,
       showDrawer,
-      showFooterToolbar,
       currentYear,
-      options: {
-        handler (entry) {
-          console.log('great work')
-        },
-        cfg: {
-          root: document.getElementById('container'),
-          threshold: [1]
-        }
-      }
+      footerHasMetHeader,
+      primaryHeaderHeight,
+      secondaryHeaderHeight,
+      onScrollMainLayout
     }
   }
 })
@@ -159,7 +135,7 @@ $adjust-header-viewport: 860px;
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 24px;
-  grid-row-gap: 48px;
+  grid-row-gap: 100px;
 
   @media screen and (min-width: $breakpoint-sm-min) {
     grid-template-columns: repeat($footer-columns-sm-min, 1fr);
@@ -178,19 +154,8 @@ $adjust-header-viewport: 860px;
   font-size: 14px;
 }
 
-#footer-toolbar {
-  position: sticky;
-  top: -1px;                       /* ➜ the trick */
-
-  /* ➜ compensate for the trick */
-  padding: calc(1em + 1px) 1em 1em;
-
-  background: salmon;
-  transition: .1s;
-}
-
-#footer-toolbar.isSticky{
-  font-size: .8em;
+.main-layout-footer {
+  z-index: 5; // ensures it's lower than header but higher than components page filter section
 }
 
 </style>
