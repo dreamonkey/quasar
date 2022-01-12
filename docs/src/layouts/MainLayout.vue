@@ -1,7 +1,6 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="onScrollMainLayout">
-    <q-scroll-observer />
-    <main-layout-header v-model="showDrawer" :footer-at-top="footerHasMetHeader" :primary-header-height="primaryHeaderHeight" :secondary-header-height="secondaryHeaderHeight"/>
+  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
+    <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader"/>
 
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
       <q-scroll-area class="full-height">
@@ -14,14 +13,18 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="bg-lp-grey text-size-12 text-capitalize main-layout-footer" id="footer-toolbar">
+    <q-footer class="bg-lp-grey text-size-12 text-capitalize main-layout-footer" ref="mainLayoutFooter">
       <div class="lp-footer lp-ma--large">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
           <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-            <!-- setting href to undefined ensures "to" attribute works correctly when href is not set -->
-            <q-item dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`" :href="item.external? item.path:undefined" :target="item.external? '_blank':'_self'">
+            <q-item v-if="item.external" dense class="q-pa-none" clickable tag="a" :href="item.path" target="_blank">
+              <q-item-section class="text-lp-dark text-capitalize">
+                {{ item.name }}
+              </q-item-section>
+            </q-item>
+            <q-item v-else dense class="q-pa-none" clickable tag="a" :to="`/${footerItem.path}/${item.path}`">
               <q-item-section class="text-lp-dark text-capitalize">
                 {{ item.name }}
               </q-item-section>
@@ -104,12 +107,12 @@ export default defineComponent({
   setup () {
     const showDrawer = ref(false)
     const footerHasMetHeader = ref(false)
-    const primaryHeaderHeight = 92
-    const secondaryHeaderHeight = 62
+    const mainLayoutFooter = ref()
+    const mainLayoutHeader = ref()
 
-    function onScrollMainLayout () {
-      const headerSize = primaryHeaderHeight + secondaryHeaderHeight
-      const positionFromTop = document.getElementById('footer-toolbar').getBoundingClientRect().top
+    function checkHeaderMetFooter () {
+      const headerSize = mainLayoutHeader.value.$el.clientHeight
+      const positionFromTop = mainLayoutFooter.value.$el.getBoundingClientRect().top
       footerHasMetHeader.value = positionFromTop <= headerSize
     }
 
@@ -118,9 +121,9 @@ export default defineComponent({
       showDrawer,
       currentYear,
       footerHasMetHeader,
-      primaryHeaderHeight,
-      secondaryHeaderHeight,
-      onScrollMainLayout
+      mainLayoutFooter,
+      mainLayoutHeader,
+      checkHeaderMetFooter
     }
   }
 })
