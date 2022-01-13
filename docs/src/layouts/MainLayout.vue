@@ -13,19 +13,19 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="bg-lp-grey text-size-12 text-capitalize main-layout-footer" ref="mainLayoutFooter">
+    <q-footer class="bg-lp-grey text-size-12 main-layout-footer" ref="mainLayoutFooter">
       <div class="lp-footer lp-ma--large">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
           <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
             <q-item v-if="item.external" dense class="q-pa-none" clickable tag="a" :href="item.path" target="_blank">
-              <q-item-section class="text-lp-dark text-capitalize">
+              <q-item-section class="text-lp-dark">
                 {{ item.name }}
               </q-item-section>
             </q-item>
             <q-item v-else dense class="q-pa-none" clickable :to="`/${footerItem.path}/${item.path}`">
-              <q-item-section class="text-lp-dark text-capitalize">
+              <q-item-section class="text-lp-dark">
                 {{ item.name }}
               </q-item-section>
             </q-item>
