@@ -6,7 +6,7 @@
       <div class="col-md-6 col-xs-12 column items-center text-center">
         <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
-        <div class="lp-my--medium text-white-54 text-size-20">
+        <div class="lp-my--medium text-white-54 text-size-20 letter-spacing-375 primary-line-height">
           The open source multi-platform development framework based on Vue.js
           with an enterprise vocation.
         </div>
@@ -14,8 +14,8 @@
         <q-btn
           color="lp-accent"
           label="Take a look across the stars"
-          padding="md"
           class="call-to-action-btn shadow-bottom-small"
+          @click="scrollSectionIntoView('why_quasar_section')"
         />
 
         <div class="q-mt-lg">
@@ -32,8 +32,8 @@
       </div>
     </div>
 
-    <div class="sponsors">
-      <div class="text-lp-primary text-center text-size-16 text-capitalize">
+    <div class="sponsors letter-spacing-300">
+      <div class="text-weight-bold text-lp-primary text-center text-size-16 text-capitalize">
         Our platform sponsors
       </div>
       <div class="sponsors__logos row col-6 col-sm-4 justify-center lp-my--medium">
@@ -48,8 +48,7 @@
           text-color="white-54"
           no-caps
           label="Full sponsor's list"
-          class="lp-btn-underline sponsors__list"
-          size="16px"
+          class="lp-btn-underline text-size-16 letter-spacing-300"
           @click="scrollSectionIntoView('sponsors_section')"
         />
       </div>
@@ -61,7 +60,7 @@
       </div>
 
       <div class="row justify-center">
-        <div class="col-10 col row">
+        <div class="col-xs-12 col-sm-12 col-lg-10 col row">
           <div class="col">
             <div class="row q-col-gutter-lg justify-center">
               <template v-for="({icon, title, body, btnLabel, btnLink}, i) in whyQuasar" :key="i">
@@ -79,50 +78,9 @@
           </div>
         </div>
       </div>
-
-      <div class="lp-mt--large column items-center">
-        <div
-          class="lp-heading lp-heading--medium">
-          Still Doubtful?
-        </div>
-
-        <div class="lp-heading lp-heading--small q-my-lg">
-          "This framework's got a few surprises left in it, sweetheart!"
-        </div>
-
-        <div>
-          <q-btn
-            color="lp-accent"
-            class="call-to-action-btn shadow-bottom-small"
-            label="Find out more"
-          />
-        </div>
-      </div>
     </div>
 
-    <div class="advance-scaffolding row justify-center items-end">
-      <q-img height="100vh" src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg"/>
-      <div class="col-9 relative-position">
-        <div class="column items-end absolute-bottom-right lp-mb--large">
-          <div class="lp-heading lp-heading--large text-right">
-            Advanced scaffolding
-          </div>
-
-          <div class="text-right lp-heading--small lp-my--medium">
-            Get all you need to setup your project basic
-            <span class="block">features and save time</span>
-          </div>
-          <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
-          <q-btn
-            class="call-to-action-btn lp-mt--medium shadow-bottom-small"
-            color="lp-accent"
-            label="Consult pricing"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="window-height lp-mb--large showcase-section">
+    <div class="showcase-section">
       <div class="row justify-center">
         <div class="col-8 text-center col-xs-10">
           <q-icon
@@ -144,7 +102,7 @@
     <div class="window-height support-quasar-section">
       <div class="row justify-center">
         <div class="col-6 col-xs-10">
-          <div class="lp-heading--large support-quasar-section__title">
+          <div class="text-uppercase lp-heading--large support-quasar-section__title">
             Support quasar: Become sponsor!
           </div>
 
@@ -152,15 +110,16 @@
             Working for a company or freelancer? You can contribute, ever a bit and getting something back.
           </div>
 
-          <div class="q-my-md lp-heading--quote lp-my--medium">
+          <div class="q-my-md lp-heading--quote primary-line-height  lp-my--medium">
             <q>So, um, we think we should discuss the bonus situation</q>
           </div>
 
           <q-btn
             color="lp-accent"
             label="Consult tiers"
-            padding="sm"
             class="call-to-action-btn shadow-bottom-small"
+            href="https://github.com/sponsors/rstoenescu"
+            target="_blank"
           />
         </div>
       </div>
@@ -171,22 +130,22 @@
       </div>
     </div>
 
-    <div class="text-center lp-mb--large sponsors-section" id="sponsors_section">
+    <div class="text-center sponsors-section" id="sponsors_section">
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
       <div class="lp-heading lp-heading--large">Our Sponsors</div>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
       <div class="row justify-center">
-        <div class="col-8 text-size-12">
-          <div class="q-my-md">Platinum Sponsors</div>
+        <div class="col-8 text-size-16 text-weight-bold">
+          <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
           <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.platinum" :key="index"/>
-          <div class="q-my-md">Silver Sponsors</div>
+          <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
           <q-img :src="`sponsor-logos/${src}`" width="200px" v-for="(src, index) in sponsorLogos.silver" :key="index" />
         </div>
       </div>
     </div>
 
     <div class="text-center social-channels-call-to-action lp-mb--large">
-      <q-img src="~assets/landing-page/homepage-background-images/planet.png" height="1080">
+      <q-img src="~assets/landing-page/homepage-background-images/planet.png" :height="$q.screen.lt.md? '80vh':'1080'">
         <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news </div>
@@ -273,6 +232,7 @@ $undo-margin-from-qpage: 0 -24px 0 -24px;
 
 .sponsors {
   margin-top: 80px;
+  margin-bottom: 208px;
 
   &__list {
     margin-bottom: 208px;
@@ -289,7 +249,11 @@ $undo-margin-from-qpage: 0 -24px 0 -24px;
   }
 }
 .sponsors-section {
-  height: 12vh;
-  margin-top: 400px;
+  margin-top: 200px;
+
+  @media screen and (min-width: $breakpoint-md-max) {
+    height: 18vh;
+    margin-top: 400px;
+  }
 }
 </style>

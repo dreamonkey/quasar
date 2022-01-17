@@ -1,27 +1,27 @@
 <template>
-  <q-page class="column items-center q-mt-xl lp-mb--large text-white q-mx-xl" :class="{'large-screen-margin': $q.screen.gt.md}">
-    <div class="chips-container bg-lp-dark column items-center">
+  <q-page class="q-mt-xl lp-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
+    <div :class="$q.screen.gt.sm? 'justify-between':'justify-center'" class="row items-center q-mx-xl q-pa-lg q-pa-xs-md chips-container bg-lp-dark">
       <q-input
         v-model="search"
+        :class="$q.screen.gt.sm? 'q-ml-lg':''"
         label-color="grey-6"
         borderless
         label="Search component"
         dense
         dark
-        size="16px"
-        class="relative-position search-field"
+        class="col-sm-3 col-md-3 col-xs-12 relative-position search-field text-size-16"
       >
         <template #append>
           <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
           <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
         </template>
       </q-input>
-      <div class="row q-my-xl justify-center">
+      <div class="col-md-8 col-sm-8 row justify-center" v-if="$q.screen.gt.sm">
         <q-chip
           v-for="({label, value}, chipIndex) in filterChips"
           :key="chipIndex"
           :label="label"
-          class="row component-chip"
+          class="row q-ml-lg"
           :color="value === filterTag ? 'lp-accent' : 'lp-primary'"
           clickable
           text-color="white"
@@ -38,7 +38,8 @@
         <q-card
           v-for="({name, description, path}, i) in filteredComponents"
           :key="name + i"
-          class="raise-on-hover text-size-16 shadow-bottom-small cursor-pointer"
+          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer components__card"
+          :class="search && $q.screen.gt.xs? 'set-fixed-card-width':''"
           @click="$router.push(componentPath({path, name}))"
         >
           <div class="thumbnail-container">
@@ -109,27 +110,25 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$number-of-card-columns-gt-sm: 5;
-$number-of-card-columns-sm-max: 3;
-$number-of-card-columns-xs-max: 1;
 
 .components {
   display: grid;
   letter-spacing: 3px;
-  grid-template-columns: repeat($number-of-card-columns-gt-sm, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 24px;
-  margin: 240px 64px 100px 64px;
+  margin: 48px 84px 100px 84px;
 
-  @media screen and (max-width: $breakpoint-sm-max) {
-    margin: auto;
-    grid-template-columns: repeat($number-of-card-columns-sm-max, 1fr);
-    gap: 20px;
+  @media screen and (min-width: $breakpoint-xs-max) {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
-  @media screen and (max-width: $breakpoint-xs-max) {
-    margin: auto;
-    grid-template-columns: repeat($number-of-card-columns-xs-max, 1fr);
-    gap: 20px;
+
+  &__card {
+    overflow: hidden;
   }
+}
+
+.set-fixed-card-width {
+  max-width: 350px;
 }
 
 .thumbnail-container {
@@ -150,23 +149,26 @@ $number-of-card-columns-xs-max: 1;
   transition: transform .3s;
 
   &:hover {
-   box-shadow: $lp-box-shadow--large;
+   box-shadow: 0 24px 24px 0 rgba(0, 180, 255, 0.4);
    transform: scale(1.03)
   }
 }
 
-.search-field::after {
-  content: "";
-  position: absolute;
-  width: 108%;
-  left: -4%;
-  border-bottom: 1px solid $lp-primary;
-  top: 40px;
-  z-index: 3;
-}
+.search-field {
+  width: 70%;
+  @media screen and (min-width: $breakpoint-md-min) {
+    width: auto;
+  }
 
-.component-chip {
-  margin-left: 20px;
+  &::after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 16px);
+    left: -8px;
+    border-bottom: 1px solid $lp-primary;
+    top: 40px;
+    z-index: 3;
+  }
 }
 
 .large-screen-margin {
@@ -174,10 +176,13 @@ $number-of-card-columns-xs-max: 1;
 }
 
 .chips-container {
-  padding-top: 135px;
-  position: fixed;
+  position: sticky;
   top: 80px;
   z-index: 2;
-  width: 100%;
+
+  @media screen and (min-width: $breakpoint-xs-max) {
+    top: 150px;
+  }
 }
+
 </style>

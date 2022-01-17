@@ -1,8 +1,6 @@
 <template>
   <q-carousel
     v-model="slide"
-    transition-prev="scale"
-    transition-next="scale"
     swipeable
     animated
     navigation
@@ -155,7 +153,10 @@ export default defineComponent({
       alreadyDisplayedTweetGroupsIndexes.push(INITIAL_TWEET_GROUP_INDEX)
     })
 
-    function loadTweets () {
+    async function loadTweets () {
+      if (!twitterInstance) {
+        twitterInstance = await getTwitterInstance()
+      }
       // do not create card if it has already been rendered
       if (!alreadyDisplayedTweetGroupsIndexes.includes(slide.value)) {
         tweetGroups.value[ slide.value ].forEach(tweetId => {

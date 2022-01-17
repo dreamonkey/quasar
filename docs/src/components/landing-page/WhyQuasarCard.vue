@@ -2,10 +2,10 @@
   <q-card class="q-pa-lg text-center column justify-between items-center full-height shadow-bottom-large">
     <q-card-section class="q-pa-none">
       <q-icon size="xl" :name="icon"/>
-      <div class="text-uppercase text-bold text-lp-primary text-size-24 q-py-md">
+      <div class="text-uppercase lp-heading--medium q-py-md letter-spacing-450">
         {{ title }}
       </div>
-      <div class="text-lp-dark text-size-16 text-weight-medium q-pb-md">
+      <div class="text-lp-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height">
         {{ body }}
       </div>
     </q-card-section>
@@ -16,7 +16,7 @@
           class="call-to-action-btn"
           color="lp-accent"
           :label="btnLabel"
-          :to="btnLink"
+          :to="`/${btnLink}`"
       />
     </q-card-section>
   </q-card>
