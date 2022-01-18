@@ -5,7 +5,7 @@ export const footerNavs = [
   },
   {
     path: 'options',
-    name: 'Quasar Options & Helpers'
+    name: 'Options & Helpers'
   },
   {
     path: 'security',
@@ -32,20 +32,16 @@ export const footerNavs = [
         path: 'quasar-cli/developing-pwa/introduction'
       },
       {
-        name: 'Developing Mobile Apps',
-        path: 'quasar-cli/developing-mobile-apps'
-      },
-      {
         name: 'Developing Capacitor Apps',
         path: 'quasar-cli/developing-capacitor-apps/introduction'
       },
       {
         name: 'Developing Cordova Apps',
-        path: 'quasar-cli/developing-electron-apps/introduction'
+        path: 'quasar-cli/developing-cordova-apps/introduction'
       },
       {
         name: 'Developing Electron Apps',
-        path: 'quasar-cli/developing-spa/introduction'
+        path: 'quasar-cli/developing-electron-apps/introduction'
       },
       {
         name: 'Developing Browser Extensions',
@@ -109,7 +105,7 @@ export const footerNavs = [
       },
       {
         name: 'Development Guide',
-        path: 'app-extensions/development-guide'
+        path: 'app-extensions/development-guide/introduction'
       },
       {
         name: 'Tips & Tricks',

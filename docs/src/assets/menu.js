@@ -1182,10 +1182,6 @@ const appExtensions = [
     opened: true,
     children: [
       {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
         name: 'Provide a UI component',
         path: 'provide-a-ui-component'
       },
