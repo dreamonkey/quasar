@@ -30,7 +30,7 @@
           </q-btn>
         </div>
         <q-form v-if="isSearchFieldActive" autocapitalize="off" autocomplete="off" spellcheck="false" class="search-form position-relative">
-          <q-input ref="searchInputRef" autofocus v-model="searchTerms" :dark="!dark" dense square debounce="300" @keydown="onSearchKeydown" @focus="onSearchFocus" @blur="closeSearchForm" placeholder="Search Quasar v2...">
+          <q-input ref="searchInputRef" autofocus v-model="searchTerms" :dark="!dark" dense square debounce="300" placeholder="Search Quasar v2..." @keydown="onSearchKeydown" @blur="closeSearchForm" @focus="onSearchFocus">
             <template #append>
               <q-icon v-if="!searchTerms" name="search" size="sm" color="lp-primary" />
               <q-icon v-else name="cancel" @click.stop="resetSearch" class="cursor-pointer"/>
@@ -232,9 +232,13 @@ export default defineComponent({
     useSearch(scope, $q, $route)
 
     function closeSearchForm () {
-      scope.onSearchBlur()
-      scope.resetSearch()
-      toggleSearchInputField()
+      // since the blur event fires before the click event on links in search result form, we need to wait a bit
+      // before hiding the search form, else the search form will be hidden before the click event is fired
+      setTimeout(() => {
+        scope.onSearchBlur()
+        scope.resetSearch()
+        toggleSearchInputField()
+      }, 100)
     }
 
     return { ...scope, closeSearchForm }
