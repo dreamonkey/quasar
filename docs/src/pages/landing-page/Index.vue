@@ -78,6 +78,47 @@
           </div>
         </div>
       </div>
+
+      <div class="lp-mt--large column items-center">
+        <div
+          class="lp-heading lp-heading--medium">
+          Still Doubtful?
+        </div>
+
+        <div class="lp-heading lp-heading--small q-my-lg">
+          "This framework's got a few surprises left in it, sweetheart!"
+        </div>
+
+        <div>
+          <q-btn
+            color="lp-accent"
+            class="call-to-action-btn shadow-bottom-small"
+            label="Find out more"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="advance-scaffolding row justify-center items-end">
+      <q-img height="100vh" src="~assets/landing-page/homepage-background-images/astronaut-on-moon.jpg"/>
+      <div class="col-9 relative-position">
+        <div class="column items-end absolute-bottom-right lp-mb--large">
+          <div class="lp-heading lp-heading--large text-right">
+            Advanced scaffolding
+          </div>
+
+          <div class="text-right lp-heading--small lp-my--medium">
+            Get all you need to setup your project basic
+            <span class="block">features and save time</span>
+          </div>
+          <q class="lp-heading--quote">He who controls Scaffolding, controls the universe</q>
+          <q-btn
+            class="call-to-action-btn lp-mt--medium shadow-bottom-small"
+            color="lp-accent"
+            label="Consult pricing"
+          />
+        </div>
+      </div>
     </div>
 
     <div class="showcase-section">
