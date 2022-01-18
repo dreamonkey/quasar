@@ -1,7 +1,7 @@
 <template>
   <q-header :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'" class="font-monserrat lp-header" ref="layoutHeader">
     <q-toolbar
-      :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.md, 'letter-spacing-300': !$q.screen.md }"
+      :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-300': $q.screen.gt.md }"
       class="primary-toolbar q-pl-lg q-pr-md justify-between items-stretch"
     >
       <q-btn v-if="$q.screen.xs" flat @click="$emit('update:modelValue', !modelValue)" round dense icon="menu" color="lp-primary"/>
@@ -37,7 +37,7 @@
             </template>
           </q-input>
           <div class="search-result-field">
-            <q-scroll-area dark class="bg-dark text-white rounded-borders search-result-container" style="width: 300px">
+            <q-scroll-area dark class="bg-dark text-white rounded-borders search-result-container">
               <template v-if="searchResults !== null">
                 <component v-if="searchResults.masterComponent !== void 0" :is="searchResults.masterComponent"/>
                 <app-search-results v-else :results="searchResults" :search-has-focus="searchHasFocus" :search-active-id="searchActiveId"/>

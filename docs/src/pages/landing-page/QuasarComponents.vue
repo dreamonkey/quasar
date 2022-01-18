@@ -3,7 +3,7 @@
     <div :class="$q.screen.gt.sm? 'justify-between':'justify-center'" class="row items-center q-mx-xl q-pa-lg q-pa-xs-md chips-container bg-lp-dark">
       <q-input
         v-model="search"
-        :class="$q.screen.gt.sm? 'q-ml-lg':''"
+        :class="$q.screen.gt.sm? 'q-ml-xl':''"
         label-color="grey-6"
         borderless
         label="Search component"
@@ -38,8 +38,7 @@
         <q-card
           v-for="({name, description, path}, i) in filteredComponents"
           :key="name + i"
-          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer components__card"
-          :class="search && $q.screen.gt.xs? 'set-fixed-card-width':''"
+          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden"
           @click="$router.push(componentPath({path, name}))"
         >
           <div class="thumbnail-container">
@@ -114,21 +113,10 @@ export default defineComponent({
 .components {
   display: grid;
   letter-spacing: 3px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, 300px);
   gap: 24px;
   margin: 48px 84px 100px 84px;
-
-  @media screen and (min-width: $breakpoint-xs-max) {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-
-  &__card {
-    overflow: hidden;
-  }
-}
-
-.set-fixed-card-width {
-  max-width: 350px;
+  justify-content: center;
 }
 
 .thumbnail-container {
@@ -155,7 +143,7 @@ export default defineComponent({
 }
 
 .search-field {
-  width: 70%;
+  width: 80%;
   @media screen and (min-width: $breakpoint-md-min) {
     width: auto;
   }

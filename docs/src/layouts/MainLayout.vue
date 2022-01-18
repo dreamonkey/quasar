@@ -1,9 +1,9 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
     <!-- div for stars -->
-    <div id="small-stars"/>
-    <div id="medium-stars"/>
-    <div id="large-stars"/>
+    <div id="stars-sm"/>
+    <div id="stars-md"/>
+    <div id="stars-lg"/>
 
     <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader"/>
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
@@ -184,59 +184,37 @@ $adjust-header-viewport: 860px;
   @return unquote($value);
 }
 
-$shadows-small: generateRandomStars(900);
-$shadows-medium: generateRandomStars(600);
-$shadows-big: generateRandomStars(500);
+$shadows-sm: generateRandomStars(700);
+$shadows-md: generateRandomStars(600);
+$shadows-lg: generateRandomStars(500);
+$stars-spread-distance: 3500; // distance to spread stars from top
 
-#small-stars {
-  width: 1px;
-  height: 1px;
+@mixin createStar($size, $box-shadow, $animation-duration, $distanceFromTop) {
+  animation: animateStar $animation-duration linear infinite;
   background: transparent;
-  box-shadow: $shadows-small;
-  animation: animateStar 50s linear infinite;
-}
-#small-stars:after {
-  content: " ";
-  position: absolute;
-  top: 3500px;
-  width: 1px;
-  height: 1px;
-  background: transparent;
-  box-shadow: $shadows-small;
-}
+  box-shadow: $box-shadow;
+  height: #{$size}px;
+  width: #{$size}px;
 
-#medium-stars {
-  width: 2px;
-  height: 2px;
-  background: transparent;
-  box-shadow: $shadows-medium;
-  animation: animateStar 100s linear infinite;
-}
-#medium-stars:after {
-  content: " ";
-  position: absolute;
-  top: 3500px;
-  width: 2px;
-  height: 2px;
-  background: transparent;
-  box-shadow: $shadows-medium;
+  &:after {
+    background: transparent;
+    box-shadow: $box-shadow;
+    content: "";
+    height: #{$size}px;
+    position: absolute;
+    top: #{$distanceFromTop}px;
+    width: #{$size}px;
+  }
 }
 
-#large-stars {
-  width: 3px;
-  height: 3px;
-  background: transparent;
-  box-shadow: $shadows-big;
-  animation: animateStar 150s linear infinite;
+#stars-sm {
+  @include createStar(1, $shadows-sm, 70s, $stars-spread-distance);
 }
-#large-stars:after {
-  content: " ";
-  position: absolute;
-  top: 3500px;
-  width: 3px;
-  height: 3px;
-  background: transparent;
-  box-shadow: $shadows-big;
+#stars-md {
+  @include createStar(2, $shadows-md, 100s, $stars-spread-distance);
+}
+#stars-lg {
+  @include createStar(3, $shadows-lg, 150s, $stars-spread-distance);
 }
 
 @keyframes animateStar {
@@ -244,7 +222,7 @@ $shadows-big: generateRandomStars(500);
     transform: translateY(0px);
   }
   to {
-    transform: translateY(-3500px);
+    transform: translateY(-#{$stars-spread-distance}px);
   }
 }
 </style>

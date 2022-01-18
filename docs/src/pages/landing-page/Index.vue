@@ -110,7 +110,7 @@
             Working for a company or freelancer? You can contribute, ever a bit and getting something back.
           </div>
 
-          <div class="q-my-md lp-heading--quote primary-line-height  lp-my--medium">
+          <div class="q-my-md lp-heading--quote primary-line-height lp-my--medium">
             <q>So, um, we think we should discuss the bonus situation</q>
           </div>
 
