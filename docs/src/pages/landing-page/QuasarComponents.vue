@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-mt-xl lp-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
-    <div :class="$q.screen.gt.sm? 'justify-between':'justify-center'" class="row items-center q-mx-xl q-pa-lg q-pa-xs-md chips-container bg-lp-dark">
+    <div :class="$q.screen.gt.sm? 'justify-between q-pa-lg':'justify-center q-pa-md'" class="row no-wrap items-center q-mx-xl chips-container bg-lp-dark">
       <q-input
         v-model="search"
         :class="$q.screen.gt.sm? 'q-ml-xl':''"
@@ -9,19 +9,18 @@
         label="Search component"
         dense
         dark
-        class="col-sm-3 col-md-3 col-xs-12 relative-position search-field text-size-16"
+        class="relative-position search-field text-size-16"
       >
         <template #append>
           <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
           <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
         </template>
       </q-input>
-      <div class="col-md-8 col-sm-8 row justify-center" v-if="$q.screen.gt.sm">
+      <div class="row justify-start q-ml-xl" v-if="$q.screen.gt.sm">
         <q-chip
           v-for="({label, value}, chipIndex) in filterChips"
           :key="chipIndex"
           :label="label"
-          class="row q-ml-lg"
           :color="value === filterTag ? 'lp-accent' : 'lp-primary'"
           clickable
           text-color="white"
@@ -38,7 +37,7 @@
         <q-card
           v-for="({name, description, path}, i) in filteredComponents"
           :key="name + i"
-          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden"
+          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           @click="$router.push(componentPath({path, name}))"
         >
           <div class="thumbnail-container">
@@ -47,7 +46,7 @@
           <q-card-section class="text-lp-primary text-weight-bold">
             {{ name }}
           </q-card-section>
-          <q-card-section class="text-lp-dark">
+          <q-card-section class="text-lp-dark q-pt-none">
             {{ description }}
           </q-card-section>
         </q-card>
@@ -112,10 +111,9 @@ export default defineComponent({
 
 .components {
   display: grid;
-  letter-spacing: 3px;
   grid-template-columns: repeat(auto-fit, 300px);
   gap: 24px;
-  margin: 48px 84px 100px 84px;
+  margin: 48px 24px 100px 24px;
   justify-content: center;
 }
 
@@ -134,7 +132,7 @@ export default defineComponent({
 }
 
 .raise-on-hover {
-  transition: transform .3s;
+  transition: transform .3s, box-shadow 0.3s;
 
   &:hover {
    box-shadow: 0 24px 24px 0 rgba(0, 180, 255, 0.4);
@@ -144,6 +142,7 @@ export default defineComponent({
 
 .search-field {
   width: 80%;
+
   @media screen and (min-width: $breakpoint-md-min) {
     width: auto;
   }

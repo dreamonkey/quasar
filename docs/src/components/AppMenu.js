@@ -92,7 +92,7 @@ export default {
         return h(
           QExpansionItem,
           {
-            class: 'non-selectable',
+            class: 'non-selectable text-black-87',
             ref: vm => { if (vm) { childRefs[ path ] = vm } },
             key: `${menu.name}-${path}`,
             label: menu.name,
@@ -116,7 +116,7 @@ export default {
       const props = {
         ref: vm => { if (vm) { childRefs[ path ] = vm } },
         key: path,
-        class: 'app-menu-entry non-selectable',
+        class: 'non-selectable text-black-87',
         to: path,
         dense: level > 0,
         insetLevel: level > 1 ? 1.2 : level

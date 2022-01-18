@@ -42,9 +42,9 @@
         <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
       </div>
       <q-separator class="full-width" />
-      <div class="row text-lp-dark justify-center q-my-lg">
+      <div class="row text-lp-dark justify-center q-my-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
-        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm text-lp-primary">Dreamonkey Srl</a>
+        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm text-lp-accent text-weight-bold">Dreamonkey Srl</a>
       </div>
     </q-footer>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
@@ -145,7 +145,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$footer-columns-md-min: 6;
+$footer-columns-md-min: 5;
 $footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
 
@@ -189,7 +189,7 @@ $shadows-md: generateRandomStars(600);
 $shadows-lg: generateRandomStars(500);
 $stars-spread-distance: 3500; // distance to spread stars from top
 
-@mixin createStar($size, $box-shadow, $animation-duration, $distanceFromTop) {
+@mixin createStar($size, $box-shadow, $animation-duration) {
   animation: animateStar $animation-duration linear infinite;
   background: transparent;
   box-shadow: $box-shadow;
@@ -202,19 +202,18 @@ $stars-spread-distance: 3500; // distance to spread stars from top
     content: "";
     height: #{$size}px;
     position: absolute;
-    top: #{$distanceFromTop}px;
     width: #{$size}px;
   }
 }
 
 #stars-sm {
-  @include createStar(1, $shadows-sm, 70s, $stars-spread-distance);
+  @include createStar(1, $shadows-sm, 70s);
 }
 #stars-md {
-  @include createStar(2, $shadows-md, 100s, $stars-spread-distance);
+  @include createStar(2, $shadows-md, 100s);
 }
 #stars-lg {
-  @include createStar(3, $shadows-lg, 150s, $stars-spread-distance);
+  @include createStar(3, $shadows-lg, 150s);
 }
 
 @keyframes animateStar {
