@@ -1,5 +1,5 @@
 <template>
-  <q-card class="card padding-32 text-center column justify-between items-center shadow-bottom-large">
+  <q-card class="card py-32 q-px-lg text-center column justify-between items-center shadow-bottom-large">
     <q-card-section class="q-pa-none">
       <q-icon size="xl" :name="icon"/>
       <div class="text-uppercase lp-heading--medium q-py-md">
@@ -55,8 +55,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 $card-side: 400px;
 
-.padding-32 {
-  padding: 32px 24px;
+.py-32 {
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 .card {
