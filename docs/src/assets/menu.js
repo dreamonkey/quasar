@@ -1606,10 +1606,6 @@ const appExtensions = [
     opened: true,
     children: [
       {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
         name: 'Provide a UI component',
         path: 'provide-a-ui-component'
       },
@@ -1702,7 +1698,7 @@ module.exports = [
     children: gettingStarted
   },
   {
-    name: 'Contribution Guide',
+    name: 'How to contribute',
     icon: 'code',
     path: 'contribution-guide',
     children: contributionGuide
