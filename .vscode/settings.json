@@ -2,5 +2,8 @@
   "eslint.workingDirectories": [
     "./docs",
     "./ui"
-  ]
+  ],
+  "eslint.format.enable": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": true,
 }
