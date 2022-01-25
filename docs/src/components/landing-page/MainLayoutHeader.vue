@@ -243,7 +243,7 @@ import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
 
 // scroll position at which header should be swapped
-const SWAP_HEADER_OFFSET = 75
+const SWAP_HEADER_OFFSET = 60
 
 export default defineComponent({
   name: 'MainLayoutHeader',
