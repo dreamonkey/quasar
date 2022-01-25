@@ -8,12 +8,14 @@
         borderless
         label="Search component"
         dense
+        debounce="300"
         dark
+        hide-bottom-space
         class="relative-position search-field text-size-16"
       >
         <template #append>
           <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
-          <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
+          <q-icon v-else name="clear" color="lp-primary" class="cursor-pointer" @click.stop="search = ''" />
         </template>
       </q-input>
       <div class="row justify-start q-ml-xl" v-if="$q.screen.gt.sm">
