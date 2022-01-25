@@ -1,6 +1,6 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
-  main-layout-header(v-model="leftDrawerState")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
+  main-layout-header(v-model="leftDrawerState" :scroll-offset="scrollPositionFromTop")
 
   q-drawer.doc-left-drawer(
     side="left"
@@ -52,6 +52,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 <script>
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 
 import {
   mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
@@ -66,7 +67,6 @@ import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
-import useSearch from './doc-layout/use-search'
 
 export default {
   name: 'DocLayout',
@@ -82,6 +82,7 @@ export default {
   setup () {
     const $q = useQuasar()
     const $route = useRoute()
+    const scrollPositionFromTop = ref(0)
 
     const scope = {
       mdiMenu,
@@ -94,9 +95,13 @@ export default {
     useToc(scope, $route)
     useDrawers(scope, $q, $route)
     useScroll(scope, $route)
-    useSearch(scope, $q, $route)
 
-    return scope
+    function handleScroll (scrollDetails) {
+      scrollPositionFromTop.value = scrollDetails.position
+      scope.onScroll(scrollDetails)
+    }
+
+    return { ...scope, scrollPositionFromTop, handleScroll }
   }
 }
 </script>

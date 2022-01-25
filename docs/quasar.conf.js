@@ -117,7 +117,7 @@ module.exports = function (ctx) {
       ]
     },
 
-    animations: [ 'fadeIn', 'fadeOut' ],
+    animations: [ 'fadeIn', 'fadeOut', 'slideInDown', 'slideOutUp' ],
 
     ssr: {
       pwa: ctx.prod,
