@@ -1,6 +1,6 @@
 <template lang="pug">
 q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
-  main-layout-header(v-model="leftDrawerState" :scroll-offset="scrollPositionFromTop")
+  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData")
 
   q-drawer.doc-left-drawer(
     side="left"
@@ -45,7 +45,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
   q-page-container
     router-view
 
-  q-page-scroller(scroll-offset="150" :offset="[18, 18]")
+  q-page-scroller(:scroll-offset="150" :offset="[18, 18]")
     q-btn(round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md")
 </template>
 
@@ -82,7 +82,8 @@ export default {
   setup () {
     const $q = useQuasar()
     const $route = useRoute()
-    const scrollPositionFromTop = ref(0)
+    const headerScrollData = ref(null)
+    const HEADER_SCROLL_OFFSET = 100 // number of pixels of scroll before firing a possible header scroll
 
     const scope = {
       mdiMenu,
@@ -97,11 +98,17 @@ export default {
     useScroll(scope, $route)
 
     function handleScroll (scrollDetails) {
-      scrollPositionFromTop.value = scrollDetails.position
+      if (!headerScrollData.value) {
+        headerScrollData.value = scrollDetails
+      }
+      else if (Math.abs(scrollDetails.position - headerScrollData.value.position) > HEADER_SCROLL_OFFSET) {
+        // only initiate a possible scroll direction change every HEADER_SCROLL_OFFSETpx scroll
+        headerScrollData.value = scrollDetails
+      }
       scope.onScroll(scrollDetails)
     }
 
-    return { ...scope, scrollPositionFromTop, handleScroll }
+    return { ...scope, headerScrollData, handleScroll }
   }
 }
 </script>

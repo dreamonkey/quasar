@@ -27,8 +27,12 @@
         @focus="onSearchFocus"
       >
         <template #append>
+          <div
+            v-if="!searchHasFocus"
+            class="forward-slash-key flex flex-center"
+          >/</div>
           <q-icon
-            v-if="!searchTerms"
+            v-else-if="!searchTerms"
             name="search"
             size="sm"
             color="lp-primary"
@@ -95,7 +99,7 @@ export default {
       default: true
     }
   },
-  setup (props) {
+  setup (props, { emit }) {
     const $q = useQuasar()
     const $route = useRoute()
 
@@ -109,6 +113,10 @@ export default {
       }
     })
 
+    watch(() => scope.focusByKbd.value, () => {
+      emit('focus-by-kbd', scope.focusByKbd.value)
+    })
+
     return scope
   }
 }
@@ -119,6 +127,13 @@ $search-form-width: 360px;
 
 .search-form {
   width: $search-form-width;
+
+  .forward-slash-key {
+    font-size: .6em !important;
+    min-width: 1.6em;
+    min-height: 1.5em;
+    font-weight: bold;
+  }
 }
 
 .search-result-field {

@@ -25,8 +25,10 @@
       <q-card
         v-for="({path, label, icon}, cardIndex) in quickNavCards"
         :key="cardIndex"
-        class="card column justify-end items-center"
-        flat>
+        class="raise-on-hover card column justify-end items-center cursor-pointer"
+        flat
+        @click="$router.push(`/${path}`)"
+      >
         <q-card-section class="q-pa-none q-mb-lg">
           <q-icon
             :name="icon"
@@ -147,6 +149,16 @@ export default defineComponent({
 
   &__icon {
     font-size: 100px;
+  }
+}
+
+.raise-on-hover {
+  transition: transform .3s, box-shadow 0.3s;
+
+  &:hover {
+    // !important needed when used with flat cards
+    box-shadow: 0 8px 8px 0 rgba($lp-dark, .2) !important;
+    transform: scale(1.03)
   }
 }
 </style>

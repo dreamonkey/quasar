@@ -1,16 +1,17 @@
 <template>
   <transition
     enter-active-class="animated slideInDown"
-    leave-active-class="animated slideOutUp"
+    leave-active-class="animated fadeOut"
   >
     <q-header
-      v-if="scrollOffset < SWAP_HEADER_OFFSET"
+      v-if="primaryHeaderIsVisible"
       ref="layoutHeader"
       :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
-      class="font-monserrat lp-header">
+      class="font-monserrat lp-header"
+    >
       <q-toolbar
-        :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-300': $q.screen.gt.md }"
-        class="primary-toolbar q-pl-lg q-pr-md justify-between items-stretch text-size-16"
+        :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-300': $q.screen.gt.md, 'items-stretch': $q.screen.gt.xs }"
+        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16"
       >
         <q-btn
           v-if="$q.screen.xs"
@@ -20,10 +21,11 @@
           icon="menu"
           round
           @click="$emit('update:modelValue', !modelValue)"/>
-        <div
+        <a
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
-          @click="$router.push({name: 'home'})">
+          href="/"
+        >
           <img
             v-if="$q.screen.sm"
             :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
@@ -41,7 +43,7 @@
             :color="dark? 'black-12':'lp-primary'"
             class="q-ml-lg"
             vertical/>
-        </div>
+        </a>
 
         <div class="row items-center">
           <div
@@ -60,7 +62,10 @@
             <search-quasar-form
               :dark="dark"
               :is-open-by-default="$q.screen.gt.md"
-              :show-search-input-field="isSearchFieldActive"/>
+              :show-search-input-field="isSearchFieldActive"
+              :class="$q.screen.gt.md? 'q-ml-lg':''"
+              @focus-by-kbd="isSearchFieldActive = true"
+            />
           </div>
         </div>
 
@@ -154,8 +159,13 @@
       :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
       class="font-monserrat lp-header">
       <q-toolbar
-        :class="{ 'add-bottom-glow': !dark, 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-225': $q.screen.gt.md }"
-        class="secondary-header q-pl-lg q-pr-md justify-between items-stretch"
+        :class="{
+          'add-bottom-glow': !dark,
+          'shadow-bottom-small': $q.screen.xs,
+          'letter-spacing-25': $q.screen.lt.lg,
+          'letter-spacing-225': $q.screen.gt.md,
+          'items-stretch': $q.screen.gt.xs }"
+        class="secondary-header q-pl-lg q-pr-md justify-between"
       >
         <q-btn
           v-if="$q.screen.xs"
@@ -165,10 +175,11 @@
           icon="menu"
           round
           @click="$emit('update:modelValue', !modelValue)"/>
-        <div
+        <a
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
-          @click="$router.push({name: 'home'})">
+          href="/"
+        >
           <img
             v-if="$q.screen.sm"
             :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
@@ -207,7 +218,7 @@
             </template>
             <nav-dropdown-menu :nav-items="versionHistory"/>
           </q-btn-dropdown>
-        </div>
+        </a>
         <div class="row items-center text-size-12">
           <div
             v-if="$q.screen.gt.xs && showNavItems"
@@ -224,7 +235,10 @@
             <search-quasar-form
               :dark="dark"
               :is-open-by-default="$q.screen.gt.md"
-              :show-search-input-field="isSearchFieldActive"/>
+              :show-search-input-field="isSearchFieldActive"
+              :class="$q.screen.gt.md? 'q-ml-md':''"
+              @focus-by-kbd="isSearchFieldActive = true"
+            />
           </div>
         </div>
       </q-toolbar>
@@ -233,7 +247,7 @@
   </transition>
 </template>
 <script>
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import { Screen, useQuasar } from 'quasar'
@@ -242,8 +256,7 @@ import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
 
-// scroll position at which header should be swapped
-const SWAP_HEADER_OFFSET = 60
+const SWAP_HEADER_OFFSET = 100
 
 export default defineComponent({
   name: 'MainLayoutHeader',
@@ -256,9 +269,9 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    scrollOffset: {
-      type: Number,
-      default: 0
+    scrollData: {
+      type: Object,
+      default: () => ({})
     }
   },
   components: {
@@ -266,11 +279,14 @@ export default defineComponent({
     SearchQuasarForm,
     NavDropdownMenu
   },
-  setup () {
+  setup (props) {
     const $q = useQuasar()
     const isSearchFieldActive = ref(false)
     const showNavItems = ref(true)
-    const searchForm = ref()
+    const searchForm = ref(null)
+    const scrollOffSetInitPosition = ref(props.scrollData?.position)
+    const scrollDirection = ref(props.scrollData?.direction)
+    const primaryHeaderIsVisible = ref(true)
 
     const versionHistory = [
       {
@@ -336,8 +352,8 @@ export default defineComponent({
 
     onMounted(() => {
       document.body.addEventListener('click', (e) => {
-        // if click is perform on any region out of the search form area then
-        // close the search or open leave it open otherwise
+        // if the element clicked is part of the search form (i.e: the search input field, the search result scroll area or the search icon)
+        // then leave the search form open, otherwise, close it
         if (searchForm.value && searchForm.value.contains(e.target)) {
           isSearchFieldActive.value = true
           showNavItems.value = !Screen.lt.lg
@@ -348,6 +364,17 @@ export default defineComponent({
           showNavItems.value = true
         }
       })
+    })
+
+    watch(() => props.scrollData, (currentScrollData) => {
+      // scroll direction has changed
+      if (currentScrollData.direction !== scrollDirection.value) {
+        scrollOffSetInitPosition.value = currentScrollData.position
+        scrollDirection.value = currentScrollData.direction
+      }
+      if (Math.abs(currentScrollData.position - scrollOffSetInitPosition.value) >= SWAP_HEADER_OFFSET) {
+        primaryHeaderIsVisible.value = currentScrollData.direction !== 'down'
+      }
     })
 
     return {
@@ -362,6 +389,7 @@ export default defineComponent({
       moreNavItems,
       searchForm,
       secondaryHeaderNavItems,
+      primaryHeaderIsVisible,
       SWAP_HEADER_OFFSET
     }
   }
@@ -382,7 +410,10 @@ $adjust-header-viewport: 860px;
 }
 
 .primary-toolbar {
-  height: 92px;
+  height: 64px;
+  @media screen and (min-width: $breakpoint-xs-max) {
+    height: 92px;
+  }
 }
 
 .secondary-toolbar {

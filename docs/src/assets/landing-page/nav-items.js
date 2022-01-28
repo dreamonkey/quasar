@@ -30,6 +30,10 @@ const gettingStartedNavItem = {
         {
           label: 'Vue CLI Plugin',
           path: 'start/vue-cli-plugin'
+        },
+        {
+          label: 'Vite Plugin',
+          path: 'start/vite-plugin'
         }
       ]
     },

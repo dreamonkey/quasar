@@ -148,8 +148,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 /*
- [1], [2]: needed to create a white card behind the twitter card, this card gets shown when moving to previous carousel
- (carouse that had already being displayed) and the tweet content takes a few seconds to load
+ [1]: needed to create a white card behind the twitter card, this card gets shown when moving to a previous carousel
+ (carouse that had already being displayed) Necessary since the tweet content takes a few seconds to load
  */
 
 .carousel-grid {
@@ -168,7 +168,7 @@ export default defineComponent({
 }
 :deep(.twitter-tweet) {
   background-color: $white; // [1]
-  border-radius: 20px; // [2]
+  border-radius: 20px; // [1]
   box-shadow: $lp-box-shadow--large;
 }
 </style>
