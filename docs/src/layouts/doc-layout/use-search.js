@@ -1,5 +1,4 @@
 import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
-import { useRouter } from 'vue-router'
 
 import { apiTypeToComponentMap } from 'components/AppSearchResults'
 import ResultEmpty from 'components/search-results/ResultEmpty'
@@ -38,8 +37,7 @@ export default function useSearch (scope, $q, $route) {
   const searchHasFocus = ref(false)
   const searchActiveId = ref(null)
   const searchInputRef = ref(null)
-
-  const $router = useRouter()
+  const focusByKbd = ref(false)
 
   function parseResults (hits) {
     if (hits.length === 0) {
@@ -67,6 +65,7 @@ export default function useSearch (scope, $q, $route) {
 
       const entry = {
         component: component.name,
+        to: hit.url,
         ...component.extractProps(hit),
 
         onMouseenter () {
@@ -75,7 +74,6 @@ export default function useSearch (scope, $q, $route) {
           }
         },
         onClick () {
-          $router.push(hit.url).catch(() => {})
           searchTerms.value = ''
           searchInputRef.value.blur()
         }
@@ -105,12 +103,10 @@ export default function useSearch (scope, $q, $route) {
     ) {
       evt.preventDefault()
 
-      if (scope.leftDrawerState.value !== true) {
-        scope.leftDrawerState.value = true
-      }
-
       setTimeout(() => {
-        searchInputRef.value.focus()
+        // focus is caused by /
+        focusByKbd.value = !focusByKbd.value
+        searchInputRef.value && searchInputRef.value.focus()
       })
     }
   }
@@ -225,6 +221,7 @@ export default function useSearch (scope, $q, $route) {
     searchHasFocus,
     searchActiveId,
     searchInputRef,
+    focusByKbd,
     resetSearch,
     onSearchKeydown,
     onSearchFocus,
