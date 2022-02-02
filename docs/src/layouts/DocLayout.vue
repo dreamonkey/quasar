@@ -82,7 +82,7 @@ export default {
   setup () {
     const $q = useQuasar()
     const $route = useRoute()
-    const headerScrollData = ref(null)
+    const headerScrollData = ref()
     const HEADER_SCROLL_OFFSET = 100 // number of pixels of scroll before firing a possible header scroll
 
     const scope = {

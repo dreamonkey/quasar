@@ -64,7 +64,7 @@
               :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
-              @focus-by-kbd="isSearchFieldActive = true"
+              @focus-by-keyboard="isSearchFieldActive = true"
             />
           </div>
         </div>
@@ -283,7 +283,7 @@ export default defineComponent({
     const $q = useQuasar()
     const isSearchFieldActive = ref(false)
     const showNavItems = ref(true)
-    const searchForm = ref(null)
+    const searchForm = ref()
     const scrollOffSetInitPosition = ref(props.scrollData?.position)
     const scrollDirection = ref(props.scrollData?.direction)
     const primaryHeaderIsVisible = ref(true)

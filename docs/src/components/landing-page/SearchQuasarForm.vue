@@ -50,10 +50,10 @@
     </transition>
     <div class="search-result-field rounded-borders letter-spacing-25">
       <q-scroll-area
-        :class="searchResults !== null? 'set-scrollarea-height':'scroll-area-opacity-0'"
+        :class="searchResults? 'set-scrollarea-height':'scroll-area-opacity-0'"
         class="bg-white text-dark rounded-borders search-result-container shadow-bottom-medium"
       >
-        <template v-if="searchResults !== null">
+        <template v-if="searchResults">
           <component
             v-if="searchResults.masterComponent !== void 0"
             :is="searchResults.masterComponent"/>
@@ -115,7 +115,7 @@ export default {
     })
 
     watch(() => scope.focusByKeyboard.value, () => {
-      emit('focus-by-kbd', scope.focusByKeyboard.value)
+      emit('focus-by-keyboard', scope.focusByKeyboard.value)
     })
 
     return scope

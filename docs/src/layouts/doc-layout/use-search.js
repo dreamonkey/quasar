@@ -33,10 +33,10 @@ function fetchQuery (val, onResult, onError) {
 
 export default function useSearch (scope, $q, $route) {
   const searchTerms = ref('')
-  const searchResults = ref(null)
+  const searchResults = ref()
   const searchHasFocus = ref(false)
-  const searchActiveId = ref(null)
-  const searchInputRef = ref(null)
+  const searchActiveId = ref()
+  const searchInputRef = ref()
   const focusByKeyboard = ref(false)
 
   function parseResults (hits) {
@@ -141,8 +141,8 @@ export default function useSearch (scope, $q, $route) {
         case 38: // up
         case 40: // down
           evt.preventDefault()
-          if (searchResults.value !== null) {
-            if (searchActiveId.value === null) {
+          if (searchResults.value) {
+            if (searchActiveId.value) {
               searchActiveId.value = searchResults.value.ids[ 0 ]
             }
             else {
@@ -163,7 +163,7 @@ export default function useSearch (scope, $q, $route) {
         case 13: // enter
           evt.preventDefault()
           evt.stopPropagation()
-          if (searchResults.value !== null && searchActiveId.value !== null) {
+          if (searchResults.value && searchActiveId.value) {
             document.getElementById(searchActiveId.value).click(evt)
           }
           break
