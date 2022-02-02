@@ -21,10 +21,10 @@
           icon="menu"
           round
           @click="$emit('update:modelValue', !modelValue)"/>
-        <a
+        <router-link
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
-          href="/"
+          :to="{ name: 'home' }"
         >
           <img
             v-if="$q.screen.sm"
@@ -43,7 +43,7 @@
             :color="dark? 'black-12':'lp-primary'"
             class="q-ml-lg"
             vertical/>
-        </a>
+        </router-link>
 
         <div class="row items-center">
           <div

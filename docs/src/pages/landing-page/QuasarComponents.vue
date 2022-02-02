@@ -42,8 +42,10 @@
           class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           @click="$router.push(componentPath({path, name}))"
         >
-          <div class="thumbnail-container">
-            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
+          <!-- bg-lp-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
+          <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
+          <div class="thumbnail-container bg-lp-dark">
+            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" class="bg-lp-dark" />
           </div>
           <q-card-section class="text-lp-primary text-weight-bold">
             {{ name }}

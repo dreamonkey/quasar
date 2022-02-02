@@ -1,9 +1,12 @@
 <template>
   <q-page class="text-white q-mx-lg">
-    <div class="column items-center lp-mt--large">
+    <div class="column items-center intro-section letter-spacing-300">
       <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
-      <h1 class="lp-my--medium text-center text-white-54 text-size-20 letter-spacing-375 primary-line-height">
+      <h1
+        :class="$q.screen.gt.md? 'letter-spacing-375':'letter-spacing-300'"
+        class="lp-my--medium text-center text-white-54 text-size-20 primary-line-height"
+      >
         The open source multi-platform development framework <br v-if="$q.screen.gt.sm"> based on Vue.js
         with an enterprise vocation.
       </h1>
@@ -19,23 +22,19 @@
         flat
         round
         icon="arrow_downward"
-        class="text-white q-mt-lg"
+        class="text-white q-mt-md"
         size="lg"
         padding="none"
         @click="scrollSectionIntoView('why-quasar-section')"
       />
-    </div>
 
-    <div class="sponsors column items-center letter-spacing-300">
-      <div
-        class="text-weight-bold text-lp-primary text-size-16 text-capitalize"
-      >Our Platinum sponsors</div>
+      <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">Our Platinum sponsors</div>
       <q-img
         v-for="(src, index) in sponsorLogos.platinum"
         :key="index"
         :src="`sponsor-logos/${src}`"
         width="200px"
-        class="lp-my--medium"
+        class="q-my-md"
       />
       <q-btn
         flat
@@ -279,6 +278,19 @@ q {
   @media screen and (min-width: $breakpoint-md-max) {
     height: 18vh;
     margin-top: 400px;
+  }
+}
+
+.intro-section {
+  margin-top: 60px;
+  margin-bottom: 208px;
+
+  @media screen and (min-height: 980px) {
+    margin-top: 100px;
+
+    &__sponsors-heading {
+      margin-top: 80px !important;
+    }
   }
 }
 </style>

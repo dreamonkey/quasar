@@ -37,7 +37,7 @@ export default function useSearch (scope, $q, $route) {
   const searchHasFocus = ref(false)
   const searchActiveId = ref(null)
   const searchInputRef = ref(null)
-  const focusByKbd = ref(false)
+  const focusByKeyboard = ref(false)
 
   function parseResults (hits) {
     if (hits.length === 0) {
@@ -105,7 +105,7 @@ export default function useSearch (scope, $q, $route) {
 
       setTimeout(() => {
         // focus is caused by /
-        focusByKbd.value = !focusByKbd.value
+        focusByKeyboard.value = !focusByKeyboard.value
         searchInputRef.value && searchInputRef.value.focus()
       })
     }
@@ -221,7 +221,7 @@ export default function useSearch (scope, $q, $route) {
     searchHasFocus,
     searchActiveId,
     searchInputRef,
-    focusByKbd,
+    focusByKeyboard,
     resetSearch,
     onSearchKeydown,
     onSearchFocus,

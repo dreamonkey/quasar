@@ -27,10 +27,11 @@
         @focus="onSearchFocus"
       >
         <template #append>
-          <div
+          <!-- justify-end: a tweak to center / in kbd, since the size of / depends on the font, flex flex-center does not quite place it at the center-->
+          <kbd
             v-if="!searchHasFocus"
-            class="forward-slash-key flex flex-center"
-          >/</div>
+            class="forward-slash-key flex justify-end items-center text-weight-bold no-pointer-events"
+          >/</kbd>
           <q-icon
             v-else-if="!searchTerms"
             name="search"
@@ -113,8 +114,8 @@ export default {
       }
     })
 
-    watch(() => scope.focusByKbd.value, () => {
-      emit('focus-by-kbd', scope.focusByKbd.value)
+    watch(() => scope.focusByKeyboard.value, () => {
+      emit('focus-by-kbd', scope.focusByKeyboard.value)
     })
 
     return scope
@@ -132,7 +133,6 @@ $search-form-width: 360px;
     font-size: .6em !important;
     min-width: 1.6em;
     min-height: 1.5em;
-    font-weight: bold;
   }
 }
 
