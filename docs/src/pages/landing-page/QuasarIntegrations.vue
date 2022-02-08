@@ -10,8 +10,8 @@
     </p>
     <div class="platform-icons text-center q-gutter-lg">
       <q-icon
-        v-for="(iconName, index) in platformIntegrationIcons"
-        :key="`platform-${index}`"
+        v-for="(iconName, platformIndex) in platformIntegrationIcons"
+        :key="`platform-${platformIndex}`"
         color="lp-deep-dark"
         :name="iconName"
       />
@@ -58,7 +58,8 @@ import {
   mdiLinux,
   mdiMicrosoftEdge,
   mdiMicrosoftWindows,
-  mdiServer
+  mdiServer,
+  mdiApplicationOutline
 } from '@quasar/extras/mdi-v6'
 
 const platformIntegrationIcons = [
@@ -82,7 +83,7 @@ const integrationOptions = [
   {
     label: 'SPA',
     name: 'Single Page Application',
-    icon: 'extension', // TODO: find the right icon here - application-outline giving not working
+    icon: mdiApplicationOutline,
     path: 'quasar-cli/developing-spa/introduction'
   },
   {
@@ -122,8 +123,7 @@ export default defineComponent({
 
   setup () {
     useMeta({
-      title: 'Quasar Integrations',
-      titleTemplate: ''
+      title: 'Quasar Integrations'
     })
 
     const $store = useDocStore()
