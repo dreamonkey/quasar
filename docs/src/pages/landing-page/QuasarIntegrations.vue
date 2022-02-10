@@ -126,7 +126,7 @@ export default defineComponent({
 
   setup () {
     useMeta({
-      title: 'Quasar Integrations'
+      title: 'Integrations'
     })
 
     const $store = useDocStore()

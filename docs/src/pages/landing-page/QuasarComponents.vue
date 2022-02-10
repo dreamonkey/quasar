@@ -84,7 +84,7 @@ export default defineComponent({
   name: 'Components',
   setup () {
     useMeta({
-      title: 'Quasar Components'
+      title: 'Components'
     })
     const search = ref('')
     const filterTag = ref()
