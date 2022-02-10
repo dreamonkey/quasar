@@ -62,8 +62,7 @@ export default defineComponent({
 
   setup () {
     useMeta({
-      title: 'Quasar Framework',
-      titleTemplate: ''
+      title: 'Documentation'
     })
 
     const $store = useDocStore()
