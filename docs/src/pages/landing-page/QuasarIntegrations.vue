@@ -1,14 +1,14 @@
 <template>
-  <q-page class="column justify-center items-center bg-lp-light-grey q-px-xl font-monserrat">
+  <q-page class="column justify-center items-center bg-lp-light-grey q-px-xl text-center font-monserrat">
     <h1 class="lp-heading lp-heading--large normal-line-height">All platforms in one go</h1>
     <p class="letter-spacing-300 text-size-16 text-weight-bold text-center text-lp-deep-dark">
       Focus only on your mission and forget about the spaceship.
     </p>
-    <p class="letter-spacing-40 text-size-16 text-lp-dark text-center q-mb-xl">
+    <p class="letter-spacing-40 text-size-16 text-lp-dark q-mb-xl">
       Combine the power of Quasar UI with Quasar CLI. One source code for all platforms<br v-if="$q.screen.gt.sm">
       simultaneously with all the latest and greatest best practices out of the box.
     </p>
-    <div class="platform-icons text-center q-gutter-lg">
+    <div class="platform-icons q-gutter-lg">
       <q-icon
         v-for="(iconName, platformIndex) in platformIntegrationIcons"
         :key="`platform-${platformIndex}`"
@@ -37,7 +37,7 @@
           {{ label }}
         </q-card-section>
 
-        <q-card-section class="text-white text-size-14 q-py-none q-px-xs letter-spacing-263 text-center primary-line-height">
+        <q-card-section class="text-white text-size-14 q-py-none q-px-xs letter-spacing-263 primary-line-height">
           {{ name }}
         </q-card-section>
       </q-card>
@@ -59,7 +59,10 @@ import {
   mdiMicrosoftEdge,
   mdiMicrosoftWindows,
   mdiServer,
-  mdiApplicationOutline
+  mdiApplicationOutline,
+  mdiWidgets,
+  mdiDevices,
+  mdiPuzzle
 } from '@quasar/extras/mdi-v6'
 
 const platformIntegrationIcons = [
@@ -77,7 +80,7 @@ const integrationOptions = [
   {
     label: 'UI',
     name: 'User Interface Components',
-    icon: 'widgets',
+    icon: mdiWidgets,
     path: 'components'
   },
   {
@@ -95,7 +98,7 @@ const integrationOptions = [
   {
     label: 'BEX',
     name: 'Browser Extension',
-    icon: 'extension',
+    icon: mdiPuzzle,
     path: 'quasar-cli/developing-browser-extensions/introduction'
   },
   {
@@ -113,7 +116,7 @@ const integrationOptions = [
   {
     label: 'MPDA',
     name: 'Multi Platform Desktop App',
-    icon: 'devices',
+    icon: mdiDevices,
     path: 'quasar-cli/developing-electron-apps/introduction'
   }
 ]
