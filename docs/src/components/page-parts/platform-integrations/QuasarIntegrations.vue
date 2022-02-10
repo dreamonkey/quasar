@@ -1,5 +1,5 @@
 <template>
-  <q-page class="column justify-center items-center bg-lp-light-grey q-px-xl text-center font-monserrat">
+  <q-page class="column justify-center items-center text-center q-px-xl font-monserrat">
     <h1 class="lp-heading lp-heading--large normal-line-height">All platforms in one go</h1>
     <p class="letter-spacing-300 text-size-16 text-weight-bold text-center text-lp-deep-dark">
       Focus only on your mission and forget about the spaceship.
