@@ -1321,7 +1321,7 @@ module.exports = [
   },
   {
     name: 'Quasar Plugins',
-    icon: 'extension',
+    icon: 'img:homepage-icons/plug-not-connected.svg',
     path: 'quasar-plugins',
     children: plugins
   },
@@ -1351,7 +1351,7 @@ module.exports = [
   },
   {
     name: 'App Extensions',
-    icon: 'note_add',
+    icon: 'extension',
     path: 'app-extensions',
     children: appExtensions
   },

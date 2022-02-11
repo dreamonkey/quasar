@@ -51,7 +51,7 @@
     <div class="search-result-field rounded-borders letter-spacing-25">
       <q-scroll-area
         :class="searchResults? 'set-scrollarea-height':'scroll-area-opacity-0'"
-        class="bg-white text-dark rounded-borders search-result-container shadow-bottom-medium"
+        class="bg-white text-dark rounded-borders search-result-container shadow-bottom-medium text-size-16"
       >
         <template v-if="searchResults">
           <component
@@ -81,7 +81,7 @@ import AppSearchResults from 'components/AppSearchResults.vue'
 import useSearch from 'layouts/doc-layout/use-search'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
-import { watch } from 'vue'
+import { watch, watchEffect } from 'vue'
 
 export default {
   name: 'search-quasar-form',
@@ -117,6 +117,8 @@ export default {
     watch(() => scope.focusByKeyboard.value, () => {
       emit('focus-by-keyboard', scope.focusByKeyboard.value)
     })
+
+    watchEffect(() => emit('search-result-change', scope.searchResults.value))
 
     return scope
   }

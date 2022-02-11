@@ -1,5 +1,5 @@
 <template>
-  <q-page class="landing column justify-center bg-lp-light-grey q-px-xl font-monserrat">
+  <q-page class="landing column justify-center q-px-xl font-monserrat">
     <h1 class="lp-heading lp-heading--large landing__title normal-line-height">Welcome to quasar docs</h1>
     <p
       class="letter-spacing-300 text-size-16 text-weight-bold text-center text-lp-deep-dark"
@@ -19,7 +19,7 @@
       technical resources.
     </p>
     <h2
-      class="lp-heading lp-heading--medium q-mb-lg cards-title normal-line-height"
+      class="lp-heading lp-heading--medium q-mb-lg normal-line-height"
     >Have a look at Our most used pages</h2>
     <div class="cards-grid lp-mb--large">
       <q-card
@@ -62,8 +62,7 @@ export default defineComponent({
 
   setup () {
     useMeta({
-      title: 'Quasar Framework',
-      titleTemplate: ''
+      title: 'Documentation'
     })
 
     const $store = useDocStore()
