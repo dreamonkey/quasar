@@ -1321,7 +1321,7 @@ module.exports = [
   },
   {
     name: 'Quasar Plugins',
-    icon: 'img:homepage-icons/plug-not-connected.svg', // TODO: optimize and ensure it uses the right color
+    icon: 'img:homepage-icons/plug-not-connected.svg',
     path: 'quasar-plugins',
     children: plugins
   },
