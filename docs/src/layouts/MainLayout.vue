@@ -42,7 +42,7 @@
         <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
       </div>
       <q-separator class="full-width" />
-      <div class="row text-lp-dark justify-center q-my-lg letter-spacing-100">
+      <div class="text-lp-dark text-center q-ma-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
         <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm text-lp-accent text-weight-bold">Dreamonkey Srl</a>
       </div>
@@ -146,7 +146,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $footer-columns-md-min: 5;
-$footer-columns-sm-min: 4;
+$footer-columns-sm-min: 3;
+$footer-columns-after-xs: 2;
 
 .lp-footer {
   display: grid;
@@ -155,10 +156,22 @@ $footer-columns-sm-min: 4;
   grid-row-gap: 100px;
 
   @media screen and (min-width: $breakpoint-sm-min) {
+    margin-left: 30px;
+    margin-right: 30px;
+    grid-column-gap: 36px;
     grid-template-columns: repeat($footer-columns-sm-min, 1fr);
   }
+
   @media screen and (min-width: $breakpoint-md-min) {
+    margin-left: 100px;
+    margin-right: 100px;
     grid-template-columns: repeat($footer-columns-md-min, 1fr);
+  }
+  // handle edge case, on devices just after $breakpoint-xs-max and into sm
+  @media screen and (min-width: $breakpoint-xs-max) and (max-width: 807px) {
+    margin-left: 64px;
+    margin-right: 64px;
+    grid-template-columns: repeat($footer-columns-after-xs, 1fr);
   }
 }
 

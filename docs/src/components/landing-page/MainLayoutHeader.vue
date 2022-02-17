@@ -4,7 +4,7 @@
     leave-active-class="animated fadeOut"
   >
     <q-header
-      v-if="primaryHeaderIsVisible"
+      v-if="$q.screen.xs || primaryHeaderIsVisible"
       ref="layoutHeader"
       :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
       class="font-monserrat lp-header"
@@ -61,7 +61,7 @@
           <div ref="searchForm">
             <search-quasar-form
               :dark="dark"
-              :is-open-by-default="$q.screen.gt.md"
+              :is-open-by-default="$q.screen.gt.lg"
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
               @focus-by-keyboard="isSearchFieldActive = true"
@@ -149,7 +149,11 @@
             size="md"
             target="__blank"
             type="a"
-          />
+          >
+            <q-tooltip class="letter-spacing-263">
+              {{ socialLink.name }}
+            </q-tooltip>
+          </q-btn>
         </q-toolbar>
         <q-separator :color="dark? 'black-12':'lp-primary'"/>
       </template>
@@ -176,23 +180,24 @@
           icon="menu"
           round
           @click="$emit('update:modelValue', !modelValue)"/>
-        <a
+        <div
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
-          href="/"
         >
-          <img
-            v-if="$q.screen.sm"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
-            alt="Quasar Logo"
-            height="48"
-            width="48">
-          <img
-            v-else
-            :height="$q.screen.xs? '24':'48'"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
-            alt="Quasar Logo"
-            width="236">
+          <router-link :to="{ name: 'home' }">
+            <img
+              v-if="$q.screen.sm"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
+              alt="Quasar Logo"
+              height="48"
+              width="48">
+            <img
+              v-else
+              :height="$q.screen.xs? '24':'48'"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
+              alt="Quasar Logo"
+              width="236">
+          </router-link>
           <q-separator
             v-if="$q.screen.gt.xs"
             :color="dark? 'black-12':'lp-primary'"
@@ -219,7 +224,7 @@
             </template>
             <nav-dropdown-menu :nav-items="versionHistory"/>
           </q-btn-dropdown>
-        </a>
+        </div>
         <div class="row items-center text-size-12">
           <div
             v-if="$q.screen.gt.xs && showNavItems"
@@ -257,8 +262,10 @@ import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
+import { useRoute } from 'vue-router'
+import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 
-const SWAP_HEADER_OFFSET = 100
+const SWAP_HEADER_OFFSET_UP = 200
 
 export default defineComponent({
   name: 'MainLayoutHeader',
@@ -290,6 +297,7 @@ export default defineComponent({
     const scrollDirection = ref(props.scrollData?.direction)
     const primaryHeaderIsVisible = ref(true)
     const searchResultIsDisplayed = ref(false)
+    const $route = useRoute()
 
     const versionHistory = [
       {
@@ -385,9 +393,19 @@ export default defineComponent({
         scrollOffSetInitPosition.value = currentScrollData.position
         scrollDirection.value = currentScrollData.direction
       }
-      if (Math.abs(currentScrollData.position - scrollOffSetInitPosition.value) >= SWAP_HEADER_OFFSET) {
+      const scrollDirectionOffset = currentScrollData.direction === 'down' ? SWAP_HEADER_OFFSET_DOWN : SWAP_HEADER_OFFSET_UP
+      if (Math.abs(currentScrollData.position - scrollOffSetInitPosition.value) >= scrollDirectionOffset) {
         primaryHeaderIsVisible.value = currentScrollData.direction !== 'down'
       }
+      // when at the top always display the primary header
+      if (props.scrollData.position <= SWAP_HEADER_OFFSET_DOWN) {
+        primaryHeaderIsVisible.value = true
+      }
+    })
+
+    watch(() => $route.path, () => {
+      // when navigating to a new doc page, always force the primary header to be displayed
+      primaryHeaderIsVisible.value = true
     })
 
     return {
@@ -409,8 +427,6 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-$footer-columns-md-min: 6;
-$footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
 
 // remove second child, (components nav)

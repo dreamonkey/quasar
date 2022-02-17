@@ -13,7 +13,7 @@
 
       <q-btn
         color="lp-accent"
-        label="Take a look across the stars"
+        label="Are you ready to lift off?"
         class="call-to-action-btn shadow-bottom-small"
         @click="scrollSectionIntoView('why-quasar-section')"
       />
@@ -29,12 +29,11 @@
       />
 
       <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">Our Platinum sponsors</div>
-      <q-img
-        v-for="(src, index) in sponsorLogos.platinum"
-        :key="index"
-        :src="`sponsor-logos/${src}`"
-        width="200px"
-        class="q-my-md"
+      <sponsor-link
+        v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
+        :key="platinumSponsorIndex"
+        :href="href"
+        :src="src"
       />
       <q-btn
         flat
@@ -120,18 +119,18 @@
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
       <div class="text-size-16 text-weight-bold">
         <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
-        <q-img
-          v-for="(src, platinumSponsorIndex) in sponsorLogos.platinum"
+        <sponsor-link
+          v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
           :key="platinumSponsorIndex"
-          :src="`sponsor-logos/${src}`"
-          width="200px"
+          :href="`https://${href}`"
+          :src="src"
         />
         <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
-        <q-img
-          v-for="(src, silverSponsorIndex) in sponsorLogos.silver"
+        <sponsor-link
+          v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
           :key="silverSponsorIndex"
-          :src="`sponsor-logos/${src}`"
-          width="200px"
+          :href="`https://${href}`"
+          :src="src"
         />
       </div>
     </div>
@@ -139,7 +138,7 @@
     <div class="text-center social-channels-call-to-action lp-mb--large">
       <q-img
         src="~assets/landing-page/homepage-background-images/planet.png"
-        :height="$q.screen.lt.md ? '80vh' : '1080'"
+        :height="$q.screen.lt.md ? '80vh' : ''"
       >
         <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
@@ -150,7 +149,7 @@
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
               :label="socialLink.name"
-              class="call-to-action-btn"
+              class="call-to-action-btn no-border-radius"
               color="lp-accent"
               outline
               type="a"
@@ -170,20 +169,20 @@ import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
 import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links.js'
 import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
 import { socialLinks } from 'assets/landing-page/social-links.js'
-import { scroll } from 'quasar'
-import { useMeta } from 'quasar'
+import { scroll, useMeta } from 'quasar'
+import SponsorLink from 'components/landing-page/SponsorLink'
 
 const { getScrollTarget, setVerticalScrollPosition } = scroll
 function scrollToElement (el) {
   const target = getScrollTarget(el)
   const offset = el.offsetTop
-  const duration = 1000
+  const duration = 400
   setVerticalScrollPosition(target, offset, duration)
 }
 
 export default defineComponent({
   name: 'Index',
-  components: { TwitterShowcaseCards, WhyQuasarCard },
+  components: { SponsorLink, TwitterShowcaseCards, WhyQuasarCard },
   setup () {
     useMeta({
       title: 'Quasar Framework',
@@ -281,7 +280,8 @@ q {
   margin-top: 200px;
 
   @media screen and (min-width: $breakpoint-md-max) {
-    height: 18vh;
+    // 100vh - header height
+    height: calc(100vh - 156px);
     margin-top: 400px;
   }
 }
@@ -297,5 +297,12 @@ q {
       margin-top: 80px !important;
     }
   }
+}
+
+// We need a thickness of 2px but the default is 1px, and there's no
+// prop to modify it from within quasar
+:deep(.q-btn--outline:before) {
+  border: 2px solid $lp-accent;
+  box-shadow: 0 1px 1px 0 rgba($black, 0.12);
 }
 </style>
