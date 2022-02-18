@@ -17,7 +17,7 @@ import { useFormProps, useFormInputNameAttr } from '../../composables/private/us
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { isDeepEqual } from '../../utils/private/is.js'
+import { isDeepEqual, isPlainObject } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
@@ -337,7 +337,7 @@ export default createComponent({
           itemProps[ 'aria-selected' ] = itemProps.active === true ? 'true' : 'false'
 
           if ($q.platform.is.desktop === true) {
-            itemProps.onMousemove = () => { setOptionIndex(index) }
+            itemProps.onMousemove = () => { menu.value === true && setOptionIndex(index) }
           }
         }
 
@@ -602,7 +602,7 @@ export default createComponent({
 
       return typeof val === 'function'
         ? val
-        : opt => (Object(opt) === opt && val in opt ? opt[ val ] : opt)
+        : opt => (isPlainObject(opt) === true && val in opt ? opt[ val ] : opt)
     }
 
     function isOptionSelected (opt) {
@@ -1385,6 +1385,7 @@ export default createComponent({
     Object.assign(proxy, {
       showPopup, hidePopup,
       removeAtIndex, add, toggleOption,
+      getOptionIndex: () => optionIndex.value,
       setOptionIndex, moveOptionSelection,
       filter, updateMenuPosition, updateInputValue,
       isOptionSelected,

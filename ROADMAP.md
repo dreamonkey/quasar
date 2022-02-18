@@ -21,8 +21,8 @@ LTS support ends 12 months after the release of a new major version.
 
 | Version | Status | Released   | Active support ends | LTS support ends |
 | ------- | ------ | ---------- | ------------------- | ---------------- |
-| 2.x     | Active | 21/06/2021 | After 01/04/2022    | After 01/04/2023 |
-| 1.x     | Active | 07/03/2019 | 01/04/2021          | 01/04/2022       |
+| 2.x     | Active | 2021-06-21 | After 2022-04-01    | After 2023-04-01 |
+| 1.x     | Active | 2019-03-07 | 2021-04-01          | 2022-04-01       |
 
 Quasar v0.x versions are no longer supported.
 
@@ -38,7 +38,7 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Q3 2021
 * ✌️ (DONE) Migration to Quasar v2 of official AEs ([reference](https://github.com/quasarframework/quasar/discussions/9560))
-* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/next/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/next/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/next/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
+* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
 * ✌️ (DONE) Quasar brand rework ([reference](https://dev.to/quasar/quasar-brand-refresh-and-new-partnership-ao1))
 * 🚫 (CANCELLED 😢) ~~Quasar.Conf 2021~~ ([reference](https://twitter.com/quasarframework/status/1435177368352698375))
 
@@ -51,9 +51,9 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Q1 2022
 * ✌️ (DONE) Fix intellisense problem for packages provided by `@quasar/app` ([#9235](https://github.com/quasarframework/quasar/issues/9235))
+* ✌️ (DONE) Add automatic tests to Quasar UI ([#12047](https://github.com/quasarframework/quasar/pull/12047))
 * 🚧 (WIP) Quasar website revamp 🔥
 * 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
-* 🚧 (WIP) Add automatic tests to Quasar UI ([reference](https://github.com/Evertvdw/quasar/tree/unit-testing))
 * More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
 * Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
 * Creation of official Quasar Organizational chart

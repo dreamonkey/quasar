@@ -9,6 +9,7 @@ import { createComponent } from '../utils/private/create.js'
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
+import { isPlainObject } from '../utils/private/is.js'
 
 let uid = 0
 
@@ -72,7 +73,7 @@ function addNotification (config, $q, originalApi) {
     Object.assign(notif, defaults)
   }
 
-  if (Object(config) !== config) {
+  if (isPlainObject(config) === false) {
     if (notif.type) {
       Object.assign(notif, notifTypes[ notif.type ])
     }
@@ -396,7 +397,11 @@ function getComponent () {
           if (meta.hasMedia === true) {
             if (notif.spinner !== false) {
               mainChild.push(
-                h(notif.spinner, { class: 'q-notification__spinner q-notification__spinner--' + meta.leftClass })
+                h(notif.spinner, {
+                  class: 'q-notification__spinner q-notification__spinner--' + meta.leftClass,
+                  color: notif.spinnerColor,
+                  size: notif.spinnerSize
+                })
               )
             }
             else if (notif.icon) {
@@ -404,6 +409,8 @@ function getComponent () {
                 h(QIcon, {
                   class: 'q-notification__icon q-notification__icon--' + meta.leftClass,
                   name: notif.icon,
+                  color: notif.iconColor,
+                  size: notif.iconSize,
                   role: 'img'
                 })
               )
@@ -484,12 +491,12 @@ function getComponent () {
 export default {
   setDefaults (opts) {
     if (__QUASAR_SSR_SERVER__ !== true) {
-      opts === Object(opts) && Object.assign(defaults, opts)
+      isPlainObject(opts) === true && Object.assign(defaults, opts)
     }
   },
 
   registerType (typeName, typeOpts) {
-    if (__QUASAR_SSR_SERVER__ !== true && typeOpts === Object(typeOpts)) {
+    if (__QUASAR_SSR_SERVER__ !== true && isPlainObject(typeOpts) === true) {
       notifTypes[ typeName ] = typeOpts
     }
   },
