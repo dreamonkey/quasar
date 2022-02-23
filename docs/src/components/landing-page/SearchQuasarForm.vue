@@ -72,7 +72,6 @@
     round
     color="lp-primary"
     icon="search"
-    size="12px"
   />
 </template>
 

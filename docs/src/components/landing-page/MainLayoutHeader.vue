@@ -38,12 +38,12 @@
             alt="Quasar Logo"
             width="236"
           />
-          <!-- <q-separator
+          <q-separator
             v-if="$q.screen.gt.xs"
             :color="dark ? 'black-12' : 'lp-primary'"
             class="q-ml-lg"
             vertical
-          />-->
+          />
         </router-link>
 
         <div class="row items-center">
@@ -70,8 +70,7 @@
           <div>
             <q-btn
               v-if="$route.name !== 'home'"
-              class="dark-toggle"
-              size=".7em"
+              class="q-ml-xs"
               round
               flat
               color="lp-primary"
@@ -216,12 +215,12 @@
               width="236"
             />
           </router-link>
-          <!-- <q-separator
+          <q-separator
             v-if="$q.screen.gt.xs"
             :color="dark ? 'black-12' : 'lp-primary'"
             class="q-ml-lg"
             vertical
-          />-->
+          />
           <q-btn-dropdown
             v-if="$q.screen.gt.sm"
             :class="$q.screen.gt.sm ? 'q-ml-lg' : 'q-ml-sm'"
@@ -268,9 +267,8 @@
           </div>
           <div>
             <q-btn
-              v-if="$route.path !== '/'"
-              class="dark-toggle"
-              size=".9em"
+              v-if="$route.name !== 'home'"
+              class="q-ml-xs"
               round
               flat
               color="lp-primary"
@@ -285,16 +283,16 @@
   </transition>
 </template>
 <script>
-import { defineComponent, onMounted, ref, watch } from 'vue'
 import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
-import { socialLinks } from 'assets/landing-page/social-links.js'
-import { Screen, useQuasar } from 'quasar'
+import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items.js'
+import { socialLinks } from 'assets/landing-page/social-links.js'
+import HeaderNavLink from 'components/landing-page/HeaderNavLink'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
-import HeaderNavLink from 'components/landing-page/HeaderNavLink'
+import { Screen, useQuasar } from 'quasar'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 
 const SWAP_HEADER_OFFSET_UP = 200
 
@@ -329,7 +327,6 @@ export default defineComponent({
     const primaryHeaderIsVisible = ref(true)
     const searchResultIsDisplayed = ref(false)
     const $route = useRoute()
-    const darkToggleIcon = ref('dark_mode')
     const versionHistory = [
       {
         label: `Latest (v${$q.version})`,
@@ -405,12 +402,6 @@ export default defineComponent({
           // irrespective of the viewport, show nav items since search form is hidden
           showNavItems.value = true
         }
-        if ($q.dark.isActive) {
-          darkToggleIcon.value = 'dark_mode'
-        }
-        else {
-          darkToggleIcon.value = 'light_mode'
-        }
       })
     })
 
@@ -418,16 +409,13 @@ export default defineComponent({
       searchResultIsDisplayed.value = !!searchResults
     }
 
+    $q.dark.set($q.localStorage.getItem('darkMode') ?? false)
+
+    const darkToggleIcon = computed(() => $q.dark.isActive ? 'dark_mode' : 'light_mode')
+
     function toggleDarkMode () {
       $q.dark.toggle()
-      if ($q.dark.isActive) {
-        darkToggleIcon.value = 'dark_mode'
-        $q.localStorage.set('darkMode', true)
-      }
-      else {
-        darkToggleIcon.value = 'light_mode'
-        $q.localStorage.set('darkMode', false)
-      }
+      $q.localStorage.set('darkMode', $q.dark.isActive)
     }
 
     watch(() => props.scrollData, (currentScrollData) => {
@@ -529,8 +517,5 @@ $adjust-header-viewport: 860px;
   to {
     box-shadow: 0 4.5px 4.5px 0 rgba($lp-primary, 0.28);
   }
-}
-.dark-toggle {
-  margin-bottom: 3px;
 }
 </style>

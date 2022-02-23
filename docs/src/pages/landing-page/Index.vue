@@ -52,7 +52,6 @@
         <why-quasar-card
           v-for="({ icon, title, body, btnLabel, btnLink }, whyQuasarCardIndex) in whyQuasar"
           :key="whyQuasarCardIndex"
-          :dark="!$q.dark.isActive"
           :icon="icon"
           :title="title"
           :body="body"

@@ -32,7 +32,6 @@
         :key="cardIndex"
         class="raise-on-hover card column justify-end items-center cursor-pointer"
         flat
-        :dark="!$q.dark.isActive"
         background="grey-10"
         @click="$router.push(`/${path}`)"
       >
