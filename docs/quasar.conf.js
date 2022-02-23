@@ -72,6 +72,15 @@ module.exports = function (ctx) {
 
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
+      },
+      extendWebpack (cfg) {
+        cfg.experiments = {
+          backCompat: false
+        }
+        cfg.cache = {
+          type: 'filesystem'
+        }
+        cfg.parallelism = 4
       }
     },
 

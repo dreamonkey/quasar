@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { useMeta } from 'quasar'
+import { useMeta, useQuasar } from 'quasar'
 
 import { provideDocStore } from 'assets/doc-store.js'
 import getMeta from 'assets/get-meta.js'
@@ -12,6 +12,15 @@ export default {
   name: 'App',
 
   setup () {
+    const $q = useQuasar()
+    console.log($q.localStorage.getItem('darkMode'))
+    if ($q.localStorage.getItem('darkMode') === null || $q.localStorage.getItem('darkMode') === true) {
+      $q.dark.set(true)
+    }
+    else {
+      $q.dark.set(false)
+    }
+
     useMeta({
       title: 'Quasar Framework',
       titleTemplate: title => `${title} | Quasar Framework`,

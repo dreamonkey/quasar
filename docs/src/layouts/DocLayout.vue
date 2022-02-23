@@ -1,6 +1,6 @@
 <template lang="pug">
-q-layout.doc-layout.bg-lp-light-grey(view="hHh LpR lff", @scroll="handleScroll")
-  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
+  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData" :dark="!$q.dark.isActive")
 
   q-drawer.doc-left-drawer(
     side="left"
@@ -26,7 +26,7 @@ q-layout.doc-layout.bg-lp-light-grey(view="hHh LpR lff", @scroll="handleScroll")
         q-item(
           v-for="tocItem in tocList"
           :key="tocItem.id"
-          :id="'toc--'+tocItem.id"
+          :id="'toc--' + tocItem.id"
           clickable
           v-ripple
           dense
