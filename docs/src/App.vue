@@ -13,7 +13,7 @@ export default {
 
   setup () {
     const $q = useQuasar()
-    $q.dark.set($q.localStorage.getItem('darkMode') ?? true)
+    $q.dark.set($q.localStorage.getItem('darkMode') ?? false)
 
     useMeta({
       title: 'Quasar Framework',
