@@ -132,7 +132,7 @@
       :disabled="group.children.length >= 10"
       @click="addChild"
     />
-    <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
+    <div class="row full-width" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden">
         <child
           v-for="(child, index) in group.children"
@@ -320,9 +320,9 @@ export default {
     }
 
     function share () {
-      let playgroudUrl = window.location.href
-      if (playgroudUrl.includes('?')) {
-        playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
+      let playgroundUrl = window.location.href
+      if (playgroundUrl.includes('?')) {
+        playgroundUrl = playgroundUrl.substring(0, playgroundUrl.indexOf('?'))
       }
       let queryString = '',
         index = 0
@@ -343,7 +343,7 @@ export default {
           queryString += '&'
         }
       }
-      copyToClipboard(`${playgroudUrl}?${queryString}`)
+      copyToClipboard(`${playgroundUrl}?${queryString}`)
       copied.value = true
       setTimeout(() => {
         copied.value = false
