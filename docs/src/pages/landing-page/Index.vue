@@ -4,11 +4,9 @@
       <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
       <h1
-        :class="$q.screen.gt.md? 'letter-spacing-375':'letter-spacing-300'"
+        :class="$q.screen.gt.md ? 'letter-spacing-375' : 'letter-spacing-300'"
         class="lp-my--medium text-center text-white-54 text-size-20 primary-line-height"
-      >
-        The enterprise-ready cross-platform VueJs framework
-      </h1>
+      >The enterprise-ready cross-platform VueJs framework</h1>
 
       <q-btn
         color="lp-accent"
@@ -27,9 +25,11 @@
         @click="scrollSectionIntoView('why-quasar-section')"
       />
 
-      <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">Our Platinum sponsors</div>
+      <div
+        class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize"
+      >Our Platinum sponsors</div>
       <sponsor-link
-        v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
+        v-for="({ src, href }, platinumSponsorIndex) in sponsorLogos.platinum"
         :key="platinumSponsorIndex"
         :href="href"
         :src="src"
@@ -52,6 +52,7 @@
         <why-quasar-card
           v-for="({ icon, title, body, btnLabel, btnLink }, whyQuasarCardIndex) in whyQuasar"
           :key="whyQuasarCardIndex"
+          :dark="!$q.dark.isActive"
           :icon="icon"
           :title="title"
           :body="body"
@@ -65,9 +66,10 @@
       <div class="column items-center">
         <q-icon size="xl" name="img:homepage-icons/astronaut.svg" />
         <h2 class="lp-heading lp-heading--large q-my-lg">What our community thinks of quasar</h2>
-        <q
-          class="lp-heading lp-heading--small"
-        >You've never heard of Quasar? It's the framework that made a mobile app,<br/>desktop app and browser extension altogether in less than 12 minutes.</q>
+        <q class="lp-heading lp-heading--small">
+          You've never heard of Quasar? It's the framework that made a mobile app,
+          <br />desktop app and browser extension altogether in less than 12 minutes.
+        </q>
       </div>
       <twitter-showcase-cards />
     </div>
@@ -79,9 +81,10 @@
             class="text-uppercase lp-heading--large support-quasar-section__title"
           >Support quasar: Become sponsor!</h2>
 
-          <div
-            class="lp-heading--small text-left"
-          >Working for a company or freelancer? You can contribute, even a <br> bit and getting something back.</div>
+          <div class="lp-heading--small text-left">
+            Working for a company or freelancer? You can contribute, even a
+            <br />bit and getting something back.
+          </div>
 
           <q
             class="q-my-md lp-heading--quote primary-line-height lp-my--medium"
@@ -119,14 +122,14 @@
       <div class="text-size-16 text-weight-bold">
         <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
         <sponsor-link
-          v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
+          v-for="({ src, href }, platinumSponsorIndex) in sponsorLogos.platinum"
           :key="platinumSponsorIndex"
           :href="`https://${href}`"
           :src="src"
         />
         <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
         <sponsor-link
-          v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
+          v-for="({ src, href }, silverSponsorIndex) in sponsorLogos.silver"
           :key="silverSponsorIndex"
           :href="`https://${href}`"
           :src="src"
@@ -215,7 +218,7 @@ $why-quasar-card-side: 400px;
 }
 
 q {
-  display: block
+  display: block;
 }
 
 .why-quasar__grid {
