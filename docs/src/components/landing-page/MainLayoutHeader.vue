@@ -69,7 +69,7 @@
           </div>
           <div>
             <q-btn
-              v-if="$route.path !== '/'"
+              v-if="$route.name !== 'home'"
               class="dark-toggle"
               size=".7em"
               round
@@ -423,12 +423,10 @@ export default defineComponent({
       if ($q.dark.isActive) {
         darkToggleIcon.value = 'dark_mode'
         $q.localStorage.set('darkMode', true)
-        console.log('local dark mode ', $q.localStorage.getItem('darkMode'))
       }
       else {
         darkToggleIcon.value = 'light_mode'
         $q.localStorage.set('darkMode', false)
-        console.log('local dark mode ', $q.localStorage.getItem('darkMode'))
       }
     }
 

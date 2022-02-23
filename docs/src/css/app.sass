@@ -1,23 +1,23 @@
 @import './prism-theme.sass'
 
 body.body--dark
-  color: #b8b8b8
-  background: #001e2f
+  color: $dark-color
+  background: $darkest-background
 
   .q-drawer-container
-    background: #050a14
+    background: $darker-background
 
   .q-drawer--right
-    background: #050a14 !important
+    background: $darker-background !important
 
   .q-item--dark
-    color: #b8b8b8 !important
+    color: $dark-color !important
 
   .app-menu .q-item.q-router-link--active
-    background: #002d40 !important
+    background: $dark-background !important
 
   .doc-toc .q-item.q-item--active
-    background: #002d40 !important
+    background: $dark-background !important
 
   .doc-note
     background-color: #c2cec5
@@ -34,31 +34,31 @@ body.body--dark
     background-color: #bd8d85
 
   .q-table__card--dark, .q-table--dark
-    background: #021b27
+    background: $dark-background
 
   .doc-token
     border: 1px dotted #006390
-    background-color: #0f2d5b
-    color: #028fd1
+    background-color: $dark-background
+    color: $primary
 
   .doc-link
-    color: #0089c8
+    color: $primary
 
   .doc-code__inner
     background-color: #a3d0f0
 
   .q-card--dark
-    background: #021b27
+    background: $dark-background
 
   .doc-api .api-container
-    background: #021b27
+    background: $dark-background
 
   .api-row
-    background: #021b27
-    color: #b8b8b8
+    background: $dark-background
+    color: $dark-color
 
   .api-row__value
-    color: #b8b8b8
+    color: $dark-color
 
   .api-row__example
     background-color: #004564
@@ -232,6 +232,7 @@ body.q-scroll--lock .q-page
   > .q-scroll--anchor
     overflow-anchor: auto
 
+// makes the scroll bar look better for the drop-down menus in the header
 ::-webkit-scrollbar 
   height: 12px
   width: 14px

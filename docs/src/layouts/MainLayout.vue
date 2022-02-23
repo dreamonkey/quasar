@@ -167,14 +167,8 @@ export default defineComponent({
     function checkHeaderMetFooter () {
       const headerSize = mainLayoutHeader.value.$el.clientHeight
       const positionFromTop = mainLayoutFooter.value.$el.getBoundingClientRect().top
-      if (positionFromTop <= headerSize) {
-        footerHasMetHeader.value = true
-        $q.dark.set(false)
-      }
-      else {
-        footerHasMetHeader.value = false
-        $q.dark.set(true)
-      }
+      footerHasMetHeader.value = positionFromTop <= headerSize
+      $q.dark.set(footerHasMetHeader.value)
     }
 
     return {
