@@ -103,7 +103,7 @@ const mostUsedPages = [
 ]
 
 export default defineComponent({
-  name: 'Landing',
+  name: 'Homepage',
 
   setup () {
     useMeta({

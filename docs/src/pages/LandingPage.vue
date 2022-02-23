@@ -167,13 +167,13 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
+import { socialLinks } from 'assets/landing-page/social-links.js'
+import SponsorLink from 'components/landing-page/SponsorLink.vue'
+import { scroll, useMeta } from 'quasar'
 import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links.js'
 import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
-import { socialLinks } from 'assets/landing-page/social-links.js'
-import { scroll, useMeta } from 'quasar'
-import SponsorLink from 'components/landing-page/SponsorLink'
+import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
+import { defineComponent } from 'vue'
 
 const { getScrollTarget, setVerticalScrollPosition } = scroll
 function scrollToElement (el) {
@@ -184,7 +184,7 @@ function scrollToElement (el) {
 }
 
 export default defineComponent({
-  name: 'Index',
+  name: 'LandingPage',
   components: { SponsorLink, TwitterShowcaseCards, WhyQuasarCard },
   setup () {
     useMeta({
