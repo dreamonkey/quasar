@@ -77,11 +77,11 @@
         <div class="support-quasar-section__container">
           <h2
             class="text-uppercase lp-heading--large support-quasar-section__title"
-          >Support quasar: Become sponsor!</h2>
+          >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
 
           <div
             class="lp-heading--small text-left"
-          >Working for a company or freelancer? You can contribute, even a <br> bit and getting something back.</div>
+          >Working for a company? Are you a freelancer? You can contribute, even a bit, <br> and even get something back in return.</div>
 
           <q
             class="q-my-md lp-heading--quote primary-line-height lp-my--medium"
@@ -116,25 +116,27 @@
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
       <h2 class="lp-heading lp-heading--large">Our Sponsors</h2>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
-      <div class="text-size-16 text-weight-bold">
-        <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
-        <sponsor-link
-          v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
-          :key="platinumSponsorIndex"
-          :href="`https://${href}`"
-          :src="src"
-        />
-        <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
-        <sponsor-link
-          v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
-          :key="silverSponsorIndex"
-          :href="`https://${href}`"
-          :src="src"
-        />
+      <div class="row justify-center text-size-16 text-weight-bold">
+        <div class="sponsors-section__logos">
+          <div class="q-mt-xl q-mb-md letter-spacing-300">Platinum Sponsors</div>
+          <sponsor-link
+            v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
+            :key="platinumSponsorIndex"
+            :href="`https://${href}`"
+            :src="src"
+          />
+          <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
+          <sponsor-link
+            v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
+            :key="silverSponsorIndex"
+            :href="`https://${href}`"
+            :src="src"
+          />
+        </div>
       </div>
     </div>
 
-    <div class="text-center social-channels-call-to-action lp-mb--large">
+    <div class="text-center social-channels-call-to-action">
       <q-img
         src="~assets/landing-page/homepage-background-images/planet.png"
         :height="$q.screen.lt.md ? '80vh' : ''"
@@ -143,7 +145,7 @@
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news</div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row reverse justify-center q-mb-xl q-mt-md q-gutter-md">
+          <div class="row reverse justify-center q-mt-md q-gutter-md lp-mb--large">
             <q-btn
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
@@ -282,6 +284,13 @@ q {
     // 100vh - header height
     height: calc(100vh - 156px);
     margin-top: 400px;
+  }
+
+  &__logos {
+    @media screen and (min-width: $breakpoint-md-min) {
+      // we want to have about 4 logos per row
+      width: calc(100vw/1.5);
+    }
   }
 }
 

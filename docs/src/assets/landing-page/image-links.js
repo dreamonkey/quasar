@@ -4,11 +4,10 @@ export const sponsorLogos = {
   silver: [
     { src: 'letsbutterfly.png', href: 'letsbutterfly.com' },
     { src: 'kalisio.png', href: 'kalisio.com' },
-    { src: 'platformpurple.png', href: 'platformpurple.com' },
     { src: 'comcomservices.png', href: 'comcomservices.com' },
     { src: 'digitalocean.png', href: 'www.digitalocean.com' },
-    { src: 'jugglest.png', href: 'www.jugglestreet.com.au' },
-    { src: 'ibl.png', href: 'ib-langenthal.ch' }
+    { src: 'ibl.png', href: 'ib-langenthal.ch' },
+    { src: 'jugglest.png', href: 'www.jugglestreet.com.au' }
   ]
 }
 

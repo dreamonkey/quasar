@@ -10,8 +10,8 @@
       class="font-monserrat lp-header"
     >
       <q-toolbar
-        :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-300': $q.screen.gt.md, 'items-stretch': $q.screen.gt.xs }"
-        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16"
+        :class="{ 'shadow-bottom-small': $q.screen.xs, 'items-stretch': $q.screen.gt.xs }"
+        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300"
       >
         <q-btn
           v-if="$q.screen.xs"
@@ -54,14 +54,14 @@
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              :padding="`xs ${$q.screen.name}`"
-              nav-item-class="text-size-16"
+              padding="xs lg"
+              nav-item-class="text-size-16 main-header-nav-item-padding"
             />
           </div>
           <div ref="searchForm">
             <search-quasar-form
               :dark="dark"
-              :is-open-by-default="$q.screen.gt.lg"
+              :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
               @focus-by-keyboard="isSearchFieldActive = true"
@@ -184,16 +184,16 @@
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
         >
-          <router-link :to="{ name: 'home' }">
+          <router-link :to="{ name: 'home' }" class="row items-center">
             <img
               v-if="$q.screen.sm"
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
               alt="Quasar Logo"
-              height="48"
+              height="36"
               width="48">
             <img
               v-else
-              :height="$q.screen.xs? '24':'48'"
+              :height="$q.screen.xs? '24':'36'"
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
               alt="Quasar Logo"
               width="236">
@@ -214,7 +214,7 @@
             dense
             no-caps
             outline
-            padding="sm">
+            padding="xs sm">
             <template #label>
               <span
                 :class="dark? 'text-dark':'text-white'"
@@ -477,6 +477,17 @@ $adjust-header-viewport: 860px;
   }
   to {
     box-shadow: 0 4.5px 4.5px 0 rgba($lp-primary, 0.28);
+  }
+}
+
+// We need to adjust the padding at some viewports, to prevent the icon or some other nav item
+// from collapsing while keeping the airy (spacious) nature of the main header.
+.main-header-nav-item-padding {
+  @media screen and (min-width: 1015px) and (max-width: 1105px) {
+    padding: 4px 24px !important;
+  }
+  @media screen and (min-width: $breakpoint-xs-max) and (max-width: 642px) {
+    padding: 4px 16px !important;
   }
 }
 </style>
