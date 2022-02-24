@@ -242,7 +242,7 @@
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              nav-item-class="text-size-12 text-capitalize"
+              nav-item-class="text-size-12 text-capitalize secondary-header-nav-item-padding"
             />
           </div>
           <div ref="searchForm">
@@ -498,6 +498,13 @@ $adjust-header-viewport: 860px;
   }
   @media screen and (min-width: $breakpoint-xs-max) and (max-width: 642px) {
     padding: 4px 16px !important;
+  }
+}
+// on these particular viewports, we reduce the padding on the secondary header to prevent
+// icon or some items from collapsing.
+.secondary-header-nav-item-padding {
+  @media screen and (min-width: 988px) and (max-width: 1070px) {
+    padding: 4px !important;
   }
 }
 </style>
