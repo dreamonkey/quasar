@@ -34,11 +34,11 @@
       </div>
     </div>
     <div
-      v-if="filteredComponents.length < 1"
+      v-if="filteredComponents.length === 0"
       class="no-search-results row justify-center text-center items-center text-size-20 letter-spacing-225 q-mx-md">
       No components match '{{ search }}'
     </div>
-    <div class="components text-size-16">
+    <div v-else class="components text-size-16">
       <transition-group
         appear
         name="slide-fade"

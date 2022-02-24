@@ -53,8 +53,8 @@
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              padding="xs lg"
-              nav-item-class="text-size-16 main-header-nav-item-padding"
+              :padding="mainHeaderNavItemPadding"
+              nav-item-class="text-size-16"
             />
           </div>
           <div ref="searchForm">
@@ -154,7 +154,9 @@
             target="__blank"
             type="a"
           >
-            <q-tooltip class="letter-spacing-263">{{ socialLink.name }}</q-tooltip>
+            <q-tooltip class="letter-spacing-263">
+              {{ socialLink.label }}
+            </q-tooltip>
           </q-btn>
         </q-toolbar>
         <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
@@ -242,7 +244,8 @@
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              nav-item-class="text-size-12 text-capitalize secondary-header-nav-item-padding"
+              :padding="secondaryHeaderNavItemPadding"
+              nav-item-class="text-size-12 text-capitalize"
             />
           </div>
           <div ref="searchForm">
@@ -268,11 +271,11 @@ import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-
 import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
-import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
+import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import { Screen, useQuasar } from 'quasar'
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const SWAP_HEADER_OFFSET_UP = 200
@@ -418,6 +421,26 @@ export default defineComponent({
       primaryHeaderIsVisible.value = true
     })
 
+    // We need to adjust the padding at some viewports, to prevent the icon or some other nav item
+    // from collapsing while keeping the airy (spacious) nature of the main header.
+    const mainHeaderNavItemPadding = computed(() => {
+      if ($q.screen.width > $q.screen.sizes.sm && $q.screen.width < 642) {
+        return 'xs'
+      }
+
+      return 'xs lg'
+    })
+
+    // on these particular viewports, we reduce the padding on the secondary header to prevent
+    // icon or some items from collapsing.
+    const secondaryHeaderNavItemPadding = computed(() => {
+      if ($q.screen.width > 988 && $q.screen.width < 1070) {
+        return 'xs'
+      }
+
+      return 'xs md'
+    })
+
     return {
       mdiGithub,
       mdiBug,
@@ -431,11 +454,14 @@ export default defineComponent({
       searchForm,
       secondaryHeaderNavItems,
       primaryHeaderIsVisible,
-      preventHeaderSwapping
+      preventHeaderSwapping,
+      mainHeaderNavItemPadding,
+      secondaryHeaderNavItemPadding
     }
   }
 })
 </script>
+
 <style lang="scss" scoped>
 $adjust-header-viewport: 860px;
 
@@ -487,24 +513,6 @@ $adjust-header-viewport: 860px;
   }
   to {
     box-shadow: 0 4.5px 4.5px 0 rgba($lp-primary, 0.28);
-  }
-}
-
-// We need to adjust the padding at some viewports, to prevent the icon or some other nav item
-// from collapsing while keeping the airy (spacious) nature of the main header.
-.main-header-nav-item-padding {
-  @media screen and (min-width: 1015px) and (max-width: 1105px) {
-    padding: 4px 24px !important;
-  }
-  @media screen and (min-width: $breakpoint-xs-max) and (max-width: 642px) {
-    padding: 4px 16px !important;
-  }
-}
-// on these particular viewports, we reduce the padding on the secondary header to prevent
-// icon or some items from collapsing.
-.secondary-header-nav-item-padding {
-  @media screen and (min-width: 988px) and (max-width: 1070px) {
-    padding: 4px !important;
   }
 }
 </style>

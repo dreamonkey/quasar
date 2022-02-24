@@ -151,7 +151,7 @@
             <q-btn
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
-              :label="socialLink.name"
+              :label="socialLink.label"
               class="call-to-action-btn no-border-radius"
               color="lp-accent"
               outline
@@ -316,7 +316,7 @@ q {
 }
 
 h2 {
-  line-height: 1.5em !important;
+  line-height: 1.5em;
 }
 
 // We need a thickness of 2px but the default is 1px, and there's no
