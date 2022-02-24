@@ -73,7 +73,7 @@
       <twitter-showcase-cards />
     </div>
 
-    <div class="window-height support-quasar-section">
+    <div class="support-quasar-section">
       <div class="column items-center">
         <div class="support-quasar-section__container">
           <h2
@@ -141,13 +141,13 @@
     <div class="text-center social-channels-call-to-action">
       <q-img
         src="~assets/landing-page/homepage-background-images/planet.png"
-        :height="$q.screen.lt.md ? '80vh' : ''"
+        height="600px"
       >
         <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news</div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row reverse justify-center q-mt-md q-gutter-md lp-mb--large">
+          <div :class="$q.screen.gt.xs? 'lp-mb--large':'q-mb-md'" class="row reverse justify-center q-mt-md q-gutter-md">
             <q-btn
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
@@ -307,6 +307,10 @@ q {
       margin-top: 80px !important;
     }
   }
+}
+
+h2 {
+  line-height: 1.5em !important;
 }
 
 // We need a thickness of 2px but the default is 1px, and there's no
