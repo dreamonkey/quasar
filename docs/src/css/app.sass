@@ -1,17 +1,30 @@
 @import './prism-theme.sass'
 
 body.body--dark
-  color: $dark-color
-  background: $darkest-background
+  color: $dark-text-color
+  background: $darker-background
+
+  .q-page-container img 
+    background-color: $grey-dark-background
+    padding: 2px
+    border-radius: 4px
 
   .q-drawer-container
-    background: $darker-background
+    background: $darkest-background
 
   .q-drawer--right
-    background: $darker-background !important
+    background: $darkest-background !important
 
   .q-item--dark
-    color: $dark-color !important
+    color: $dark-text-color !important
+  
+  .q-toolbar .q-btn
+    color: $dark-text-color
+
+  .doc-page-nav .q-link
+    border: 1px solid $brand-primary
+    background: $darkest-background !important
+    color: $brand-primary
 
   .app-menu .q-item.q-router-link--active
     background: $dark-background !important
@@ -37,15 +50,15 @@ body.body--dark
     background: $dark-background
 
   .doc-token
-    border: 1px dotted #006390
-    background-color: $dark-background
-    color: $primary
+    border: 1px dotted $dark-text-color
+    background-color: #004564
+    color: $dark-text-color
 
   .doc-link
     color: $primary
 
   .doc-code__inner
-    background-color: #a3d0f0
+    background-color: #d4eafa
 
   .q-card--dark
     background: $dark-background
@@ -55,18 +68,23 @@ body.body--dark
 
   .api-row
     background: $dark-background
-    color: $dark-color
+    color: $dark-text-color
 
   .api-row__value
-    color: $dark-color
+    color: $dark-text-color
 
   .api-row__example
     background-color: #004564
 
-  .row:not(.q-field__append) > div
-    background: transparent
+  #flex-playground
+    background: $darker-background !important
 
+  #flex-playground--content
+    background: $darker-background
 
+  .q-badge--single-line
+    background: $darker-background
+  
 .text-brand-primary
   color: #b8b8b8
 .bg-brand-primary
