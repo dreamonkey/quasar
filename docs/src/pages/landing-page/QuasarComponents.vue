@@ -33,6 +33,11 @@
         />
       </div>
     </div>
+    <div
+      v-if="filteredComponents.length < 1"
+      class="no-search-results row justify-center text-center items-center text-size-20 letter-spacing-225 q-mx-md">
+      No components match '{{ search }}'
+    </div>
     <div class="components text-size-16">
       <transition-group
         appear
@@ -195,5 +200,9 @@ export default defineComponent({
 .padding-x-100 {
   padding-left: 100px;
   padding-right: 100px;
+}
+
+.no-search-results {
+  height: 50vh;
 }
 </style>
