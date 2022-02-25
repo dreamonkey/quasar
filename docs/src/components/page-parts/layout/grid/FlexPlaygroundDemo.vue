@@ -14,7 +14,7 @@
     </div>
     <div class="text-subtitle2 q-pb-md">Parent Properties (container)</div>
     <div class="row wrap justify-start content-stretch">
-      <div class="col-lg-2 col-xs-6"  id="flex-playground">
+      <div class="col-lg-2 col-xs-6 flex-playground">
         <q-select
           color="blue-12"
           v-model="group.containerGroup"
@@ -26,7 +26,7 @@
           options-dense
         />
       </div>
-      <div class="col-lg-2 col-xs-6" id="flex-playground">
+      <div class="col-lg-2 col-xs-6 flex-playground">
         <q-select
           color="blue-12"
           v-model="group.directionGroup"
@@ -38,7 +38,7 @@
           options-dense
         />
       </div>
-      <div class="col-lg-2 col-xs-6" id="flex-playground">
+      <div class="col-lg-2 col-xs-6 flex-playground">
         <q-select
           color="blue-12"
           v-model="group.wrapGroup"
@@ -50,7 +50,7 @@
           options-dense
         />
       </div>
-      <div class="col-lg-2 col-xs-6" id="flex-playground">
+      <div class="col-lg-2 col-xs-6 flex-playground">
         <q-select
           color="blue-12"
           v-model="group.justifyGroup"
@@ -62,7 +62,7 @@
           options-dense
         />
       </div>
-      <div class="col-lg-2 col-xs-6" id="flex-playground">
+      <div class="col-lg-2 col-xs-6 flex-playground">
         <q-select
           color="blue-12"
           v-model="group.itemsGroup"
@@ -74,7 +74,7 @@
           options-dense
         />
       </div>
-      <div class="col-lg-2 col-xs-6" id="flex-playground">
+      <div class="col-lg-2 col-xs-6 flex-playground">
         <q-select
           color="blue-12"
           v-model="group.contentGroup"
@@ -132,9 +132,9 @@
       :disabled="group.children.length >= 10"
       @click="addChild"
     />
-    <div class="row full-width" style="min-height: 400px" id="flex-playground--content">
+    <div class="row full-width" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden">
-        <child id="flex-playground--content"
+        <child class="flex-playground--content"
           v-for="(child, index) in group.children"
           :key="index"
           :child="child"

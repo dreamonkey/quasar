@@ -69,7 +69,7 @@
           </div>
           <div>
             <q-btn
-              v-if="$route.name !== 'home'"
+              v-if="!DARK_ONLY_PAGES.includes($route.name)"
               class="q-ml-xs"
               round
               flat
@@ -267,7 +267,7 @@
           </div>
           <div>
             <q-btn
-              v-if="$route.name !== 'home'"
+              v-if="!DARK_ONLY_PAGES.includes($route.name)"
               class="q-ml-xs"
               round
               flat
@@ -291,6 +291,7 @@ import HeaderNavLink from 'components/landing-page/HeaderNavLink'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import { Screen, useQuasar } from 'quasar'
+import { DARK_ONLY_PAGES } from 'src/router/routes'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -409,7 +410,16 @@ export default defineComponent({
       searchResultIsDisplayed.value = !!searchResults
     }
 
-    $q.dark.set($q.localStorage.getItem('darkMode') ?? false)
+    watch(() => $route.name, (newPageName) => {
+      // disable dark mode in pages which doesn't follow light/dark paradigm
+      if (DARK_ONLY_PAGES.includes(newPageName)) {
+        $q.dark.set(false)
+      }
+      else {
+        // enable dark mode if the user choose so in the past
+        $q.dark.set($q.localStorage.getItem('darkMode') ?? false)
+      }
+    }, { immediate: true })
 
     const darkToggleIcon = computed(() => $q.dark.isActive ? 'dark_mode' : 'light_mode')
 
@@ -446,6 +456,7 @@ export default defineComponent({
     })
 
     return {
+      DARK_ONLY_PAGES,
       mdiGithub,
       mdiBug,
       mdiClipboardText,
