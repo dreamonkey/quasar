@@ -216,10 +216,10 @@
             vertical
           />
           <q-btn-dropdown
-            :class="'q-ml-lg'"
+            v-if="$q.screen.width > 1170"
             align="left"
             auto-close
-            class="text-weight-bold version-dropdown"
+            class="text-weight-bold version-dropdown q-ml-lg"
             color="lp-primary"
             content-class="shadow-bottom-medium"
             dense
@@ -243,7 +243,7 @@
             v-if="showNavItems"
             class="toolbar-menu-items">
             <header-nav-link
-              v-for="(navItem, navItemIndex) in denseHeaderNavItems"
+              v-for="(navItem, navItemIndex) in denseToolbarNavItems"
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
@@ -282,7 +282,8 @@ import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const SWAP_HEADER_OFFSET_UP = 200
-const HIDE_COMPONENT_NAV_ITEM_VIEWPORT = 860
+const HIDE_COMPONENT_NAV_ITEM_VIEWPORT = 880
+const HIDE_COMPONENT_DENSE_NAV_ITEM_VIEWPORT = 770
 const HIDE_ANNOUNCEMENTS_NAV_ITEM_VIEWPORT = 1300
 
 const getVersionHistory = (quasarVersion) => [
@@ -457,21 +458,39 @@ export default defineComponent({
       return filterNavItems(expandedHeaderMoreDropdownNavItems, pagesToHide)
     })
 
+    const denseToolbarNavItems = computed(() => {
+      const pagesToHide = []
+
+      if ($q.screen.width < HIDE_COMPONENT_DENSE_NAV_ITEM_VIEWPORT) {
+        pagesToHide.push('components')
+      }
+
+      return filterNavItems(denseHeaderNavItems, pagesToHide)
+    })
+
     // We need to adjust the padding at some viewports, to prevent the icon or some other nav item
     // from collapsing while keeping the airy (spacious) nature of the main header.
     const expandedHeaderNavItemPadding = computed(() => {
-      if ($q.screen.width > $q.screen.sizes.sm && $q.screen.width < 642) {
+      if ($q.screen.width >= $q.screen.sizes.sm && $q.screen.width < 630) {
+        return 'xs sm'
+      }
+
+      if ($q.screen.width >= 630 && $q.screen.width < 700) {
+        return 'xs md'
+      }
+
+      if ($q.screen.width >= 1020 && $q.screen.width < 1070) {
         return 'xs md'
       }
 
       return 'xs lg'
     })
 
-    // on these particular viewports, we reduce the padding on the secondary header to prevent
+    // on these particular viewports, we reduce the padding on the dense header to prevent
     // icon or some items from collapsing.
     const denseHeaderNavItemPadding = computed(() => {
-      if ($q.screen.width > 1020 && $q.screen.width < 1110) {
-        return 'xs'
+      if ($q.screen.width >= $q.screen.sizes.lg && $q.screen.width < 1500) {
+        return 'xs sm'
       }
 
       return 'xs md'
@@ -488,7 +507,7 @@ export default defineComponent({
       mainToolbarNavItems,
       secondaryToolbarNavItems,
       moreDropdownNavItems,
-      denseHeaderNavItems,
+      denseToolbarNavItems,
       socialLinks,
 
       headerClasses,
