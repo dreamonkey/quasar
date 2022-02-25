@@ -1,17 +1,15 @@
 <template>
   <transition enter-active-class="animated slideInDown" leave-active-class="animated fadeOut">
     <q-header
-      v-if="$q.screen.xs || primaryHeaderIsVisible"
+      v-if="$q.screen.xs"
       ref="layoutHeader"
       :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
       class="font-monserrat lp-header"
     >
       <q-toolbar
-        :class="{ 'shadow-bottom-small': $q.screen.xs, 'items-stretch': $q.screen.gt.xs }"
-        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300"
+        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300 shadow-bottom-small"
       >
         <q-btn
-          v-if="$q.screen.xs"
           color="lp-primary"
           dense
           flat
@@ -20,40 +18,66 @@
           @click="$emit('update:modelValue', !modelValue)"
         />
         <router-link
-          v-if="$q.screen.gt.xs || !isSearchFieldActive"
+          v-if="!isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
           :to="{ name: 'home' }"
         >
           <img
-            v-if="$q.screen.sm"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${dark ? '-dark' : ''}.svg`"
-            alt="Quasar Logo"
-            height="48"
-            width="48"
-          />
-          <img
-            v-else
-            :height="$q.screen.xs ? '24' : '48'"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark ? '-dark' : ''}.svg`"
+            height="24"
+            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark? '-dark':''}.svg`"
             alt="Quasar Logo"
             width="236"
-          />
+          >
+        </router-link>
+
+        <div class="row items-center">
+          <div ref="searchForm">
+            <search-quasar-form
+              :dark="dark"
+              :is-open-by-default="false"
+              :show-search-input-field="isSearchFieldActive"
+              @focus-by-keyboard="isSearchFieldActive = true"
+              @search-result-change="preventHeaderSwapping"
+            />
+          </div>
+        </div>
+
+      </q-toolbar>
+    </q-header>
+    <q-header
+      v-else-if="isExpanded"
+      ref="layoutHeader"
+      :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
+      class="font-monserrat lp-header"
+    >
+      <q-toolbar
+        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300 items-stretch"
+      >
+        <router-link
+          class="row justify-center items-center cursor-pointer"
+          :to="{ name: 'home' }"
+        >
+          <img
+            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${$q.screen.gt.sm ? '-horizontal' : ''}${dark? '-dark':''}.svg`"
+            alt="Quasar Logo"
+            height="48"
+            :width="$q.screen.gt.sm ? 236 : 48"
+          >
           <q-separator
-            v-if="$q.screen.gt.xs"
-            :color="dark ? 'lp-primary' : 'black-12'"
+            :color="dark? 'lp-primary':'black-12'"
             class="q-ml-lg"
             vertical
           />
         </router-link>
 
         <div class="row items-center">
-          <div v-if="$q.screen.gt.xs && showNavItems" class="toolbar-menu-items">
+          <div v-if="showNavItems" class="toolbar-menu-items">
             <header-nav-link
-              v-for="(navItem, navItemIndex) in navItems.mainNavItems"
+              v-for="(navItem, navItemIndex) in mainToolbarNavItems"
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              :padding="mainHeaderNavItemPadding"
+              :padding="expandedHeaderNavItemPadding"
               nav-item-class="text-size-16"
             />
           </div>
@@ -70,77 +94,74 @@
           <theme-switcher />
         </div>
       </q-toolbar>
-      <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
-      <template v-if="$q.screen.gt.xs">
-        <q-toolbar
-          :class="dark ? 'add-bottom-glow' : ''"
-          class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225"
-        >
-          <q-btn
-            v-if="$q.screen.sm"
-            class="q-pl-sm q-mx-md"
-            color="lp-primary"
+      <q-separator :color="dark? 'lp-primary':'black-12'"/>
+      <q-toolbar
+        :class="dark? 'add-bottom-glow':''"
+        class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225">
+        <q-btn
+          v-if="$q.screen.sm"
+          class="q-pl-sm q-mx-md"
+          color="lp-primary"
+          dense
+          flat
+          icon="menu"
+          round
+          @click="$emit('update:modelValue', !modelValue)"
+        />
+
+        <q-btn-dropdown
+          :class="$q.screen.gt.sm ? 'q-ml-lg' : ''"
+          align="left"
+          auto-close
+          class="text-weight-bold version-dropdown"
+          color="lp-primary"
+          content-class="shadow-bottom-medium"
+          dense
+          no-caps
+          outline
+          padding="sm">
+          <template #label>
+            <span
+              :class="dark? 'text-white':'text-dark'"
+              class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
+            <!-- q-space for space before icon -->
+            <q-space/>
+          </template>
+          <nav-dropdown-menu :nav-items="versionHistory"/>
+        </q-btn-dropdown>
+
+        <template v-if="$q.screen.sm">
+          <q-separator
+            :color="dark? 'lp-primary':'black-12'"
+            class="q-ml-md q-mr-sm"
+            inset
+            vertical/>
+          <q-btn-dropdown
+            :color="dark? 'text-dark':'text-white'"
+            :menu-offset="[150, 5]"
+            class="font-monserrat text-weight-bold text-size-12"
             dense
             flat
-            icon="menu"
-            round
-            @click="$emit('update:modelValue', !modelValue)"
-          />
-          <q-btn-dropdown
-            :class="$q.screen.gt.sm ? 'q-ml-lg' : ''"
-            align="left"
-            auto-close
-            class="text-weight-bold version-dropdown"
-            color="lp-primary"
-            content-class="shadow-bottom-medium"
-            dense
-            no-caps
-            outline
-            padding="sm"
-          >
-            <template #label>
-              <span
-                :class="dark ? 'text-white' : 'text-dark'"
-                class="text-size-12 letter-spacing-225"
-              >{{ `v${$q.version}` }}</span>
-              <!-- q-space for space before icon -->
-              <q-space />
-            </template>
-            <nav-dropdown-menu :nav-items="versionHistory" />
+            label="More"
+            menu-anchor="bottom right"
+            no-caps>
+            <nav-dropdown-menu :nav-items="moreDropdownNavItems"/>
           </q-btn-dropdown>
-          <template v-if="$q.screen.sm">
-            <q-separator
-              :color="dark ? 'lp-primary' : 'black-12'"
-              class="q-ml-md q-mr-sm"
-              inset
-              vertical
-            />
-            <q-btn-dropdown
-              :color="dark ? 'text-white' : 'text-dark'"
-              :menu-offset="[150, 5]"
-              class="font-monserrat text-weight-bold text-size-12"
-              dense
-              flat
-              label="More"
-              menu-anchor="bottom right"
-              no-caps
-            >
-              <nav-dropdown-menu :nav-items="moreNavItems" />
-            </q-btn-dropdown>
-          </template>
+        </template>
 
-          <q-space />
+        <q-space/>
 
-          <template v-if="$q.screen.gt.sm">
-            <!-- navItems.subNavItems.slice(0, -1): We remove "Quasar brand resources" link when on smaller viewports -->
-            <header-nav-link
-              v-for="(subNavItem, navIndex) in $q.screen.gt.md ? navItems.subNavItems : navItems.subNavItems.slice(0, -1)"
-              :key="`nav-${navIndex}`"
-              :dark="dark"
-              :nav-item="subNavItem"
-              nav-item-class="text-size-12 text-capitalize"
-            />
-          </template>
+        <template v-if="$q.screen.gt.sm">
+          <header-nav-link
+            v-for="(navItem, navIndex) in secondaryToolbarNavItems"
+            :key="`nav-${navIndex}`"
+            :dark="dark"
+            :nav-item="navItem"
+            nav-item-class="text-size-12 text-capitalize"
+          />
+        </template>
+
+        <template v-if="$q.screen.gt.md">
           <q-btn
             v-for="(socialLink, socialLinkIndex) in socialLinks"
             :key="`social-${socialLinkIndex}`"
@@ -158,9 +179,9 @@
               {{ socialLink.label }}
             </q-tooltip>
           </q-btn>
-        </q-toolbar>
-        <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
-      </template>
+        </template>
+      </q-toolbar>
+      <q-separator :color="dark? 'lp-primary':'black-12'"/>
     </q-header>
     <q-header
       v-else
@@ -171,45 +192,22 @@
       <q-toolbar
         :class="{
           'add-bottom-glow': dark,
-          'shadow-bottom-small': $q.screen.xs,
           'letter-spacing-25': $q.screen.lt.lg,
           'letter-spacing-225': $q.screen.gt.md,
-          'items-stretch': $q.screen.gt.xs
         }"
-        class="secondary-header q-pl-lg q-pr-md justify-between"
+        class="secondary-header q-pl-lg q-pr-md justify-between items-stretch"
       >
-        <q-btn
-          v-if="$q.screen.xs"
-          color="lp-primary"
-          dense
-          flat
-          icon="menu"
-          round
-          @click="$emit('update:modelValue', !modelValue)"
-        />
-        <div
-          v-if="$q.screen.gt.xs || !isSearchFieldActive"
-          class="row justify-center items-center cursor-pointer"
-        >
+        <div class="row justify-center items-center cursor-pointer">
           <router-link :to="{ name: 'home' }" class="row items-center">
             <img
-              v-if="$q.screen.sm"
-              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${dark ? '-dark' : ''}.svg`"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${$q.screen.gt.sm ? '-horizontal' : ''}${dark? '-dark':''}.svg`"
               alt="Quasar Logo"
               height="36"
-              width="48"
-            />
-            <img
-              v-else
-              :height="$q.screen.xs? '24':'36'"
-              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark? '-dark':''}.svg`"
-              alt="Quasar Logo"
-              width="236"
-            />
+              :width="$q.screen.gt.sm ? 236 : 48"
+            >
           </router-link>
           <q-separator
-            v-if="$q.screen.gt.xs"
-            :color="dark ? 'lp-primary' : 'black-12'"
+            :color="dark? 'lp-primary':'black-12'"
             class="q-ml-lg"
             vertical
           />
@@ -238,13 +236,15 @@
           </q-btn-dropdown>
         </div>
         <div class="row items-center text-size-12">
-          <div v-if="$q.screen.gt.xs && showNavItems" class="toolbar-menu-items">
+          <div
+            v-if="showNavItems"
+            class="toolbar-menu-items">
             <header-nav-link
-              v-for="(navItem, navItemIndex) in secondaryHeaderNavItems"
+              v-for="(navItem, navItemIndex) in denseHeaderNavItems"
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              :padding="secondaryHeaderNavItemPadding"
+              :padding="denseHeaderNavItemPadding"
               nav-item-class="text-size-12 text-capitalize"
             />
           </div>
@@ -268,17 +268,72 @@
 <script>
 import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
 import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
-import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
-import { Screen, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
+import { denseHeaderNavItems, expandedHeaderMainToolbarNavItems, expandedHeaderMoreDropdownNavItems, expandedHeaderSecondaryToolbarNavItems, filterNavItems } from 'src/assets/landing-page/nav-items.js'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const SWAP_HEADER_OFFSET_UP = 200
+const HIDE_COMPONENT_NAV_ITEM_VIEWPORT = 860
+const HIDE_ANNOUNCEMENTS_NAV_ITEM_VIEWPORT = 1300
+
+const getVersionHistory = (quasarVersion) => [
+  {
+    label: `Latest (v${quasarVersion})`,
+    isHeader: true
+  },
+  {
+    label: 'Release notes',
+    icon: mdiClipboardText,
+    path: 'start/release-notes'
+  },
+  {
+    label: 'Report a bug',
+    icon: mdiBug,
+    href: 'https://github.com/quasarframework/quasar/issues'
+  },
+  {
+    label: 'Repository',
+    icon: mdiGithub,
+    href: 'https://github.com/quasarframework'
+  },
+  {
+    isSeparator: true
+  },
+  {
+    label: 'Older Releases',
+    isHeader: true
+  },
+  {
+    label: 'v1 docs',
+    href: 'https://v1.quasar.dev/'
+  },
+  {
+    label: 'v0.17 docs',
+    href: 'https://v0-17.quasar-framework.org/'
+  },
+  {
+    label: 'v0.16 docs',
+    href: 'https://v0-16.quasar-framework.org/'
+  },
+  {
+    label: 'v0.15 docs',
+    href: 'https://v0-15.quasar-framework.org/'
+  },
+  {
+    label: 'v0.14 docs',
+    href: 'https://v0-14.quasar-framework.org/'
+  },
+  {
+    label: 'v0.13 docs',
+    href: 'https://v0-13.quasar-framework.org/'
+  }
+]
 
 export default defineComponent({
   name: 'MainLayoutHeader',
@@ -304,75 +359,19 @@ export default defineComponent({
   },
   setup (props) {
     const $q = useQuasar()
-    const isSearchFieldActive = ref(false)
-    const showNavItems = ref(true)
+    const $route = useRoute()
+
+    const versionHistory = getVersionHistory($q.version)
+
     const searchForm = ref()
+    const isSearchFieldActive = ref(false)
+    const areSearchResultsDisplayed = ref(false)
+
+    const isExpanded = ref(true)
     const scrollOffSetInitPosition = ref(props.scrollData?.position)
     const scrollDirection = ref(props.scrollData?.direction)
-    const primaryHeaderIsVisible = ref(true)
-    const searchResultIsDisplayed = ref(false)
-    const $route = useRoute()
-    const versionHistory = [
-      {
-        label: `Latest (v${$q.version})`,
-        isHeader: true
-      },
-      {
-        label: 'Release notes',
-        icon: mdiClipboardText,
-        path: 'start/release-notes'
-      },
-      {
-        label: 'Report a bug',
-        icon: mdiBug,
-        href: 'https://github.com/quasarframework/quasar/issues'
-      },
-      {
-        label: 'Repository',
-        icon: mdiGithub,
-        href: 'https://github.com/quasarframework'
-      },
-      {
-        isSeparator: true
-      },
-      {
-        label: 'Older Releases',
-        isHeader: true
-      },
-      {
-        label: 'v1 docs',
-        href: 'https://v1.quasar.dev/'
-      },
-      {
-        label: 'v0.17 docs',
-        href: 'https://v0-17.quasar-framework.org/'
-      },
-      {
-        label: 'v0.16 docs',
-        href: 'https://v0-16.quasar-framework.org/'
-      },
-      {
-        label: 'v0.15 docs',
-        href: 'https://v0-15.quasar-framework.org/'
-      },
-      {
-        label: 'v0.14 docs',
-        href: 'https://v0-14.quasar-framework.org/'
-      },
-      {
-        label: 'v0.13 docs',
-        href: 'https://v0-13.quasar-framework.org/'
-      }
-    ]
 
-    // add components nav item to the 'More' dropdown
-    const moreNavItems = [
-      {
-        label: 'Components',
-        path: 'components'
-      },
-      ...navItems.subNavItems
-    ]
+    const showNavItems = ref(true)
 
     onMounted(() => {
       document.body.addEventListener('click', (e) => {
@@ -380,7 +379,7 @@ export default defineComponent({
         // then leave the search form open, otherwise, close it
         if (searchForm.value && searchForm.value.contains(e.target)) {
           isSearchFieldActive.value = true
-          showNavItems.value = !Screen.lt.lg
+          showNavItems.value = !$q.screen.lt.lg
         }
         else {
           isSearchFieldActive.value = false
@@ -391,14 +390,14 @@ export default defineComponent({
     })
 
     function preventHeaderSwapping (searchResults) {
-      searchResultIsDisplayed.value = !!searchResults
+      areSearchResultsDisplayed.value = !!searchResults
     }
 
     watch(() => props.scrollData, (currentScrollData) => {
       // if search form is shown, then stop any possible header change
       // a header change will prevent search result form from staying visible when one
       // of the result items is clicked and the page scrolls to it
-      if (searchResultIsDisplayed.value) {
+      if (areSearchResultsDisplayed.value) {
         return
       }
       // scroll direction has changed
@@ -408,24 +407,62 @@ export default defineComponent({
       }
       const scrollDirectionOffset = currentScrollData.direction === 'down' ? SWAP_HEADER_OFFSET_DOWN : SWAP_HEADER_OFFSET_UP
       if (Math.abs(currentScrollData.position - scrollOffSetInitPosition.value) >= scrollDirectionOffset) {
-        primaryHeaderIsVisible.value = currentScrollData.direction !== 'down'
+        isExpanded.value = currentScrollData.direction !== 'down'
       }
       // when at the top always display the primary header
       if (props.scrollData.position <= SWAP_HEADER_OFFSET_DOWN) {
-        primaryHeaderIsVisible.value = true
+        isExpanded.value = true
       }
     })
 
     watch(() => $route.path, () => {
       // when navigating to a new doc page, always force the primary header to be displayed
-      primaryHeaderIsVisible.value = true
+      isExpanded.value = true
+    })
+
+    const mainToolbarNavItems = computed(() => {
+      const pagesToHide = []
+
+      if ($q.screen.width < HIDE_COMPONENT_NAV_ITEM_VIEWPORT) {
+        pagesToHide.push('components')
+      }
+
+      return filterNavItems(expandedHeaderMainToolbarNavItems, pagesToHide)
+    })
+
+    const secondaryToolbarNavItems = computed(() => {
+      const pagesToHide = []
+
+      if ($q.screen.md) {
+        pagesToHide.push('brand-resources')
+      }
+
+      if ($q.screen.width < HIDE_ANNOUNCEMENTS_NAV_ITEM_VIEWPORT) {
+        pagesToHide.push('announcements')
+      }
+
+      if ($q.screen.gt.md) {
+        pagesToHide.push('socials')
+      }
+
+      return filterNavItems(expandedHeaderSecondaryToolbarNavItems, pagesToHide)
+    })
+
+    const moreDropdownNavItems = computed(() => {
+      const pagesToHide = []
+
+      if ($q.screen.width >= HIDE_COMPONENT_NAV_ITEM_VIEWPORT) {
+        pagesToHide.push('components')
+      }
+
+      return filterNavItems(expandedHeaderMoreDropdownNavItems, pagesToHide)
     })
 
     // We need to adjust the padding at some viewports, to prevent the icon or some other nav item
     // from collapsing while keeping the airy (spacious) nature of the main header.
-    const mainHeaderNavItemPadding = computed(() => {
+    const expandedHeaderNavItemPadding = computed(() => {
       if ($q.screen.width > $q.screen.sizes.sm && $q.screen.width < 642) {
-        return 'xs'
+        return 'xs md'
       }
 
       return 'xs lg'
@@ -433,8 +470,8 @@ export default defineComponent({
 
     // on these particular viewports, we reduce the padding on the secondary header to prevent
     // icon or some items from collapsing.
-    const secondaryHeaderNavItemPadding = computed(() => {
-      if ($q.screen.width > 988 && $q.screen.width < 1070) {
+    const denseHeaderNavItemPadding = computed(() => {
+      if ($q.screen.width > 1020 && $q.screen.width < 1110) {
         return 'xs'
       }
 
@@ -442,38 +479,33 @@ export default defineComponent({
     })
 
     return {
+      versionHistory,
       mdiGithub,
       mdiBug,
       mdiClipboardText,
-      navItems,
+
+      mainToolbarNavItems,
+      secondaryToolbarNavItems,
+      moreDropdownNavItems,
+      denseHeaderNavItems,
       socialLinks,
+
+      expandedHeaderNavItemPadding,
+      denseHeaderNavItemPadding,
+
       isSearchFieldActive,
-      showNavItems,
-      versionHistory,
-      moreNavItems,
       searchForm,
-      secondaryHeaderNavItems,
-      primaryHeaderIsVisible,
+
+      isExpanded,
       preventHeaderSwapping,
-      mainHeaderNavItemPadding,
-      secondaryHeaderNavItemPadding
+
+      showNavItems
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
-$adjust-header-viewport: 860px;
-
-// remove second child, (components nav)
-.toolbar-menu-items {
-  .q-btn:nth-child(2) {
-    @media screen and (max-width: $adjust-header-viewport) {
-      display: none;
-    }
-  }
-}
-
 .primary-toolbar {
   height: 64px;
   @media screen and (min-width: $breakpoint-xs-max) {
