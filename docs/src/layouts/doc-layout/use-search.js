@@ -1,6 +1,6 @@
 import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
 
-import { apiTypeToComponentMap } from 'components/AppSearchResults'
+import { apiTypeToComponentMap } from 'components/search-results/AppSearchResults.vue'
 import ResultEmpty from 'components/search-results/ResultEmpty'
 import ResultError from 'components/search-results/ResultError'
 

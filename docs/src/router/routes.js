@@ -3,13 +3,11 @@ import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
 import layoutGallery from 'assets/layout-gallery.js'
 
-export const BRAND_THEME_ONLY_PAGES = [ 'home', 'lpComponents' ]
-
 const docsPages = [
   {
     path: '',
-    name: 'docPages',
-    component: () => import('pages/Landing.vue')
+    name: 'home',
+    component: () => import('pages/Homepage.vue')
   },
   {
     path: 'integrations',
@@ -109,17 +107,17 @@ const routes = [
 
   {
     path: '/',
-    component: () => import('layouts/MainLayout'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
       {
         path: '',
-        name: 'home',
-        component: () => import('pages/landing-page/Index')
+        name: 'landing',
+        component: () => import('pages/LandingPage.vue')
       },
       {
         path: 'components',
-        name: 'lpComponents',
-        component: () => import('pages/landing-page/QuasarComponents')
+        name: 'components',
+        component: () => import('pages/ComponentsPage.vue')
       }
     ]
   },
