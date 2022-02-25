@@ -3,7 +3,7 @@
     <q-header
       v-if="$q.screen.xs || primaryHeaderIsVisible"
       ref="layoutHeader"
-      :class="dark ? 'bg-white text-black-54' : 'bg-lp-dark text-white-54'"
+      :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
       class="font-monserrat lp-header"
     >
       <q-toolbar
@@ -26,7 +26,7 @@
         >
           <img
             v-if="$q.screen.sm"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark ? '-dark' : ''}.svg`"
+            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${dark ? '-dark' : ''}.svg`"
             alt="Quasar Logo"
             height="48"
             width="48"
@@ -34,13 +34,13 @@
           <img
             v-else
             :height="$q.screen.xs ? '24' : '48'"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark ? '-dark' : ''}.svg`"
+            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark ? '-dark' : ''}.svg`"
             alt="Quasar Logo"
             width="236"
           />
           <q-separator
             v-if="$q.screen.gt.xs"
-            :color="dark ? 'black-12' : 'lp-primary'"
+            :color="dark ? 'lp-primary' : 'black-12'"
             class="q-ml-lg"
             vertical
           />
@@ -67,23 +67,13 @@
               @search-result-change="preventHeaderSwapping"
             />
           </div>
-          <div>
-            <q-btn
-              v-if="!DARK_ONLY_PAGES.includes($route.name)"
-              class="q-ml-xs"
-              round
-              flat
-              color="lp-primary"
-              :icon="darkToggleIcon"
-              @click="toggleDarkMode"
-            />
-          </div>
+          <theme-switcher />
         </div>
       </q-toolbar>
-      <q-separator :color="dark ? 'black-12' : 'lp-primary'" />
+      <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
       <template v-if="$q.screen.gt.xs">
         <q-toolbar
-          :class="!dark ? 'add-bottom-glow' : ''"
+          :class="dark ? 'add-bottom-glow' : ''"
           class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225"
         >
           <q-btn
@@ -110,7 +100,7 @@
           >
             <template #label>
               <span
-                :class="dark ? 'text-dark' : 'text-white'"
+                :class="dark ? 'text-white' : 'text-dark'"
                 class="text-size-12 letter-spacing-225"
               >{{ `v${$q.version}` }}</span>
               <!-- q-space for space before icon -->
@@ -120,13 +110,13 @@
           </q-btn-dropdown>
           <template v-if="$q.screen.sm">
             <q-separator
-              :color="dark ? 'black-12' : 'lp-primary'"
+              :color="dark ? 'lp-primary' : 'black-12'"
               class="q-ml-md q-mr-sm"
               inset
               vertical
             />
             <q-btn-dropdown
-              :color="dark ? 'text-dark' : 'text-white'"
+              :color="dark ? 'text-white' : 'text-dark'"
               :menu-offset="[150, 5]"
               class="font-monserrat text-weight-bold text-size-12"
               dense
@@ -154,7 +144,7 @@
           <q-btn
             v-for="(socialLink, socialLinkIndex) in socialLinks"
             :key="`social-${socialLinkIndex}`"
-            :color="dark ? 'black-54' : 'lp-primary'"
+            :color="dark ? 'lp-primary' : 'black-54'"
             :href="socialLink.href"
             :icon="socialLink.icon"
             flat
@@ -167,18 +157,18 @@
             <q-tooltip class="letter-spacing-263">{{ socialLink.name }}</q-tooltip>
           </q-btn>
         </q-toolbar>
-        <q-separator :color="dark ? 'black-12' : 'lp-primary'" />
+        <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
       </template>
     </q-header>
     <q-header
       v-else
       ref="layoutHeader"
-      :class="dark ? 'bg-white text-black-54' : 'bg-lp-dark text-white-54'"
+      :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
       class="font-monserrat lp-header"
     >
       <q-toolbar
         :class="{
-          'add-bottom-glow': !dark,
+          'add-bottom-glow': dark,
           'shadow-bottom-small': $q.screen.xs,
           'letter-spacing-25': $q.screen.lt.lg,
           'letter-spacing-225': $q.screen.gt.md,
@@ -202,7 +192,7 @@
           <router-link :to="{ name: 'home' }" class="row items-center">
             <img
               v-if="$q.screen.sm"
-              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark ? '-dark' : ''}.svg`"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${dark ? '-dark' : ''}.svg`"
               alt="Quasar Logo"
               height="36"
               width="48"
@@ -210,14 +200,14 @@
             <img
               v-else
               :height="$q.screen.xs? '24':'36'"
-              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark? '-dark':''}.svg`"
               alt="Quasar Logo"
               width="236"
             />
           </router-link>
           <q-separator
             v-if="$q.screen.gt.xs"
-            :color="dark ? 'black-12' : 'lp-primary'"
+            :color="dark ? 'lp-primary' : 'black-12'"
             class="q-ml-lg"
             vertical
           />
@@ -236,7 +226,7 @@
           >
             <template #label>
               <span
-                :class="dark ? 'text-dark' : 'text-white'"
+                :class="dark ? 'text-white' : 'text-dark'"
                 class="text-size-12 letter-spacing-225"
               >{{ `v${$q.version}` }}</span>
               <!-- q-space for space before icon -->
@@ -265,20 +255,10 @@
               @search-result-change="preventHeaderSwapping"
             />
           </div>
-          <div>
-            <q-btn
-              v-if="!DARK_ONLY_PAGES.includes($route.name)"
-              class="q-ml-xs"
-              round
-              flat
-              color="lp-primary"
-              :icon="darkToggleIcon"
-              @click="toggleDarkMode"
-            />
-          </div>
+          <theme-switcher />
         </div>
       </q-toolbar>
-      <q-separator :color="dark ? 'black-12' : 'lp-primary'" />
+      <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
     </q-header>
   </transition>
 </template>
@@ -288,11 +268,11 @@ import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-
 import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
+import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import { Screen, useQuasar } from 'quasar'
-import { DARK_ONLY_PAGES } from 'src/router/routes'
-import { computed, defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
 const SWAP_HEADER_OFFSET_UP = 200
@@ -316,7 +296,8 @@ export default defineComponent({
   components: {
     HeaderNavLink,
     SearchQuasarForm,
-    NavDropdownMenu
+    NavDropdownMenu,
+    ThemeSwitcher
   },
   setup (props) {
     const $q = useQuasar()
@@ -410,24 +391,6 @@ export default defineComponent({
       searchResultIsDisplayed.value = !!searchResults
     }
 
-    watch(() => $route.name, (newPageName) => {
-      // disable dark mode in pages which doesn't follow light/dark paradigm
-      if (DARK_ONLY_PAGES.includes(newPageName)) {
-        $q.dark.set(false)
-      }
-      else {
-        // enable dark mode if the user choose so in the past
-        $q.dark.set($q.localStorage.getItem('darkMode') ?? false)
-      }
-    }, { immediate: true })
-
-    const darkToggleIcon = computed(() => $q.dark.isActive ? 'dark_mode' : 'light_mode')
-
-    function toggleDarkMode () {
-      $q.dark.toggle()
-      $q.localStorage.set('darkMode', $q.dark.isActive)
-    }
-
     watch(() => props.scrollData, (currentScrollData) => {
       // if search form is shown, then stop any possible header change
       // a header change will prevent search result form from staying visible when one
@@ -456,7 +419,6 @@ export default defineComponent({
     })
 
     return {
-      DARK_ONLY_PAGES,
       mdiGithub,
       mdiBug,
       mdiClipboardText,
@@ -469,9 +431,7 @@ export default defineComponent({
       searchForm,
       secondaryHeaderNavItems,
       primaryHeaderIsVisible,
-      preventHeaderSwapping,
-      toggleDarkMode,
-      darkToggleIcon
+      preventHeaderSwapping
     }
   }
 })

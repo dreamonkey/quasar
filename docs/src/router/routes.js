@@ -3,7 +3,7 @@ import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
 import layoutGallery from 'assets/layout-gallery.js'
 
-export const DARK_ONLY_PAGES = [ 'home', 'lpComponents' ]
+export const BRAND_THEME_ONLY_PAGES = [ 'home', 'lpComponents' ]
 
 const docsPages = [
   {

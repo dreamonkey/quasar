@@ -5,7 +5,7 @@
     <div id="stars-md" />
     <div id="stars-lg" />
 
-    <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader" />
+    <main-layout-header v-model="showDrawer" :dark="!footerHasMetHeader" ref="mainLayoutHeader" />
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
       <q-scroll-area class="full-height">
         <survey-countdown
