@@ -1258,7 +1258,7 @@ module.exports = [
     path: 'sponsors-and-backers'
   },
   {
-    name: 'Why Donations Are Important',
+    name: 'Why Donate?',
     icon: 'assignment_late',
     path: 'why-donate'
   },
