@@ -380,16 +380,12 @@ export default defineComponent({
       document.body.addEventListener('click', (e) => {
         // if the element clicked is part of the search form (i.e: the search input field, the search result scroll area or the search icon)
         // then leave the search form open, otherwise, close it
-        if (searchForm.value && searchForm.value.contains(e.target)) {
-          isSearchFieldActive.value = true
-          showNavItems.value = !$q.screen.lt.lg
-        }
-        else {
-          isSearchFieldActive.value = false
-          // irrespective of the viewport, show nav items since search form is hidden
-          showNavItems.value = true
-        }
+        isSearchFieldActive.value = searchForm.value && searchForm.value.contains(e.target)
       })
+    })
+
+    watch(isSearchFieldActive, isActive => {
+      showNavItems.value = isActive ? !$q.screen.lt.lg : true
     })
 
     function preventHeaderSwapping (searchResults) {
