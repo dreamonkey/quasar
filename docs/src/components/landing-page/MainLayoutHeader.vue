@@ -1,10 +1,13 @@
 <template>
-  <transition enter-active-class="animated slideInDown" leave-active-class="animated fadeOut">
+  <transition
+    enter-active-class="animated slideInDown"
+    leave-active-class="animated fadeOut"
+  >
+    <!-- mobile header -->
     <q-header
       v-if="$q.screen.xs"
       ref="layoutHeader"
-      :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
-      class="font-monserrat lp-header"
+      :class="headerClasses"
     >
       <q-toolbar
         class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300 shadow-bottom-small"
@@ -44,11 +47,11 @@
 
       </q-toolbar>
     </q-header>
+    <!-- expanded header -->
     <q-header
       v-else-if="isExpanded"
       ref="layoutHeader"
-      :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
-      class="font-monserrat lp-header"
+      :class="headerClasses"
     >
       <q-toolbar
         class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300 items-stretch"
@@ -183,11 +186,11 @@
       </q-toolbar>
       <q-separator :color="dark? 'lp-primary':'black-12'"/>
     </q-header>
+    <!-- dense header -->
     <q-header
       v-else
       ref="layoutHeader"
-      :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
-      class="font-monserrat lp-header"
+      :class="headerClasses"
     >
       <q-toolbar
         :class="{
@@ -478,6 +481,8 @@ export default defineComponent({
       return 'xs md'
     })
 
+    const headerClasses = computed(() => `${props.dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
+
     return {
       versionHistory,
       mdiGithub,
@@ -490,6 +495,7 @@ export default defineComponent({
       denseHeaderNavItems,
       socialLinks,
 
+      headerClasses,
       expandedHeaderNavItemPadding,
       denseHeaderNavItemPadding,
 
@@ -530,8 +536,8 @@ export default defineComponent({
   width: 220px;
 }
 
-.lp-header {
-  transition: all 0.3s ease-in-out;
+.header {
+  transition: all .3s ease-in-out;
 }
 
 .add-bottom-glow {
