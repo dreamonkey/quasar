@@ -3,6 +3,7 @@
     enter-active-class="animated slideInDown"
     leave-active-class="animated fadeOut"
   >
+    <!-- TODO: many components here should be extracted and reused into different header versions -->
     <!-- mobile header -->
     <q-header
       v-if="$q.screen.xs"
@@ -113,7 +114,7 @@
         />
 
         <q-btn-dropdown
-          :class="$q.screen.gt.sm ? 'q-ml-lg' : ''"
+          :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
           align="left"
           auto-close
           class="text-weight-bold version-dropdown"
@@ -198,7 +199,7 @@
           'letter-spacing-25': $q.screen.lt.lg,
           'letter-spacing-225': $q.screen.gt.md,
         }"
-        class="secondary-header q-pl-lg q-pr-md justify-between items-stretch"
+        class="dense-header q-pl-lg q-pr-md justify-between items-stretch"
       >
         <div class="row justify-center items-center cursor-pointer">
           <router-link :to="{ name: 'home' }" class="row items-center">
@@ -215,8 +216,7 @@
             vertical
           />
           <q-btn-dropdown
-            v-if="$q.screen.gt.sm"
-            :class="$q.screen.gt.sm ? 'q-ml-lg' : 'q-ml-sm'"
+            :class="'q-ml-lg'"
             align="left"
             auto-close
             class="text-weight-bold version-dropdown"
@@ -523,7 +523,7 @@ export default defineComponent({
   height: 62px;
 }
 
-.secondary-header {
+.dense-header {
   height: 64px;
 }
 
