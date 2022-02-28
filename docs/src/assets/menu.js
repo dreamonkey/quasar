@@ -145,6 +145,10 @@ const security = [
 
 const cli = [
   {
+    name: 'Quick Start',
+    path: 'quick-start'
+  },
+  {
     name: 'Installation',
     path: 'installation'
   },
