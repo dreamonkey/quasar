@@ -32,14 +32,6 @@ export default [
       },
 
       {
-        name: 'Allan Gaunt',
-        role: 'Senior Developer',
-        avatar: 'allan_gaunt.png',
-        github: 'webnoob',
-        desc: 'BEX (browser extension App CLI mode), web products and security research'
-      },
-
-      {
         name: 'Scott Molinari',
         role: 'Media Manager',
         avatar: 'scott_molinari.jpg',
@@ -52,7 +44,7 @@ export default [
         role: 'Senior Developer',
         avatar: 'paolo_caleffi.jpg',
         github: 'IlCallo',
-        desc: 'Typescript support'
+        desc: 'Team management, TypeScript, Testing AEs'
       },
 
       {
@@ -60,7 +52,7 @@ export default [
         role: 'Senior Developer',
         avatar: 'yusuf_kandemir.jpg',
         github: 'yusufkandemir',
-        desc: 'Wizard developer on multiple areas of Quasar'
+        desc: 'TypeScript, triaging, wizard developer on multiple areas of Quasar'
       },
 
       {
@@ -85,6 +77,19 @@ export default [
         avatar: 'niccolo_menozzi.jpg',
         github: 'NiccoloMenozzi',
         desc: 'UX manager, brand management, communication, business strategy.'
+      }
+    ]
+  },
+
+  {
+    name: 'Core Team Emeriti',
+    members: [
+      {
+        name: 'Allan Gaunt',
+        role: 'Senior Developer',
+        avatar: 'allan_gaunt.png',
+        github: 'webnoob',
+        desc: 'BEX (browser extension App CLI mode), web products and security research'
       }
     ]
   },
