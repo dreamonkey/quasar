@@ -1,5 +1,9 @@
 const gettingStarted = [
   {
+    name: 'Quick Start',
+    path: 'quick-start'
+  },
+  {
     name: 'Pick Quasar Flavour',
     path: 'pick-quasar-flavour'
   },
