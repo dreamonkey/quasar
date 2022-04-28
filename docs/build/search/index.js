@@ -229,13 +229,9 @@ const processPage = (page, entry, entries) => {
   processMarkdown(ast, entries, entryItem)
 }
 
-// Some of these paths do not have a corresponding .md file OR their .md files
-// are in locations which do not follow the usual folder/file pattern
-const CUSTOM_PATHS = {
-  '/vue-components/grid': undefined,
-  '/start/roadmap': '../../../ROADMAP.md',
-  docs: undefined
-}
+// The corresponding files for these paths are in locations which do
+// not follow the usual folder/file pattern and are not .md files like the others
+const CUSTOM_PATHS = [ '/vue-components/grid', 'docs' ]
 
 // process child entries from menu.json
 const processChildren = (parent, entry, entries) => {
@@ -255,14 +251,8 @@ const processChildren = (parent, entry, entries) => {
         if (menuItem.children) {
           processChildren(menuItem, entryChild, entries)
         }
-        else {
-          if (CUSTOM_PATHS.hasOwnProperty(entryChild.url)) {
-            CUSTOM_PATHS[ entryChild.url ] !== undefined &&
-            processPage(CUSTOM_PATHS[ entryChild.url ], entryChild, entries)
-          }
-          else {
-            processPage(intro + entryChild.url + '.md', entryChild, entries)
-          }
+        else if (!CUSTOM_PATHS.includes(entryChild.url)) {
+          processPage(intro + entryChild.url + '.md', entryChild, entries)
         }
       }
     })
@@ -275,7 +265,7 @@ const processMenuItem = (menuItem, entries) => {
     url: '/' + menuItem.path
   })
 
-  if (menuItem.external !== true && !CUSTOM_PATHS.hasOwnProperty(menuItem.path)) {
+  if (menuItem.external !== true && !CUSTOM_PATHS.includes(menuItem.path)) {
     if (menuItem.children) {
       const entryChild = {
         ...entryItem,
