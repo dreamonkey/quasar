@@ -27,7 +27,8 @@ const docsPages = [
       editPagePath: 'ROADMAP.md',
       metaTitle: 'Quasar Roadmap'
     },
-    component: () => import('../../../ROADMAP.md')
+    // importing from ../../../ROADMAP.md throws an error as vite is unable to find vue dependency
+    component: () => import('https://roadmap.quasar.dev/')
   }
 ]
 
